@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimaryLight">#efa09a</color>
+    <color name="colorPrimary">#cf3c3a</color>
+    <color name="colorPrimaryDark">#af2422</color>
+    <color name="colorAccent">#5EADC5</color>
+
+
+    <!-- Random colorilter-->
+    <color name="color1">#ff584b</color>
+    <color name="color2">#ffa84b</color>
+    <color name="color3">#ffe74b</color>
+    <color name="color4">#69ff4b</color>
+    <color name="color5">#4bffff</color>
+    <color name="color6">#4b90ff</color>
+    <color name="color7">#4b63ff</color>
+    <color name="color8">#b44bff</color>
+    <color name="color9">#ff4be1</color>
+
+
+
+</resources>

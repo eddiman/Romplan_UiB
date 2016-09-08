@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Romplan UiB</string>
+    <string name="title_activity_room">RoomActivity</string>
+    <string name="title_activity_test">test</string>
+</resources>
