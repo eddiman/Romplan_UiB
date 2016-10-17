@@ -80,7 +80,7 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
 
 
         //http://rom_img.app.uib.no/byggogrombilder/GR_/GR_110/GR_110I.jpg
-        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/"+ buildingCode + "_" + uiBrooms.get(position).getName() + "/"+ buildingCode + "_" + uiBrooms.get(position).getName() + "I.jpg";
+        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/"+ buildingCode + "_" + uiBrooms.get(position).getCode() + "/"+ buildingCode + "_" + uiBrooms.get(position).getCode() + "I.jpg";
         Picasso.with(context)
                 .load(url)
                 .centerCrop()

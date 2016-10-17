@@ -75,7 +75,7 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
 
         buildingCode = sc.createBuildingCode(room.getBuilding());
 
-        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/"+ buildingCode + "_" + room.getName() + "/"+ buildingCode + "_" + room.getName() + "I.jpg";
+        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/"+ buildingCode + "_" + room.getCode() + "/"+ buildingCode + "_" + room.getCode() + "I.jpg";
         Picasso.with(CalendarActivity.this)
                 .load(url)
                 .centerCrop()
@@ -108,7 +108,7 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         if( extra != null){
             extraBuilding = (UIBroom)getIntent().getSerializableExtra("room");
         } else {
-            extraBuilding = new UIBroom("Error:Room",  "Error building");
+            extraBuilding = new UIBroom("Error:Room",  "Error building","Error");
         }
         return extraBuilding;
     }
@@ -164,8 +164,8 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         @Override
         protected List<WeekViewEvent> doInBackground(Void... param) {
             try{
-            String roomURL = BuildingCodeParser.getRoomURL(room.getBuilding(), room.getName()) + "&printweek=" + getWeekNumber();
-            CalActivityParser parser = new CalActivityParser(roomURL, room.getBuilding(), sc.createBuildingCode(room.getName()));
+            String roomURL = BuildingCodeParser.getRoomURL(room.getBuilding(), room.getCode()) + "&printweek=" + getWeekNumber();
+            CalActivityParser parser = new CalActivityParser(roomURL, room.getBuilding(), sc.createBuildingCode(room.getCode()));
             List<CalActivity> listOfCal = parser.getCalActivityList();
 
 

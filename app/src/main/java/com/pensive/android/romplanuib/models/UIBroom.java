@@ -10,27 +10,31 @@ import java.io.Serializable;
  *
  */
 public class UIBroom implements Serializable{
-    private String name;
+    private String code;
     private String building;
+    private String name;
 
 
-
-    public UIBroom(String name ,String building) {
-        this.name = name;
+    public UIBroom(String code , String building, String name) {
+        this.code = code;
         this.building = building;
+        this.name = name;
 
     }
     public String getBuilding() {
         return building;
     }
 
+    public String getCode() {
+        return code;
+    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public void setBuilding(String building) {
