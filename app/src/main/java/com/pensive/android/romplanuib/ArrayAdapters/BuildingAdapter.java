@@ -73,7 +73,7 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
         row.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View arg0) {
-                Toast.makeText(context, getItem(position).getListOfRooms().get(0).getName(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, getItem(position).getListOfRooms().get(0).getCode(), Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(context, RoomActivity.class);
                 i.putExtra("building", getItem(position));

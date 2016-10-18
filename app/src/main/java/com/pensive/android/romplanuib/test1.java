@@ -9,7 +9,7 @@ import android.view.View;
 
 import com.pensive.android.romplanuib.R;
 
-public class test extends AppCompatActivity {
+public class test1 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

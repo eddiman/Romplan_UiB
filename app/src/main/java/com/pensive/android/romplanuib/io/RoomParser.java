@@ -24,8 +24,10 @@ import org.jsoup.select.Elements;
  */
 public class RoomParser {
 
-    Pattern pattern;
-    Matcher matcher;
+    Pattern roomCodePattern;
+    Matcher roomCodeMatcher;
+    Pattern roomNamePattern;
+    Matcher roomNameMatcher;
     List<UIBroom> uibRooms = new ArrayList<UIBroom>();
 
     public RoomParser(String url, String building) throws IOException {
@@ -66,13 +68,21 @@ public class RoomParser {
     private void createRooms(Elements rooms, String building) {
 
         for (Element room : rooms) {
-            pattern = Pattern.compile(":([^)]+)");
-            matcher = pattern.matcher(room.text());
+            roomCodePattern = Pattern.compile(":([^)]+)");
+            roomCodeMatcher = roomCodePattern.matcher(room.text());
+            roomNamePattern = Pattern.compile("(?<=\\)).*");
+            roomNameMatcher = roomNamePattern.matcher(room.text());
 
-            if (matcher.find()) {
-                UIBroom uib_room = new UIBroom(matcher.group(1), building);
-                uibRooms.add(uib_room);
-                //System.out.println(matcher.group(1));
+
+            if (roomCodeMatcher.find()) {
+                if(roomNameMatcher.find()) {
+                    UIBroom uib_room = new UIBroom(roomCodeMatcher.group(1), building, roomNameMatcher.group(0).trim());
+                    uibRooms.add(uib_room);
+                    //System.out.println(roomCodeMatcher.group(1));
+                }else {
+                    UIBroom uib_room = new UIBroom(roomCodeMatcher.group(1), building, roomCodeMatcher.group(1));
+                    uibRooms.add(uib_room);
+                }
             }
         }
     }
