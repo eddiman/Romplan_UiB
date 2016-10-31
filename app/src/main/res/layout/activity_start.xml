@@ -20,7 +20,7 @@
 
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginBottom="247dp"
+        android:layout_marginBottom="250dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
