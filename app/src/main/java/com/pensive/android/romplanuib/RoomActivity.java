@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import com.pensive.android.romplanuib.ArrayAdapters.BuildingAdapter;
 import com.pensive.android.romplanuib.ArrayAdapters.RoomAdapter;
+import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
 import com.squareup.picasso.Picasso;
@@ -88,7 +89,7 @@ public class RoomActivity extends AppCompatActivity {
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
         String url = "http://rom_img.app.uib.no/byggogrombilder/"+ buildingCode +"_/"+ buildingCode +"_byggI.jpg";
         Picasso.with(getApplicationContext())
-                .load(url)
+                .load(URLEncoding.encode(url))
                 .centerCrop()
                 .fit()
                 .into(imageView);
