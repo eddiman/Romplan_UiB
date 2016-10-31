@@ -3,36 +3,42 @@ package com.pensive.android.romplanuib;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.Button;
 import android.widget.ListView;
 
-import com.pensive.android.romplanuib.ArrayAdapters.BuildingAdapter;
 import com.pensive.android.romplanuib.util.DownloadAndStoreData;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
 
 import java.util.List;
 
-public class BuildingActivity extends AppCompatActivity {
+/**
+ * Author: Edvard P. B.
+ *
+ * "Splash" class to load all buildings and rooms
+ */
+public class StartActivity extends AppCompatActivity {
 
 
 
     ListView testView;
     Context context;
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_building);
+        setContentView(R.layout.activity_start);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if(toolbar != null){toolbar.setTitle("Romplan UiB");}
-        context = BuildingActivity.this;
-        initGUI();
 
+        context = StartActivity.this;
         populateList();
 
 
@@ -41,7 +47,8 @@ public class BuildingActivity extends AppCompatActivity {
 
     private void initGUI() {
 
-        testView = (ListView) findViewById(R.id.test_list);
+        //testView = (ListView) findViewById(R.id.test_list);
+        //button = (Button) findViewById(R.id.button_tab);
     }
 
     private void populateList() {
@@ -72,7 +79,7 @@ public class BuildingActivity extends AppCompatActivity {
 
      @Override
      protected void onPreExecute() {
-         asyncDialog.setMessage("Getting data...");
+         asyncDialog.setMessage("Henter data...");
          asyncDialog.setCancelable(false);
          asyncDialog.show();
          super.onPreExecute();
@@ -96,14 +103,16 @@ public class BuildingActivity extends AppCompatActivity {
      }
      protected void onPostExecute(List<UIBbuilding> buildings){
 
-         ListView testView = (ListView)mActivity.findViewById(R.id.test_list);
+        //ListView testView = (ListView)mActivity.findViewById(R.id.test_list);
 
-         BuildingAdapter adapter  = new BuildingAdapter(context, R.layout.building_list_element, dl.getStoredDataAllBuildings(context));
+         //BuildingAdapter adapter  = new BuildingAdapter(context, R.layout.list_building_element, dl.getStoredDataAllBuildings(context));
 
-         testView.setAdapter(adapter);
+         //testView.setAdapter(adapter);
 
          asyncDialog.dismiss();
 
+         Intent i = new Intent(context, TabActivity.class);
+         context.startActivity(i);
 
 
          List<UIBroom> tasksList = dl.getStoredDataAllRooms(context);

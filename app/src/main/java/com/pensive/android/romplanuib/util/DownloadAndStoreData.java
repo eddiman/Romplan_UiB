@@ -21,6 +21,8 @@ import java.util.List;
 
 /**
  * Created by EddiStat on 24.05.2016.
+ *
+ * Skulle faen meg ha kommentert denne når jeg skreiv den
  */
 public class DownloadAndStoreData {
     List<UIBbuilding> allBuildings;

@@ -16,23 +16,11 @@ public class Randomized {
         switch (RANDOM.nextInt(9)) {
             default:
             case 0:
-                return Color.argb(255, RANDOM.nextInt(256), RANDOM.nextInt(256), RANDOM.nextInt(256));
-            /*case 2:
-                return R.color.color2;
+                return R.color.primary_blue;
+            case 2:
+                return R.color.primaryDark_blue;
             case 3:
-                return R.color.color3;
-            case 4:
-                return R.color.color4;
-            case 5:
-                return R.color.color5;
-            case 6:
-                return R.color.color6;
-            case 7:
-                return R.color.color7;
-            case 8:
-                return R.color.color8;
-            case 9:
-                return R.color.color9;*/
+                return R.color.background_blue_dark;
         }
     }
 

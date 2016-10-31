@@ -7,4 +7,5 @@
     <dimen name="detail_backdrop_height">256dp</dimen>
     <dimen name="card_margin">8dp</dimen>
     <dimen name="list_item_avatar_size">40dp</dimen>
+    <dimen name="appbar_padding_top">8dp</dimen>
 </resources>

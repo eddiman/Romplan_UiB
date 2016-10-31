@@ -16,12 +16,16 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">#cf3c3a</item>
-        <item name="colorPrimaryDark">#af2422</item>
-        <item name="colorAccent">#5EADC5</item>
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/primary_blue</item>
+        <item name="colorPrimaryDark">@color/primaryDark_blue</item>
+        <item name="colorAccent">@color/accent_yellow</item>
 
-        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <item name="android:statusBarColor">@color/primaryDark_blue</item>
+        <item name="android:colorBackground">@color/background_blue_dark</item>
+        <item name="android:navigationBarColor">@color/primaryDark_blue</item>
+
     </style>
 
     <style name="Widget.CardContent" parent="android:Widget">
@@ -33,6 +37,8 @@
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="BlueTheme" parent="AppTheme" />
 
 
 </resources>
