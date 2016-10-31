@@ -19,6 +19,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
+
 /**
  * Created by EddiStat on 24.05.2016.
  */
@@ -67,7 +69,6 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
 
             holder.roomImage = (ImageView) row.findViewById(R.id.card_image);
             holder.roomText = (TextView) row.findViewById(R.id.card_string1);
-            holder.roomButton = (Button) row.findViewById(R.id.calendar_button);
 
             row.setTag(holder);
 
@@ -85,6 +86,7 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
                 .centerCrop()
                 .fit()
                 .placeholder(R.drawable.uiblogo)
+                .transform(new GrayscaleTransformation())
                 .into(holder.roomImage);
 
 
@@ -93,7 +95,7 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
 
 
 
-        holder.roomButton.setOnClickListener(new View.OnClickListener(){
+        row.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View arg0) {
 

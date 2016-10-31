@@ -52,6 +52,8 @@ public class AllBuildingsFragment extends Fragment {
 
         testView.setAdapter(adapter);
 
+        testView.setFastScrollEnabled(true);
+
         return rootView;
     }
 }

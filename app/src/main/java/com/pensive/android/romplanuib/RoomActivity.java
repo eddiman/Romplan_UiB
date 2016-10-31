@@ -15,17 +15,23 @@ import com.pensive.android.romplanuib.ArrayAdapters.RoomAdapter;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
+import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.StringCleaner;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.picasso.transformations.ColorFilterTransformation;
+import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 
 
 public class RoomActivity extends AppCompatActivity {
 
     UIBbuilding building;
     List<UIBroom> errorList = new ArrayList<>();
+    FontController fc = new FontController();
     String buildingName;
     String buildingCode;
     ListView roomList;
@@ -35,18 +41,30 @@ public class RoomActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
+
         building = getBuildingFromLastActivity();
         buildingCode = sc.createBuildingCode(building.getName());
         buildingName = sc.createBuildingName(building.getName());
 
+        initGUI();
 
+    }
+
+
+    private void initGUI() {
         //GUI elements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        if(collapsingToolbar != null){collapsingToolbar.setTitle(buildingName);}
+        if(collapsingToolbar != null){
+            collapsingToolbar.setTitle(buildingName);
+            collapsingToolbar.setCollapsedTitleTypeface(fc.getTypeface(this, "fonts/roboto_thin.ttf"));
+            collapsingToolbar.setExpandedTitleTypeface(fc.getTypeface(this, "fonts/roboto_thin.ttf"));
+        }
+
+
         loadBackdrop();
         floatingActionButtonListener();
 
@@ -57,11 +75,6 @@ public class RoomActivity extends AppCompatActivity {
         RoomAdapter adapter  = new RoomAdapter(RoomActivity.this, R.layout.list_room_layout, building.getListOfRooms());
         roomList.setAdapter(adapter);
     }
-
-
-
-
-
 
     private UIBbuilding getBuildingFromLastActivity() {
         UIBbuilding extraBuilding;
@@ -77,14 +90,19 @@ public class RoomActivity extends AppCompatActivity {
     }
 
     private void loadBackdrop() {
-
-        System.out.println(buildingCode);
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
         String url = "http://rom_img.app.uib.no/byggogrombilder/"+ buildingCode +"_/"+ buildingCode +"_byggI.jpg";
+
+        //List for aa legge til flere transformations til image
+        List<Transformation> transformations = new ArrayList<>();
+        transformations.add(new GrayscaleTransformation());
+        transformations.add(new ColorFilterTransformation(ContextCompat.getColor(this, R.color.transp_primary_blue)));
+
         Picasso.with(getApplicationContext())
                 .load(URLEncoding.encode(url))
                 .centerCrop()
                 .fit()
+                .transform(transformations)
                 .into(imageView);
 
     }

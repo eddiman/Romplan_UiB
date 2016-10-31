@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.RoomActivity;
 import com.pensive.android.romplanuib.models.UIBbuilding;
+import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.StringCleaner;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
     int textViewResourceId;
     List<UIBbuilding> buildings;
     StringCleaner sc = new StringCleaner();
+    FontController fc = new FontController();
     Typeface bebasFont;
 
 
@@ -36,7 +38,7 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
         inflater = LayoutInflater.from(context);
         this.textViewResourceId = textViewResourceId;
         this.buildings = buildings;
-        this.bebasFont = Typeface.createFromAsset(context.getAssets(), "fonts/bebas_neue.ttf");
+        this.bebasFont = fc.getTypeface(getContext(), "bebas_neue.ttf");
 
     }
 

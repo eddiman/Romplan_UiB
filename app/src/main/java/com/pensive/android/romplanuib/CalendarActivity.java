@@ -51,7 +51,7 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         if(collapsingToolbar != null){
-            collapsingToolbar.setTitle(sc.createBuildingName(room.getBuilding()) + " - " +  room.getName());
+            collapsingToolbar.setTitle( room.getName() + " - " +  sc.createBuildingName(room.getBuilding()));
         }
         getWindow().setStatusBarColor(ContextCompat.getColor(CalendarActivity.this, R.color.transpBlack));
 

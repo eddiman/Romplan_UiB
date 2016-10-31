@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.pensive.android.romplanuib.util.FontController;
+
 public class TabActivity extends AppCompatActivity {
 
     /**
@@ -23,6 +25,8 @@ public class TabActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+
+    FontController fc = new FontController();
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -42,10 +46,14 @@ public class TabActivity extends AppCompatActivity {
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        if (mViewPager != null) { mViewPager.setAdapter(mSectionsPagerAdapter); }
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+
+        if (tabLayout != null)
         tabLayout.setupWithViewPager(mViewPager);
+
+        fc.setTitleFont(this, getResources().getString(R.string.splash_title), toolbar, "roboto_thin.ttf", 0);
 
 
     }

@@ -19,17 +19,20 @@
     <color name="color9">#ff4be1</color>
 
     <color name="transpWhite">#8fffffff</color>
-    <color name="transpBlack">#63000000</color>
+    <color name="transpBlack">#23000000</color>
+    <color name="transpBlack2">#86000000</color>
     <color name="transparent">#00ffffff</color>
-
+    <color name="transp_primary_blue">#2d67a2ff</color>
 
     <color name="lighter_blue">#dbe1ea</color>
+
 
     <color name="primary_blue">#354b6e</color>
     <color name="primaryDark_blue">#293b56</color>
     <color name="accent_yellow">#f7f88b</color>
     <color name="background_blue_dark">#0e1c31</color>
     <color name="navbar_darker">#060e1a</color>
+    <color name="secondary_text_white">#e5e5e5</color>
 
 
 </resources>
