@@ -11,11 +11,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.pensive.android.romplanuib.ArrayAdapters.BuildingAdapter;
 import com.pensive.android.romplanuib.ArrayAdapters.RoomAdapter;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
+import com.pensive.android.romplanuib.util.StringCleaner;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -30,14 +30,14 @@ public class RoomActivity extends AppCompatActivity {
     String buildingCode;
     ListView roomList;
 
-    URLEncoding urlEnc = new URLEncoding();
+    StringCleaner sc = new StringCleaner();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
         building = getBuildingFromLastActivity();
-        buildingCode = urlEnc.createBuildingCode(building.getName());
-        buildingName = urlEnc.createBuildingName(building.getName());
+        buildingCode = sc.createBuildingCode(building.getName());
+        buildingName = sc.createBuildingName(building.getName());
 
 
         //GUI elements

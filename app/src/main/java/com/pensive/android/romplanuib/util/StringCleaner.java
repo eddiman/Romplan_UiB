@@ -5,18 +5,26 @@ package com.pensive.android.romplanuib.util;
  */
 public class StringCleaner {
 
-    public String createBuildingName(String buildingName) {
-        String tempName = buildingName;
-        tempName = tempName.replaceAll("(^[^:]+:.)", "");
-        tempName = tempName.substring(1);
-        return tempName;
+    /**
+     * Removes the building code from the building name
+     * @param fullBuildingName The building name with building code and name
+     * @return The building name without the building code
+     */
+    public String createBuildingName(String fullBuildingName) {
+        String buildingName = fullBuildingName.replaceAll("(^[^:]+:.)", "");
+        buildingName = buildingName.substring(1);
+        return buildingName;
     }
 
-    public String createBuildingCode(String buildingName) {
-        String tempCode = buildingName;
-        tempCode = tempCode.replaceAll("(:.*)", "");
-        tempCode = tempCode.substring(1);
-        return tempCode;
+    /**
+     * Extracts the building code from the building name
+     * @param fullBuildingName The building name with building name and code
+     * @return The building code
+     */
+    public String createBuildingCode(String fullBuildingName) {
+        String buildingCode = fullBuildingName.replaceAll("(:.*)", "");
+        buildingCode = buildingCode.substring(1);
+        return buildingCode;
     }
 
 }
