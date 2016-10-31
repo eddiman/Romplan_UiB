@@ -1,5 +1,7 @@
 package com.pensive.android.romplanuib.io;
 
+import com.pensive.android.romplanuib.io.util.URLEncoding;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,11 +36,13 @@ public class BuildingCodeParser {
      */
     public static String getBuildingURL(String buildingName) {
         return "http://rom.app.uib.no/ukesoversikt/?entry=byggrom&building="
-                + getBuildingCode(buildingName);
+                + URLEncoding.encode(getBuildingCode(buildingName));
     }
 
     public static String getRoomURL(String buildingName, String roomName) {
         String buildingCode = getBuildingCode(buildingName);
+        buildingCode = URLEncoding.encode(buildingCode);
+        roomName = URLEncoding.encode(roomName);
         // http://rom.app.uib.no/ukesoversikt/?entry=byggrom&building=SV%3A&room=SV%3AS204
         return "http://rom.app.uib.no/ukesoversikt/?entry=byggrom&building=" + buildingCode + "&room=" + buildingCode + roomName;
     }

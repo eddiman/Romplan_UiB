@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.UIBroom;
 
 import org.jsoup.Jsoup;
@@ -47,6 +48,7 @@ public class RoomParser {
      */
     public Elements getValueFromHTML(String url){
         Document doc = null;
+        url = URLEncoding.encode(url);
         try {
             doc = Jsoup.connect(url).get();
         } catch (SocketTimeoutException | UnknownHostException e) {
