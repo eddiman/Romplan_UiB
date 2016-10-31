@@ -21,15 +21,10 @@ import com.pensive.android.romplanuib.models.CalActivity;
 import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.util.DownloadAndStoreData;
 import com.pensive.android.romplanuib.util.Randomized;
-import com.pensive.android.romplanuib.util.StringCleaner;
 import com.squareup.picasso.Picasso;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.IllegalFormatException;
 import java.util.List;
 
 public class CalendarActivity extends AppCompatActivity implements MonthLoader.MonthChangeListener {
@@ -41,7 +36,7 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
     List<WeekViewEvent> events = new ArrayList<>();
     TextView weekNumber;
     String buildingCode;
-    StringCleaner sc = new StringCleaner();
+    com.pensive.android.romplanuib.util.StringCleaner sc = new com.pensive.android.romplanuib.util.StringCleaner();
     private ImageView roomImage;
 
     @Override
@@ -141,7 +136,7 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         ProgressDialog asyncDialog;
         UIBroom room;
         Randomized rnd = new Randomized();
-        StringCleaner sc = new StringCleaner();
+        com.pensive.android.romplanuib.util.StringCleaner sc = new com.pensive.android.romplanuib.util.StringCleaner();
         DownloadAndStoreData dl = new DownloadAndStoreData();
         Context context;
 

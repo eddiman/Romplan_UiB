@@ -46,15 +46,13 @@ public class DownloadAndStoreData {
     }
 
 
-    public void setStoreDataAllBuildings(Context context, List<UIBbuilding> temp) {
-        System.out.println(temp);
-        ArrayList<UIBbuilding> temp2 = new ArrayList<>(temp);
+    public void setStoreDataAllBuildings(Context context, List<UIBbuilding> buildingList) {
+        ArrayList<UIBbuilding> buildingArrayList = new ArrayList<>(buildingList); //Convert to ArrayList because Gson.toJson demands it.
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPrefs.edit();
         Gson gson = new Gson();
 
-        String json = gson.toJson(temp2);
-        System.out.println(json);
+        String json = gson.toJson(buildingArrayList);
         editor.putString("all_buildings", json);
         editor.apply();
     }
@@ -70,15 +68,13 @@ public class DownloadAndStoreData {
     }
 
 
-    public void setStoreDataAllRooms(Context context, List<UIBroom> temp) {
-        System.out.println(temp);
-        ArrayList<UIBroom> temp2 = new ArrayList<>(temp);
+    public void setStoreDataAllRooms(Context context, List<UIBroom> roomList) {
+        ArrayList<UIBroom> roomArrayList = new ArrayList<>(roomList);//Convert to ArrayList because Gson.toJson demands it.
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPrefs.edit();
         Gson gson = new Gson();
 
-        String json = gson.toJson(temp2);
-        System.out.println(json);
+        String json = gson.toJson(roomArrayList);
         editor.putString("all_rooms", json);
         editor.apply();
     }
@@ -94,24 +90,24 @@ public class DownloadAndStoreData {
     }
 
     public List<UIBbuilding> getAllBuildings(){
-        List<UIBbuilding> allBuildings ;
-        List<UIBbuilding> allBuildingsTemp = new ArrayList<>();
-        List<UIBroom> allRoomsTemp;
-        UIBbuilding tempBuilding;
+        List<UIBbuilding> allBuildingsWithoutRooms;
+        List<UIBbuilding> allBuildingsWithRooms = new ArrayList<>();
+        List<UIBroom> buildingRooms;
+        UIBbuilding buildingToBeAdded;
         try {
             BuildingParser buildingParser = new BuildingParser(
                     "http://rom.app.uib.no/ukesoversikt/?entry=byggrom");
 
-            allBuildings = buildingParser.getBuildings();
+            allBuildingsWithoutRooms = buildingParser.getBuildings();
 
-            for (int i = 0; i < allBuildings.size(); i++ ){
+            for (int i = 0; i < allBuildingsWithoutRooms.size(); i++ ){
 
                 RoomParser roomParser = new RoomParser(
-                        BuildingCodeParser.getBuildingURL(allBuildings.get(i).getName()), allBuildings.get(i).getName());
-                allRoomsTemp = roomParser.getRooms();
-                tempBuilding = new UIBbuilding(allBuildings.get(i).getName(), allRoomsTemp);
+                        BuildingCodeParser.getBuildingURL(allBuildingsWithoutRooms.get(i).getName()), allBuildingsWithoutRooms.get(i).getName());
+                buildingRooms = roomParser.getRooms();
+                buildingToBeAdded = new UIBbuilding(allBuildingsWithoutRooms.get(i).getName(), buildingRooms);
 
-                allBuildingsTemp.add(tempBuilding);
+                allBuildingsWithRooms.add(buildingToBeAdded);
 
             }
 
@@ -121,11 +117,11 @@ public class DownloadAndStoreData {
             System.out.println("?????");
         }
 
-        return allBuildingsTemp;
+        return allBuildingsWithRooms;
     }
 
     public List<UIBroom> getAllRoomsInUni(){
-        List<UIBroom> allRoomsTemp;
+        List<UIBroom> allRoomsInBuilding;
         allBuildings = getAllBuildings();
 
         for (UIBbuilding building : getAllBuildings() ){
@@ -133,11 +129,10 @@ public class DownloadAndStoreData {
             try {
                 RoomParser roomParser = new RoomParser(
                         BuildingCodeParser.getBuildingURL(building.getName()), building.getName());
-                allRoomsTemp = roomParser.getRooms();
+                allRoomsInBuilding = roomParser.getRooms();
 
-                for (UIBroom room : allRoomsTemp){
+                for (UIBroom room : allRoomsInBuilding){
                     allRooms.add(room);
-                    System.out.println(building.getName() + " : " + room.getName());
                 }
             } catch (IOException e) {
                 e.printStackTrace();

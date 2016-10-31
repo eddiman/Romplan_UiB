@@ -13,10 +13,8 @@ import android.widget.TextView;
 import com.pensive.android.romplanuib.CalendarActivity;
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
-import com.pensive.android.romplanuib.models.CalActivity;
 import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.util.Randomized;
-import com.pensive.android.romplanuib.util.StringCleaner;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -32,7 +30,7 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
     int textViewResourceId;
     List<UIBroom> uiBrooms;
     String buildingCode;
-    StringCleaner stringCleaner = new StringCleaner();
+    com.pensive.android.romplanuib.util.StringCleaner stringCleaner = new com.pensive.android.romplanuib.util.StringCleaner();
     Randomized randomized = new Randomized();
 
     public RoomAdapter(Context context, int textViewResourceId, List<UIBroom> buildings) {

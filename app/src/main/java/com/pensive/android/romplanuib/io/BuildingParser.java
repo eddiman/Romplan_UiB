@@ -84,14 +84,14 @@ public class BuildingParser {
      * @param buildings
      */
     private void createBuilding(Elements buildings) {
-        List<UIBroom> templist = new ArrayList<>();
+        List<UIBroom> emptyList = new ArrayList<>();
         for (Element building : buildings) {
 
             pattern = Pattern.compile("([^)]+:\\S+\\D++)");
             matcher = pattern.matcher(building.text());
 
             if (matcher.find()) {
-                UIBbuilding uib_building = new UIBbuilding(matcher.group(0), templist);
+                UIBbuilding uib_building = new UIBbuilding(matcher.group(0), emptyList);
                 uibBuildings.add(uib_building);
             }
 

@@ -8,12 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.RoomActivity;
-import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.UIBbuilding;
+import com.pensive.android.romplanuib.util.StringCleaner;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
     Context context;
     int textViewResourceId;
     List<UIBbuilding> buildings;
-    URLEncoding UrlEnc = new URLEncoding();
+    StringCleaner sc = new StringCleaner();
     Typeface bebasFont;
 
 
@@ -38,6 +37,7 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
         this.textViewResourceId = textViewResourceId;
         this.buildings = buildings;
         this.bebasFont = Typeface.createFromAsset(context.getAssets(), "fonts/bebas_neue.ttf");
+
     }
 
     public int getCount() {
@@ -71,8 +71,8 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
 
         UIBbuilding uibBuilding = buildings.get(position);
         holder.buildCode.setTypeface(bebasFont);
-        holder.buildText.setText(UrlEnc.createBuildingName(uibBuilding.getName()));
-        holder.buildCode.setText(UrlEnc.createBuildingCode(uibBuilding.getName()));
+        holder.buildText.setText(sc.createBuildingName(uibBuilding.getName()));
+        holder.buildCode.setText(sc.createBuildingCode(uibBuilding.getName()));
 
 
         row.setOnClickListener(new View.OnClickListener(){
