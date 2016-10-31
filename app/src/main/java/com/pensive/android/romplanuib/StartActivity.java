@@ -5,9 +5,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.ColorInt;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -20,37 +23,48 @@ import java.util.List;
 /**
  * Author: Edvard P. B.
  *
- * "Splash" class to load all buildings and rooms
+ * "Splashscreen"-class to load all buildings and rooms
  */
 public class StartActivity extends AppCompatActivity {
 
 
 
-    ListView testView;
     Context context;
-    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if(toolbar != null){toolbar.setTitle("Romplan UiB");}
-
         context = StartActivity.this;
+
+        hideSystemUI();
         populateList();
 
-
     }
 
+    /**
+     * Hides the system UI
+     */
+    private void hideSystemUI() {
 
-    private void initGUI() {
+        getWindow().setStatusBarColor(ContextCompat.getColor(context, R.color.transparent));
+        getWindow().setNavigationBarColor(ContextCompat.getColor(context, R.color.transparent));
 
-        //testView = (ListView) findViewById(R.id.test_list);
-        //button = (Button) findViewById(R.id.button_tab);
+        // Set the IMMERSIVE flag.
+        // Set the content to appear under the system bars so that the content
+        // doesn't resize when the system bars hide and show.
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
+    /**
+     * Executes the inner class JsoupTask
+     */
     private void populateList() {
         JsoupTask jsoupTask = new JsoupTask(context, this);
         jsoupTask.execute();
@@ -58,74 +72,82 @@ public class StartActivity extends AppCompatActivity {
 
 }
 
- class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
-     List<UIBbuilding> allBuildings ;
-     List<UIBroom> allRooms;
+class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
+    List<UIBbuilding> allBuildings ;
+    List<UIBroom> allRooms;
 
-     private Activity mActivity;
-     private Context context;
-     ProgressDialog asyncDialog;
-     DownloadAndStoreData dl = new DownloadAndStoreData();
-
-
-     public JsoupTask(Context context, Activity mActivity){
-         super();
-         this.context = context;
-         this.mActivity = mActivity;
-         asyncDialog = new ProgressDialog(context);
+    private Activity mActivity;
+    private Context context;
+    ProgressDialog asyncDialog;
+    DownloadAndStoreData dl = new DownloadAndStoreData();
 
 
-     }
-
-     @Override
-     protected void onPreExecute() {
-         asyncDialog.setMessage("Henter data...");
-         asyncDialog.setCancelable(false);
-         asyncDialog.show();
-         super.onPreExecute();
-     }
-
-     @Override
-     protected List<UIBbuilding> doInBackground(Void... param) {
-
-         //Store data in SharedPref
-         if(!dl.isDataIsStored(context)) {
-             allBuildings = dl.getAllBuildings();
-             allRooms = dl.getAllRoomsInUni();
-             dl.setStoreDataAllRooms(context, allRooms);
-             dl.setStoreDataAllBuildings(context, allBuildings);
-         } else {
-             allBuildings = dl.getStoredDataAllBuildings(context);
-         }
+    public JsoupTask(Context context, Activity mActivity){
+        super();
+        this.context = context;
+        this.mActivity = mActivity;
+        asyncDialog = new ProgressDialog(context);
 
 
-         return allBuildings;
-     }
-     protected void onPostExecute(List<UIBbuilding> buildings){
+    }
 
-        //ListView testView = (ListView)mActivity.findViewById(R.id.test_list);
+    /**
+     * Starts the progress dialog
+     */
+    @Override
+    protected void onPreExecute() {
+        asyncDialog.setMessage("Henter data...");
+        asyncDialog.setCancelable(false);
+        asyncDialog.show();
+        super.onPreExecute();
+    }
 
-         //BuildingAdapter adapter  = new BuildingAdapter(context, R.layout.list_building_element, dl.getStoredDataAllBuildings(context));
+    /**
+     * Background process for scraping and downloading the data from romplan app. Also stores the data
+     * in SharedPreferences
+     * @param param standard for doInBavkground
+     * @return the list of allbuildings
+     */
+    @Override
+    protected List<UIBbuilding> doInBackground(Void... param) {
 
-         //testView.setAdapter(adapter);
-
-         asyncDialog.dismiss();
-
-         Intent i = new Intent(context, TabActivity.class);
-         context.startActivity(i);
-
-
-         List<UIBroom> tasksList = dl.getStoredDataAllRooms(context);
-         if (tasksList.size() <= 0){
-             System.out.println("Cannot retrieve data from SharedPreferences");
-         } else {
-             System.out.println("Data has been retrieved. There are " + tasksList.size() + " rooms in the university");
-
-         }
-
-     }
-
+        //Store data in SharedPref
+        if(!dl.isDataIsStored(context)) {
+            allBuildings = dl.getAllBuildings();
+            allRooms = dl.getAllRoomsInUni();
+            dl.setStoreDataAllRooms(context, allRooms);
+            dl.setStoreDataAllBuildings(context, allBuildings);
+        } else {
+            allBuildings = dl.getStoredDataAllBuildings(context);
+        }
 
 
+        return allBuildings;
+    }
 
- }
+    /**
+     * dismisses the dialog and starts the TabActivity
+     * @param buildings a list of the buildings, again standard param for onPostExecute
+     */
+    protected void onPostExecute(List<UIBbuilding> buildings){
+
+        asyncDialog.dismiss();
+
+        Intent i = new Intent(context, TabActivity.class);
+        context.startActivity(i);
+
+
+        List<UIBroom> tasksList = dl.getStoredDataAllRooms(context);
+        if (tasksList.size() <= 0){
+            System.out.println("Cannot retrieve data from SharedPreferences");
+        } else {
+            System.out.println("Data has been retrieved. There are " + tasksList.size() + " rooms in the university");
+
+        }
+
+    }
+
+
+
+
+}

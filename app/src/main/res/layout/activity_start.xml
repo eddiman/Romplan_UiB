@@ -4,42 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".StartActivity">
+    tools:context=".StartActivity"
+    android:background="@drawable/bergen_blurred"
+    >
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:titleTextColor="@android:color/white"
-        android:background="?attr/colorPrimary">
-    </android.support.v7.widget.Toolbar>
+        android:text="@string/splash_title"
+        android:textColor="@android:color/white"
+        android:textSize="36sp"
+        android:textAlignment="center"
 
-
-<ImageView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:src="@drawable/bergen_blurred"
-    android:scaleType="centerCrop"
-    />
-
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="247dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/uiblogo"
-        android:scaleType="centerCrop"
-
-        android:layout_below="@+id/toolbar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp" />
-    <!--<ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/test_list"
-        android:divider="@null"
-        android:dividerHeight="0dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="171dp" />-->
-
+    android:id="@+id/uib_logo"
+    android:layout_width="300dp"
+    android:layout_height="300dp"
+    android:src="@drawable/uiblogo"
+    android:scaleType="centerCrop"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

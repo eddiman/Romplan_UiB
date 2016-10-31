@@ -19,6 +19,8 @@
     <color name="color9">#ff4be1</color>
 
     <color name="transpWhite">#8fffffff</color>
+    <color name="transpBlack">#8f000000</color>
+    <color name="transparent">#00ffffff</color>
 
 
     <color name="lighter_blue">#dbe1ea</color>
