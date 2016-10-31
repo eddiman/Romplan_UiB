@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.pensive.android.romplanuib.CalendarActivity;
 import com.pensive.android.romplanuib.R;
+import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.CalActivity;
 import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.util.Randomized;
@@ -82,7 +83,7 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
         //http://rom_img.app.uib.no/byggogrombilder/GR_/GR_110/GR_110I.jpg
         String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/"+ buildingCode + "_" + uiBrooms.get(position).getCode() + "/"+ buildingCode + "_" + uiBrooms.get(position).getCode() + "I.jpg";
         Picasso.with(context)
-                .load(url)
+                .load(URLEncoding.encode(url))
                 .centerCrop()
                 .fit()
                 .placeholder(R.drawable.uiblogo)

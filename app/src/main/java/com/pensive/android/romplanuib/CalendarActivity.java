@@ -16,6 +16,7 @@ import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.pensive.android.romplanuib.io.BuildingCodeParser;
 import com.pensive.android.romplanuib.io.CalActivityParser;
+import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.CalActivity;
 import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.util.DownloadAndStoreData;
@@ -80,7 +81,7 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
 
         String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/"+ buildingCode + "_" + room.getCode() + "/"+ buildingCode + "_" + room.getCode() + "I.jpg";
         Picasso.with(CalendarActivity.this)
-                .load(url)
+                .load(URLEncoding.encode(url))
                 .centerCrop()
                 .fit()
                 .placeholder(R.drawable.uiblogo)

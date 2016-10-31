@@ -82,7 +82,7 @@ public class RoomActivity extends AppCompatActivity {
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
         String url = "http://rom_img.app.uib.no/byggogrombilder/"+ buildingCode +"_/"+ buildingCode +"_byggI.jpg";
         Picasso.with(getApplicationContext())
-                .load(url)
+                .load(URLEncoding.encode(url))
                 .centerCrop()
                 .fit()
                 .into(imageView);
