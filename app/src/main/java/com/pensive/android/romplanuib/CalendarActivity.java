@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -56,6 +57,8 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         if(collapsingToolbar != null){
             collapsingToolbar.setTitle(sc.createBuildingName(room.getBuilding()) + " - " +  room.getName());
         }
+        getWindow().setStatusBarColor(ContextCompat.getColor(CalendarActivity.this, R.color.transpBlack));
+
 
         jsoupTask = new JsoupTask(CalendarActivity.this, room);
         jsoupTask.execute();
@@ -97,7 +100,7 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         return c;
-            }
+    }
 
 
     private UIBroom getRoomFromLastActivity() {
@@ -164,19 +167,19 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         @Override
         protected List<WeekViewEvent> doInBackground(Void... param) {
             try{
-            String roomURL = BuildingCodeParser.getRoomURL(room.getBuilding(), room.getCode()) + "&printweek=" + getWeekNumber();
-            CalActivityParser parser = new CalActivityParser(roomURL, room.getBuilding(), sc.createBuildingCode(room.getCode()));
-            List<CalActivity> listOfCal = parser.getCalActivityList();
+                String roomURL = BuildingCodeParser.getRoomURL(room.getBuilding(), room.getCode()) + "&printweek=" + getWeekNumber();
+                CalActivityParser parser = new CalActivityParser(roomURL, room.getBuilding(), sc.createBuildingCode(room.getCode()));
+                List<CalActivity> listOfCal = parser.getCalActivityList();
 
 
-            for(int i = 0; i < listOfCal.size(); i++ ){
+                for(int i = 0; i < listOfCal.size(); i++ ){
 
-                WeekViewEvent event = new WeekViewEvent(i, listOfCal.get(i).getSubject() +" - " + listOfCal.get(i).getDescription() + " - " + listOfCal.get(i).getWeekday(), listOfCal.get(i).getBeginTime(), listOfCal.get(i).getEndTime());
-                event.setColor(rnd.getRandomColorFilter());
-                events.add(event);
-            }
+                    WeekViewEvent event = new WeekViewEvent(i, listOfCal.get(i).getSubject() +" - " + listOfCal.get(i).getDescription() + " - " + listOfCal.get(i).getWeekday(), listOfCal.get(i).getBeginTime(), listOfCal.get(i).getEndTime());
+                    event.setColor(rnd.getRandomColorFilter());
+                    events.add(event);
+                }
 
-            System.out.println("There are: " + events.size());
+                System.out.println("There are: " + events.size());
             } catch(NullPointerException e){
                 e.printStackTrace();
                 System.out.println("UiB rom is error");

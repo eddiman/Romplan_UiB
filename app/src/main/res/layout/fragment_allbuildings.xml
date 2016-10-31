@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.pensive.android.romplanuib.AllBuildingsFragment">
-
+    <!-- ListView har MarginBtoom pga. den "strekker" seg over navBar-->
     <ListView
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
+        android:layout_marginBottom="56dp"
         android:id="@+id/test_list"
         android:divider="@null"
         android:dividerHeight="0dp"

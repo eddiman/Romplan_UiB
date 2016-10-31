@@ -2,6 +2,7 @@ package com.pensive.android.romplanuib.ArrayAdapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.RoomActivity;
+import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 
 import java.util.List;
@@ -25,7 +27,8 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
     Context context;
     int textViewResourceId;
     List<UIBbuilding> buildings;
-
+    URLEncoding UrlEnc = new URLEncoding();
+    Typeface bebasFont;
 
 
     public BuildingAdapter(Context context, int textViewResourceId, List<UIBbuilding> buildings) {
@@ -34,6 +37,7 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
         inflater = LayoutInflater.from(context);
         this.textViewResourceId = textViewResourceId;
         this.buildings = buildings;
+        this.bebasFont = Typeface.createFromAsset(context.getAssets(), "fonts/bebas_neue.ttf");
     }
 
     public int getCount() {
@@ -52,13 +56,12 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
         View row = convertView;
         BuildingHolder holder = null;
 
-
         if (row == null) {
             holder = new BuildingHolder();
-            //LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(textViewResourceId, parent, false);
 
 
+            holder.buildCode = (TextView) row.findViewById(R.id.building_code);
             holder.buildText = (TextView) row.findViewById(R.id.building_name);
             row.setTag(holder);
         } else {
@@ -67,13 +70,15 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
         }
 
         UIBbuilding uibBuilding = buildings.get(position);
-        holder.buildText.setText(uibBuilding.getName());
+        holder.buildCode.setTypeface(bebasFont);
+        holder.buildText.setText(UrlEnc.createBuildingName(uibBuilding.getName()));
+        holder.buildCode.setText(UrlEnc.createBuildingCode(uibBuilding.getName()));
 
 
         row.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View arg0) {
-                Toast.makeText(context, getItem(position).getListOfRooms().get(0).getCode(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, getItem(position).getListOfRooms().get(0).getCode(), Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(context, RoomActivity.class);
                 i.putExtra("building", getItem(position));
@@ -88,6 +93,6 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
     private class BuildingHolder
     {
         TextView buildText;
-
+        TextView buildCode;
     }
 }

@@ -20,4 +20,17 @@ public class URLEncoding {
         url = url.replace("Å","%C5");
         return url;
     }
+
+    public String createBuildingName(String tempName) {
+        tempName = tempName.replaceAll("(^[^:]+:.)", "");
+        tempName = tempName.substring(1);
+        return tempName;
+    }
+
+    public String createBuildingCode(String tempCode) {
+        tempCode = tempCode.replaceAll("(:.*)", "");
+        tempCode = tempCode.substring(1);
+        return tempCode;
+    }
+
 }

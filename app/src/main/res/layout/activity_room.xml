@@ -12,7 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:fontFamily="sans-serif-thin"
+        >
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -23,6 +25,7 @@
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="20dp"
             app:expandedTitleMarginEnd="100dp"
+            android:fontFamily="sans-serif-thin"
 
             >
 

@@ -33,10 +33,11 @@
                 android:gravity="center"
                 >
                 <TextView
+                    android:id="@+id/building_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TT"
-                    android:textSize="56sp"
+                    android:textSize="38sp"
                     android:textColor="@color/accent_yellow"
                     />
 
@@ -55,7 +56,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TestSenter på Tasta"
-                    android:textSize="20sp"
+                    android:textSize="24sp"
+                    android:fontFamily="sans-serif-thin"
                     />
 
             </LinearLayout>

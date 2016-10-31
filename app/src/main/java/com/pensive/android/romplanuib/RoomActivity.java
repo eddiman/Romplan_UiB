@@ -3,6 +3,7 @@ package com.pensive.android.romplanuib;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 
 import com.pensive.android.romplanuib.ArrayAdapters.BuildingAdapter;
 import com.pensive.android.romplanuib.ArrayAdapters.RoomAdapter;
+import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
 import com.squareup.picasso.Picasso;
@@ -24,27 +26,31 @@ public class RoomActivity extends AppCompatActivity {
 
     UIBbuilding building;
     List<UIBroom> errorList = new ArrayList<>();
-
     String buildingName;
     String buildingCode;
     ListView roomList;
+
+    URLEncoding urlEnc = new URLEncoding();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
         building = getBuildingFromLastActivity();
-        buildingCode = createBuildingCode();
-        buildingName = createBuildingName();
+        buildingCode = urlEnc.createBuildingCode(building.getName());
+        buildingName = urlEnc.createBuildingName(building.getName());
 
+
+        //GUI elements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         if(collapsingToolbar != null){collapsingToolbar.setTitle(buildingName);}
-
         loadBackdrop();
-       floatingActionButtonListener();
+        floatingActionButtonListener();
+
+        getWindow().setStatusBarColor(ContextCompat.getColor(RoomActivity.this, R.color.transpBlack));
 
         roomList = (ListView) findViewById(R.id.room_listView);
 
@@ -55,19 +61,7 @@ public class RoomActivity extends AppCompatActivity {
 
 
 
-    private String createBuildingName() {
-        String tempName = building.getName();
-        tempName = tempName.replaceAll("(^[^:]+:.)", "");
-        tempName = tempName.substring(1);
-        return tempName;
-    }
 
-    private String createBuildingCode() {
-        String tempCode = building.getName();
-        tempCode = tempCode.replaceAll("(:.*)", "");
-        tempCode = tempCode.substring(1);
-        return tempCode;
-    }
 
     private UIBbuilding getBuildingFromLastActivity() {
         UIBbuilding extraBuilding;
