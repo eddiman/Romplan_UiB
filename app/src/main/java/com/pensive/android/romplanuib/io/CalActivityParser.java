@@ -190,15 +190,17 @@ public class CalActivityParser implements ParserInterface {
         for (Node currnode : nodes) {
 
             String classString = currnode.attr("class");
-            if (currnode.childNodeSize() != 0) {
 
-                if (classString.equals("emne"))
-                    emneString = currnode.childNode(0).toString();
-                else if (classString.equals("time"))
-                    timeString = currnode.childNode(0).toString();
-                else if (classString.equals("item_desc"))
+            if (classString.equals("emne"))
+                emneString = currnode.childNode(0).toString();
+            else if (classString.equals("time"))
+                timeString = currnode.childNode(0).toString();
+            else if (classString.equals("item_desc"))
+                if(currnode.childNodeSize() < 1){
+                    descString = "";
+                }else{
                     descString = currnode.childNode(0).toString();
-            }
+                }
 
             if (descString != null && timeString != null && emneString != null) {
                 CalActivity activity = new CalActivity(activityNode, emneString,
