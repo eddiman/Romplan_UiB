@@ -44,6 +44,6 @@ public class BuildingCodeParser {
         buildingCode = URLEncoding.encode(buildingCode);
         roomName = URLEncoding.encode(roomName);
         // http://rom.app.uib.no/ukesoversikt/?entry=byggrom&building=SV%3A&room=SV%3AS204
-        return "http://rom.app.uib.no/ukesoversikt/?entry=byggrom&building=" + buildingCode + "&room=" + buildingCode + roomName;
+        return "http://rom.app.uib.no/ukesoversikt/?entry=byggrom&building=" + buildingCode + "&room=" + buildingCode + roomName + "&showtime=7-22";
     }
 }
