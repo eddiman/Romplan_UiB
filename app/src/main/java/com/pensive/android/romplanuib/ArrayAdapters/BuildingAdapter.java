@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.RoomActivity;
 import com.pensive.android.romplanuib.models.UIBbuilding;
-import com.pensive.android.romplanuib.util.fontController;
+import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.StringCleaner;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
     int textViewResourceId;
     List<UIBbuilding> buildings;
     StringCleaner sc = new StringCleaner();
-    fontController fc = new fontController();
+    FontController fc = new FontController();
     Typeface bebasFont;
 
 
