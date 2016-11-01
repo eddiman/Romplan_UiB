@@ -13,7 +13,7 @@ import android.support.v7.widget.Toolbar;
  * Various methods for setting the fonts
  */
 
-public class fontController {
+public class FontController {
 
     public void setTitleFont(Context context, String toolbarTitle, Toolbar actionBar, String fontType, int size){
         SpannableString title = new SpannableString(toolbarTitle);
