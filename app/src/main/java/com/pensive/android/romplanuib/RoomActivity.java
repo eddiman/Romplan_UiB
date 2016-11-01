@@ -15,7 +15,7 @@ import com.pensive.android.romplanuib.ArrayAdapters.RoomAdapter;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
-import com.pensive.android.romplanuib.util.FontController;
+import com.pensive.android.romplanuib.util.fontController;
 import com.pensive.android.romplanuib.util.StringCleaner;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -31,7 +31,7 @@ public class RoomActivity extends AppCompatActivity {
 
     UIBbuilding building;
     List<UIBroom> errorList = new ArrayList<>();
-    FontController fc = new FontController();
+    fontController fc = new fontController();
     String buildingName;
     String buildingCode;
     ListView roomList;

@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.pensive.android.romplanuib.util.FontController;
+import com.pensive.android.romplanuib.util.fontController;
 
 public class TabActivity extends AppCompatActivity {
 
@@ -26,7 +26,7 @@ public class TabActivity extends AppCompatActivity {
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
-    FontController fc = new FontController();
+    fontController fc = new fontController();
 
     /**
      * The {@link ViewPager} that will host the section contents.
