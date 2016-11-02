@@ -87,7 +87,7 @@ public class BuildingParser {
         List<UIBroom> emptyList = new ArrayList<>();
         for (Element building : buildings) {
 
-            pattern = Pattern.compile("([^)]+:\\S+\\D++)");
+            pattern = Pattern.compile("([^\\n\\r]+)");
             matcher = pattern.matcher(building.text());
 
             if (matcher.find()) {
