@@ -3,11 +3,9 @@ package com.pensive.android.romplanuib;
 import android.content.Intent;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -22,7 +20,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchHistoryTable;
@@ -85,6 +82,7 @@ public class TabActivity extends AppCompatActivity {
         if (tabLayout != null)
             tabLayout.setupWithViewPager(mViewPager);
 
+
         fc.setTitleFont(this, getResources().getString(R.string.splash_title), toolbar, "roboto_thin.ttf", 0);
 
         setAppBarLayoutNonDrag();
@@ -107,7 +105,7 @@ public class TabActivity extends AppCompatActivity {
 
     protected void setSearchView() {
         mHistoryDatabase = new SearchHistoryTable(this);
-
+        mHistoryDatabase.setHistorySize(5);
 
         if (mSearchView != null) {
             mSearchView.setHint(getResources().getString(R.string.search_buildings));
@@ -144,7 +142,6 @@ public class TabActivity extends AppCompatActivity {
 
                     //Skitten måte på å hide SearchView, men fant null i dokum. til lapism-searchviewet
                     //TODO: Finne ut hvordan i h. man får til standardanim. som i Lapism sitt sample
-                    mSearchView.close(true);
                     mSearchView.startAnimation(animationFadeOut);
                     mSearchView.setVisibility(View.INVISIBLE);
                 }
@@ -268,8 +265,6 @@ public class TabActivity extends AppCompatActivity {
                     return AllBuildingsFragment.newInstance(position + 1);
                 case 1:
                     return FavoritesFragment.newInstance(position + 1);
-                case 2:
-                    return RecentFragment.newInstance(position + 1);
                 default:
                     return AllBuildingsFragment.newInstance(position + 1);
             }
@@ -278,7 +273,7 @@ public class TabActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 2;
         }
 
         @Override
@@ -288,8 +283,6 @@ public class TabActivity extends AppCompatActivity {
                     return "Alle bygninger";
                 case 1:
                     return "Favoritter";
-                case 2:
-                    return "Nylige";
             }
             return null;
         }
