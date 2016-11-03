@@ -19,6 +19,7 @@ import com.pensive.android.romplanuib.models.UIBroom;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -49,6 +50,7 @@ public class DownloadAndStoreData {
 
     public void setStoreDataAllBuildings(Context context, List<UIBbuilding> buildingList) {
         ArrayList<UIBbuilding> buildingArrayList = new ArrayList<>(buildingList); //Convert to ArrayList because Gson.toJson demands it.
+        Collections.sort(buildingArrayList, new UiBBuildingComparator()); //Sorts the list, so that it is easier to search in later
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPrefs.edit();
         Gson gson = new Gson();

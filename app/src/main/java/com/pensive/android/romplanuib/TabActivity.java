@@ -29,10 +29,13 @@ import com.lapism.searchview.SearchHistoryTable;
 import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
 import com.pensive.android.romplanuib.models.UIBbuilding;
+import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.util.DownloadAndStoreData;
 import com.pensive.android.romplanuib.util.FontController;
+import com.pensive.android.romplanuib.util.UiBBuildingComparator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TabActivity extends AppCompatActivity {
@@ -168,20 +171,23 @@ public class TabActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Finds a building with a name that matches the query using binarysearch.
+     * Then it starts a new activity with the building we searched for.
+     * FIXME That's a side-effect and should be avoided
+     * @param text the query to search for
+     * @param position ???
+     */
     @CallSuper
     protected void getData(String text, int position) {
         mHistoryDatabase.addItem(new SearchItem(text));
+        List<UIBbuilding> uiBbuildingList = dl.getStoredDataAllBuildings(TabActivity.this);
+        int index = Collections.binarySearch(uiBbuildingList, new UIBbuilding(text, new ArrayList<UIBroom>()), new UiBBuildingComparator());
+        Intent intent = new Intent(TabActivity.this, RoomActivity.class);
+        intent.putExtra("building", uiBbuildingList.get(index));
+        this.startActivity(intent);
+        return;
 
-        //TODO: Bedre søkealgoritme må nok til her as
-        for (UIBbuilding build : dl.getStoredDataAllBuildings(TabActivity.this)){
-            if (text.equals(build.getName())){
-                Intent i = new Intent(TabActivity.this, RoomActivity.class);
-                i.putExtra("building", build);
-                this.startActivity(i);
-                return;
-            }
-
-        }
     }
 
 
