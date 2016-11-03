@@ -68,21 +68,19 @@
 
 
 
-
-
             <!-- **************************************************************************************************************************-->
             <ListView
+                android:paddingTop="32dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/room_listView"
                 android:nestedScrollingEnabled="true"
-                android:scrollbars="none"
                 android:clipToPadding="false"
                 android:divider="@null"
                 android:dividerHeight="0dp"
-                android:paddingTop="32dp"
+                android:scrollbarStyle="outsideOverlay"
 
-                 />
+                />
             <!-- **************************************************************************************************************************-->
         </LinearLayout>
 

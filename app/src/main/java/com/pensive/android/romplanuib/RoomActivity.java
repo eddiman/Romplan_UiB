@@ -74,6 +74,7 @@ public class RoomActivity extends AppCompatActivity {
 
         RoomAdapter adapter  = new RoomAdapter(RoomActivity.this, R.layout.list_room_layout, building.getListOfRooms());
         roomList.setAdapter(adapter);
+        roomList.setFastScrollEnabled(true);
     }
 
     private UIBbuilding getBuildingFromLastActivity() {
@@ -102,6 +103,7 @@ public class RoomActivity extends AppCompatActivity {
                 .load(URLEncoding.encode(url))
                 .centerCrop()
                 .fit()
+                .placeholder(R.drawable.uiblogo)
                 .transform(transformations)
                 .into(imageView);
 
@@ -114,7 +116,7 @@ public class RoomActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, "Add to favorite, coming soon!", Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, getResources().getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
             });

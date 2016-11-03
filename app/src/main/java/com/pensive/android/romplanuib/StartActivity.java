@@ -116,6 +116,7 @@ class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
             allRooms = dl.getAllRoomsInUni();
             dl.setStoreDataAllRooms(context, allRooms);
             dl.setStoreDataAllBuildings(context, allBuildings);
+
         } else {
             allBuildings = dl.getStoredDataAllBuildings(context);
         }

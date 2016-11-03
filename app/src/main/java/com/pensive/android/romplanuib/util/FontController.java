@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.TypefaceSpan;
 import android.support.v7.widget.Toolbar;
 

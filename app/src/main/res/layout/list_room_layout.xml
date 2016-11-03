@@ -2,16 +2,16 @@
 
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     >
+
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="320dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true"
         android:layout_marginStart="@dimen/card_margin"
@@ -57,9 +57,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Info"
-                    android:textSize="32sp"
+                    android:textSize="28sp"
                     android:fontFamily="sans-serif-thin"
-                    android:gravity="center|left"
+                    android:gravity="center|start"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     />
 
             </RelativeLayout>

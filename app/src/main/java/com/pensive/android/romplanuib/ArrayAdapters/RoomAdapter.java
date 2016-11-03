@@ -91,7 +91,7 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
 
 
         UIBroom uiBroom = uiBrooms.get(position);
-        holder.roomText.setText("Rom: "+ uiBroom.getName());
+        holder.roomText.setText(uiBroom.getName());
 
 
 
@@ -116,7 +116,6 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
     {
         TextView roomText;
         ImageView roomImage;
-        Button roomButton;
 
     }
 }

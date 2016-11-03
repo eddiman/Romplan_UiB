@@ -1,5 +1,7 @@
 package com.pensive.android.romplanuib.models;
 
+
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,16 +15,17 @@ import java.util.List;
 public class UIBbuilding implements Serializable{
 
     private String name;
+    private boolean mIsHistory = false;
 
     private List<UIBroom> listOfRooms;
 
 
     public UIBbuilding(String name, List<UIBroom> listOfRooms) {
-        this.name= name;
+        this.name = name;
         this.listOfRooms = listOfRooms;
 
-
     }
+
 
     public String getName() {
         return name;
@@ -39,5 +42,6 @@ public class UIBbuilding implements Serializable{
     public List<UIBroom> getListOfRooms() {
         return listOfRooms;
     }
+
 
 }

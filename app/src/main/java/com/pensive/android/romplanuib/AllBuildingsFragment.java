@@ -46,13 +46,13 @@ public class AllBuildingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_allbuildings, container, false);
 
-        ListView testView = (ListView)rootView.findViewById(R.id.test_list);
+        ListView allBuildListView = (ListView)rootView.findViewById(R.id.test_list);
 
         BuildingAdapter adapter  = new BuildingAdapter(getActivity(), R.layout.list_building_element, dl.getStoredDataAllBuildings(getActivity()));
 
-        testView.setAdapter(adapter);
+        allBuildListView.setAdapter(adapter);
 
-        testView.setFastScrollEnabled(true);
+        allBuildListView.setFastScrollEnabled(true);
 
         return rootView;
     }

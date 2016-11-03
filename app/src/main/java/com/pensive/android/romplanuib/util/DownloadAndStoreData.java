@@ -7,6 +7,8 @@ import android.preference.PreferenceManager;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lapism.searchview.SearchItem;
+import com.pensive.android.romplanuib.TabActivity;
 import com.pensive.android.romplanuib.io.BuildingCodeParser;
 import com.pensive.android.romplanuib.io.BuildingParser;
 import com.pensive.android.romplanuib.io.RoomParser;
@@ -25,9 +27,8 @@ import java.util.List;
  * Skulle faen meg ha kommentert denne når jeg skreiv den
  */
 public class DownloadAndStoreData {
-    List<UIBbuilding> allBuildings;
-    List<UIBroom> allRooms = new ArrayList<>();
-    List<WeekViewEvent> weekViewEvents;
+    private List<UIBroom> allRooms = new ArrayList<>();
+    private List<WeekViewEvent> weekViewEvents;
 
 
 
@@ -62,12 +63,18 @@ public class DownloadAndStoreData {
         Gson gson = new Gson();
         String json = sharedPrefs.getString("all_buildings", null);
         Type type = new TypeToken<List<UIBbuilding>>() {}.getType();
-        List<UIBbuilding> arrayList = gson.fromJson(json, type);
 
-        return arrayList;
+        return gson.fromJson(json, type);
     }
 
 
+
+    /**
+     * Populates the list of rooms in the university .
+     * Also, stores it in SharedPreferences.
+     *
+     * @param context the context of the activity
+     */
     public void setStoreDataAllRooms(Context context, List<UIBroom> roomList) {
         ArrayList<UIBroom> roomArrayList = new ArrayList<>(roomList);//Convert to ArrayList because Gson.toJson demands it.
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -78,17 +85,26 @@ public class DownloadAndStoreData {
         editor.putString("all_rooms", json);
         editor.apply();
     }
-
+    /**
+     * Gets the stored rooms in SharedPreferences
+     * @param context context of the activity (put i.e. (ExampleActivity.this) or in a fragment (getActivity()))
+     * @return List of the stored searchItems
+     */
     public List<UIBroom> getStoredDataAllRooms(Context context){
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
         String json = sharedPrefs.getString("all_rooms", null);
         Type type = new TypeToken<List<UIBroom>>() {}.getType();
-        List<UIBroom> arrayList = gson.fromJson(json, type);
 
-        return arrayList;
+        return gson.fromJson(json, type);
     }
 
+    /**
+     * Downloads and scrapes HTML from rom.app.uib.no, and sorts them out as Building objects.
+     * Puts the building objects in a List<>
+     *
+     * @return the building objects in a List<>
+     */
     public List<UIBbuilding> getAllBuildings(){
         List<UIBbuilding> allBuildingsWithoutRooms;
         List<UIBbuilding> allBuildingsWithRooms = new ArrayList<>();
@@ -112,7 +128,7 @@ public class DownloadAndStoreData {
             }
 
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             System.out.println("?????");
         }
@@ -120,9 +136,14 @@ public class DownloadAndStoreData {
         return allBuildingsWithRooms;
     }
 
+    /**
+     * Downloads and parses HTML from rom.app.uib.no, and sorts them out as Room objects.
+     * Puts the room objects in a List<>
+     *
+     * @return the building objects in a List<>
+     */
     public List<UIBroom> getAllRoomsInUni(){
         List<UIBroom> allRoomsInBuilding;
-        allBuildings = getAllBuildings();
 
         for (UIBbuilding building : getAllBuildings() ){
 
@@ -143,6 +164,11 @@ public class DownloadAndStoreData {
         return allRooms;
     }
 
+    /**
+     * Check if data is store in SharePref
+     * @param context the context of the activity
+     * @return false if it is not null
+     */
     public Boolean isDataIsStored(Context context){
         if(getStoredDataAllRooms(context) == null && getStoredDataAllBuildings(context) == null){
             System.out.println("isDataStored returns false");
