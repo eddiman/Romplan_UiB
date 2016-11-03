@@ -108,6 +108,9 @@ public class TabActivity extends AppCompatActivity {
 
     //#########################SEARCH#############################//
 
+    /**
+     * Could need some documentation...
+     */
     protected void setSearchView() {
         mHistoryDatabase = new SearchHistoryTable(this);
 
@@ -117,7 +120,8 @@ public class TabActivity extends AppCompatActivity {
             mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    getData(query, 0);
+                    Intent intent = getData(query, 0);
+                    startActivity(intent);
                     mSearchView.close(true);
                     return true;
                 }
@@ -162,7 +166,8 @@ public class TabActivity extends AppCompatActivity {
                 public void onItemClick(View view, int position) {
                     TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
                     String query = textView.getText().toString();
-                    getData(query, position);
+                    Intent intent = getData(query, position);
+                    startActivity(intent);
                     mSearchView.close(true);
                 }
             });
@@ -172,21 +177,20 @@ public class TabActivity extends AppCompatActivity {
     }
 
     /**
-     * Finds a building with a name that matches the query using binarysearch.
-     * Then it starts a new activity with the building we searched for.
-     * FIXME That's a side-effect and should be avoided
+     * Finds a building with a name that matches the query using binarysearch,
+     * creates a new Intent for the building and returns it.
      * @param text the query to search for
      * @param position ???
+     * @return a intent for the building searched for.
      */
     @CallSuper
-    protected void getData(String text, int position) {
+    protected Intent getData(String text, int position) {
         mHistoryDatabase.addItem(new SearchItem(text));
         List<UIBbuilding> uiBbuildingList = dl.getStoredDataAllBuildings(TabActivity.this);
         int index = Collections.binarySearch(uiBbuildingList, new UIBbuilding(text, new ArrayList<UIBroom>()), new UiBBuildingComparator());
         Intent intent = new Intent(TabActivity.this, RoomActivity.class);
         intent.putExtra("building", uiBbuildingList.get(index));
-        this.startActivity(intent);
-        return;
+        return intent;
 
     }
 
