@@ -64,7 +64,6 @@ public class RoomActivity extends AppCompatActivity {
             collapsingToolbar.setExpandedTitleTypeface(fc.getTypeface(this, "fonts/roboto_thin.ttf"));
         }
 
-
         loadBackdrop();
         floatingActionButtonListener();
 
@@ -77,6 +76,10 @@ public class RoomActivity extends AppCompatActivity {
         roomList.setFastScrollEnabled(true);
     }
 
+    /**
+     * Gets the building-object from the intent that was sent from the last Activity
+     * @return
+     */
     private UIBbuilding getBuildingFromLastActivity() {
         UIBbuilding extraBuilding;
 
@@ -90,6 +93,10 @@ public class RoomActivity extends AppCompatActivity {
         return extraBuilding;
     }
 
+    /**
+     * Creates a url from the buildingcode, uses this to load a picture with the Picasso image library.
+     * Transformations objects are for applying colors to the image.
+     */
     private void loadBackdrop() {
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
         String url = "http://rom_img.app.uib.no/byggogrombilder/"+ buildingCode +"_/"+ buildingCode +"_byggI.jpg";
@@ -109,6 +116,10 @@ public class RoomActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Initializes the floating action button.
+     * TODO: Use it for adding and removing favorites.
+     */
     private void floatingActionButtonListener() {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

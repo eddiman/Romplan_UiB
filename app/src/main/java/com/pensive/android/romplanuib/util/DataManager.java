@@ -150,9 +150,8 @@ public class DataManager {
         String json = sharedPreferences.getString("error", null);
         Type type = new TypeToken<String>(){}.getType();
         String error = gson.fromJson(json,type);
-        if (!error.equals("none")){
-            return true;
-        }
-        return false;
+
+
+        return error != null && !error.equals("none");
     }
 }

@@ -2,6 +2,7 @@ package com.pensive.android.romplanuib;
 
 /**
  * Created by EddiStat on 31.10.2016.
+ * TODO: Implement favorites
  */
 
 import android.os.Bundle;

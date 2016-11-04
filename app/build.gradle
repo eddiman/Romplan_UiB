@@ -4,12 +4,14 @@ android {
     compileSdkVersion 24
     buildToolsVersion "23.0.2"
 
+
     defaultConfig {
         applicationId "com.pensive.android.romplanuib"
         minSdkVersion 21
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {

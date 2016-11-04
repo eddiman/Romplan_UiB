@@ -72,13 +72,10 @@ public class StartActivity extends AppCompatActivity {
 }
 
 class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
-    List<UIBbuilding> allBuildings;
-    List<UIBroom> allRooms;
-
     private Activity mActivity;
     private Context context;
-    ProgressDialog asyncDialog;
-    DataManager dataManager;
+    private ProgressDialog asyncDialog;
+    private DataManager dataManager;
 
 
     public JsoupTask(Context context, Activity mActivity){
@@ -98,6 +95,7 @@ class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
         asyncDialog.setMessage("Henter data...");
         asyncDialog.setCancelable(false);
         asyncDialog.show();
+
         super.onPreExecute();
     }
 

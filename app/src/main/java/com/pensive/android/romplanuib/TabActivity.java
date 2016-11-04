@@ -109,7 +109,8 @@ public class TabActivity extends AppCompatActivity {
     //#########################SEARCH#############################//
 
     /**
-     * Could need some documentation...
+     * Initializes the floating SearchView situated in the top of the Activity. Defines what
+     * methods to be fired in different use cases of the SearchView.
      */
     protected void setSearchView() {
         mHistoryDatabase = new SearchHistoryTable(this);
@@ -117,7 +118,16 @@ public class TabActivity extends AppCompatActivity {
 
         if (mSearchView != null) {
             mSearchView.setHint(getResources().getString(R.string.search_buildings));
+            /**
+             * Listens to when user inputs text into EditText within the SearchView.
+             *
+             */
             mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                /**
+                 * Defines what to do with the inputted text when submitted by the keyboard "Submit"
+                 * @param query the text to search for
+                 * @return true TODO: Find out wth this return does. Tip: Check the source code of lib
+                 */
                 @Override
                 public boolean onQueryTextSubmit(String query) {
                     Intent intent = getData(query, 0);
@@ -126,12 +136,22 @@ public class TabActivity extends AppCompatActivity {
                     return true;
                 }
 
+                /**
+                 * Defines what to do when the inputted text in the SearchView is changed.
+                 * An occurrence of this is when the text is typed, the string changes and fires this
+                 * method.
+                 * @param newText text that is being changed, or written
+                 * @return false TODO: Find out wth this return does. Tip: Check the source code of lib
+                 */
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     return false;
                 }
             });
-
+/**
+ * Listens to clicks on the Voice icon
+ */
+        //TODO: Implement the rest of voice search, maybe not necessary though.
             mSearchView.setVoiceText("Set permission on Android 6.0+ !");
             mSearchView.setOnVoiceClickListener(new SearchView.OnVoiceClickListener() {
                 @Override
@@ -140,7 +160,10 @@ public class TabActivity extends AppCompatActivity {
                 }
             });
 
-
+/**
+ * Listens to when the SearchView opens and closes. Can define actions when the the views opens
+ * or closes
+ */
             mSearchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
                 @Override
                 public void onOpen() {
@@ -160,6 +183,14 @@ public class TabActivity extends AppCompatActivity {
             List<SearchItem> suggestionsList = getSearchItemList();
 
             SearchAdapter searchAdapter = new SearchAdapter(this, suggestionsList);
+
+            /**
+             * Listens to click on items in the suggestion list that appears when text is inputted.
+             * When an item is clicked, onItemClick is fired. Initializes the textview in the
+             * item-element. Then gets the string from it and passes it on in the getData()-method.
+             * If the query matches a building name, getData() returns an intent. The intent is
+             * then started, and will open RoomActivity with the queried building.
+             */
             searchAdapter.addOnItemClickListener(new SearchAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
@@ -179,7 +210,7 @@ public class TabActivity extends AppCompatActivity {
      * Finds a building with a name that matches the query using binarysearch,
      * creates a new Intent for the building and returns it.
      * @param text the query to search for
-     * @param position ???
+     * @param position TODO: Find a possible usage for the position of the selected element
      * @return a intent for the building searched for.
      */
     @CallSuper
@@ -193,8 +224,11 @@ public class TabActivity extends AppCompatActivity {
 
     }
 
-
-
+    /**
+     * Returns a List of SearchItems. It gets the list of the UIBbuilding objects, then populates
+     * the SearchView list with the name of the buildings.
+     * @return A list of SearchItems with the building names.
+     */
     private List<SearchItem> getSearchItemList(){
         List<SearchItem> suggestionsList = new ArrayList<>();
         List<UIBbuilding> allBuildings = dataManager.getAllBuildings();
@@ -204,6 +238,10 @@ public class TabActivity extends AppCompatActivity {
         }
         return suggestionsList;
     }
+
+    /**
+     * Set the AppBar, the view that contains the toolbar and the viewpager, to be non-scrollable
+     */
     private void setAppBarLayoutNonDrag() {
         //Setting the AppBarLayout to be non-draggable
         appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
@@ -222,6 +260,12 @@ public class TabActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Initializes the menu in the toolbar and inflates it.
+     *
+     * @param menu See Google's Android documentation for further information on this.
+     * @return See Google's Android documentation for further information on this.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -229,6 +273,12 @@ public class TabActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     *  What to happen when the options in the top toolbar are selected.
+     *  Switch-case is used to determine further actions.
+     * @param item the item that has been selected
+     * @return the item, see Google's Android documentation for further info on this.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -282,12 +332,21 @@ public class TabActivity extends AppCompatActivity {
             }
         }
 
+        /**
+         * Determines the number of sections to be shown in ViewPager
+         * @return the number of sections.
+         */
         @Override
         public int getCount() {
             // Show 3 total pages.
             return 2;
         }
 
+        /**
+         * Returns the title of the section in the viewpager
+         * @param position the position to return the title of
+         * @return the title of the section
+         */
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
