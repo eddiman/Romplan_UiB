@@ -19,7 +19,6 @@ import com.pensive.android.romplanuib.io.CalActivityParser;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.CalActivity;
 import com.pensive.android.romplanuib.models.UIBroom;
-import com.pensive.android.romplanuib.util.DownloadAndStoreData;
 import com.pensive.android.romplanuib.util.Randomized;
 import com.squareup.picasso.Picasso;
 
@@ -137,7 +136,6 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         UIBroom room;
         Randomized rnd = new Randomized();
         com.pensive.android.romplanuib.util.StringCleaner sc = new com.pensive.android.romplanuib.util.StringCleaner();
-        DownloadAndStoreData dl = new DownloadAndStoreData();
         Context context;
 
 

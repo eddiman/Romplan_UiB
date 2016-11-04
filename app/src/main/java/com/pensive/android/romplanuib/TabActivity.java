@@ -1,5 +1,6 @@
 package com.pensive.android.romplanuib;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
@@ -26,7 +27,7 @@ import com.lapism.searchview.SearchHistoryTable;
 import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
 import com.pensive.android.romplanuib.models.UIBbuilding;
-import com.pensive.android.romplanuib.util.DownloadAndStoreData;
+import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.FontController;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class TabActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     FontController fc = new FontController();
-    DownloadAndStoreData dl = new DownloadAndStoreData();
+    DataManager dataManager;
 
     private SearchHistoryTable mHistoryDatabase;
     Animation animationFadeOut;
@@ -63,6 +64,7 @@ public class TabActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
+        dataManager = new DataManager(TabActivity.this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //TODO: Create initGUI() method later
@@ -170,7 +172,7 @@ public class TabActivity extends AppCompatActivity {
         mHistoryDatabase.addItem(new SearchItem(text));
 
         //TODO: Bedre søkealgoritme må nok til her as
-        for (UIBbuilding build : dl.getStoredDataAllBuildings(TabActivity.this)){
+        for (UIBbuilding build : dataManager.getAllBuildings()){
             if (text.equals(build.getName())){
                 Intent i = new Intent(TabActivity.this, RoomActivity.class);
                 i.putExtra("building", build);
@@ -185,7 +187,7 @@ public class TabActivity extends AppCompatActivity {
 
     private List<SearchItem> getSearchItemList(){
         List<SearchItem> suggestionsList = new ArrayList<>();
-        List<UIBbuilding> allBuildings = dl.getStoredDataAllBuildings(TabActivity.this);
+        List<UIBbuilding> allBuildings = dataManager.getAllBuildings();
 
         for (UIBbuilding build : allBuildings) {
             suggestionsList.add(new SearchItem(build.getName()));

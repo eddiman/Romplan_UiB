@@ -46,12 +46,13 @@ public class DataManager {
                 Collections.sort(downloadedBuildings,new UiBBuildingComparator());
                 this.allBuildings = downloadedBuildings;
 
-            }catch (DownloadException downloadExeption){
+            }catch (DownloadException downloadException){
                 error += "download_error ";
 
             }
             storeData(context, error);
         }
+        System.out.println("Succsess");
 
     }
 
@@ -148,7 +149,10 @@ public class DataManager {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("error", null);
         Type type = new TypeToken<String>(){}.getType();
-        System.out.println(gson.fromJson(json,type));
+        String error = gson.fromJson(json,type);
+        if (!error.equals("none")){
+            return true;
+        }
         return false;
     }
 }

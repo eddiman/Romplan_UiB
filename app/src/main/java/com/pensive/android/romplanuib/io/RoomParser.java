@@ -25,10 +25,6 @@ import org.jsoup.select.Elements;
  */
 public class RoomParser {
 
-    Pattern roomCodePattern;
-    Matcher roomCodeMatcher;
-    Pattern roomNamePattern;
-    Matcher roomNameMatcher;
     List<UIBroom> uibRooms = new ArrayList<UIBroom>();
 
     public RoomParser(String url, String building) throws IOException {
@@ -70,10 +66,10 @@ public class RoomParser {
     private void createRooms(Elements rooms, String building) {
 
         for (Element room : rooms) {
-            roomCodePattern = Pattern.compile(":([^)]+)");
-            roomCodeMatcher = roomCodePattern.matcher(room.text());
-            roomNamePattern = Pattern.compile("(?<=\\)).*");
-            roomNameMatcher = roomNamePattern.matcher(room.text());
+            Pattern roomCodePattern = Pattern.compile(":([^)]+)");
+            Matcher roomCodeMatcher = roomCodePattern.matcher(room.text());
+            Pattern roomNamePattern = Pattern.compile("(?<=\\)).*");
+            Matcher roomNameMatcher = roomNamePattern.matcher(room.text());
 
 
             if (roomCodeMatcher.find()) {

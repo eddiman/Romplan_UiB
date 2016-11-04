@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.pensive.android.romplanuib.util.DownloadAndStoreData;
+import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
 
@@ -72,13 +72,13 @@ public class StartActivity extends AppCompatActivity {
 }
 
 class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
-    List<UIBbuilding> allBuildings ;
+    List<UIBbuilding> allBuildings;
     List<UIBroom> allRooms;
 
     private Activity mActivity;
     private Context context;
     ProgressDialog asyncDialog;
-    DownloadAndStoreData dl = new DownloadAndStoreData();
+    DataManager dataManager;
 
 
     public JsoupTask(Context context, Activity mActivity){
@@ -110,19 +110,10 @@ class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
     @Override
     protected List<UIBbuilding> doInBackground(Void... param) {
 
-        //Store data in SharedPref
-        if(!dl.isDataIsStored(context)) {
-            allBuildings = dl.getAllBuildings();
-            allRooms = dl.getAllRoomsInUni();
-            dl.setStoreDataAllRooms(context, allRooms);
-            dl.setStoreDataAllBuildings(context, allBuildings);
-
-        } else {
-            allBuildings = dl.getStoredDataAllBuildings(context);
-        }
+        dataManager = new DataManager(context);
 
 
-        return allBuildings;
+        return dataManager.getAllBuildings();
     }
 
     /**
@@ -135,15 +126,6 @@ class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
 
         Intent i = new Intent(context, TabActivity.class);
         context.startActivity(i);
-
-
-        List<UIBroom> tasksList = dl.getStoredDataAllRooms(context);
-        if (tasksList.size() <= 0){
-            System.out.println("Cannot retrieve data from SharedPreferences");
-        } else {
-            System.out.println("Data has been retrieved. There are " + tasksList.size() + " rooms in the university");
-
-        }
 
     }
 

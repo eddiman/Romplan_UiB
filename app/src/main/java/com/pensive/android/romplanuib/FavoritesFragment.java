@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.pensive.android.romplanuib.ArrayAdapters.BuildingAdapter;
-import com.pensive.android.romplanuib.util.DownloadAndStoreData;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -22,7 +21,7 @@ public class FavoritesFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    DownloadAndStoreData dl = new DownloadAndStoreData();
+
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
