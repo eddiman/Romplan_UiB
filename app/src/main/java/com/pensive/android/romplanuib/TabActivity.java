@@ -1,5 +1,6 @@
 package com.pensive.android.romplanuib;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
@@ -26,8 +27,8 @@ import com.lapism.searchview.SearchHistoryTable;
 import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
 import com.pensive.android.romplanuib.models.UIBbuilding;
+import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.models.UIBroom;
-import com.pensive.android.romplanuib.util.DownloadAndStoreData;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.UiBBuildingComparator;
 
@@ -48,7 +49,7 @@ public class TabActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
 
     FontController fc = new FontController();
-    DownloadAndStoreData dl = new DownloadAndStoreData();
+    DataManager dataManager;
 
     private SearchHistoryTable mHistoryDatabase;
     Animation animationFadeOut;
@@ -66,6 +67,7 @@ public class TabActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
+        dataManager = new DataManager(TabActivity.this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //TODO: Create initGUI() method later
@@ -183,7 +185,7 @@ public class TabActivity extends AppCompatActivity {
     @CallSuper
     protected Intent getData(String text, int position) {
         mHistoryDatabase.addItem(new SearchItem(text));
-        List<UIBbuilding> uiBbuildingList = dl.getStoredDataAllBuildings(TabActivity.this);
+        List<UIBbuilding> uiBbuildingList = dataManager.getAllBuildings();
         int index = Collections.binarySearch(uiBbuildingList, new UIBbuilding(text, new ArrayList<UIBroom>()), new UiBBuildingComparator());
         Intent intent = new Intent(TabActivity.this, RoomActivity.class);
         intent.putExtra("building", uiBbuildingList.get(index));
@@ -195,7 +197,7 @@ public class TabActivity extends AppCompatActivity {
 
     private List<SearchItem> getSearchItemList(){
         List<SearchItem> suggestionsList = new ArrayList<>();
-        List<UIBbuilding> allBuildings = dl.getStoredDataAllBuildings(TabActivity.this);
+        List<UIBbuilding> allBuildings = dataManager.getAllBuildings();
 
         for (UIBbuilding build : allBuildings) {
             suggestionsList.add(new SearchItem(build.getName()));

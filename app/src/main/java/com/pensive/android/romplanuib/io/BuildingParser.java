@@ -1,11 +1,6 @@
 package com.pensive.android.romplanuib.io;
 
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.support.v4.content.ContextCompat;
-
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -15,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-import com.pensive.android.romplanuib.models.UIBbuilding;
+import com.pensive.android.romplanuib.Exceptions.DownloadException;
 import com.pensive.android.romplanuib.models.UIBroom;
 
 import org.jsoup.Jsoup;
@@ -27,28 +22,20 @@ import org.jsoup.select.Elements;
  * This class parses though the URL given, placing each RegEx-cleaned text into
  * an object.
  *
- * @author Gaute Gjerløw Remen
- * @version 1.0
+ * @author Gaute Gjerløw Remen, Fredrik Heimsæter
+ * @version 1.1
  *
  */
 
-/**
- * This class parses though the URL given, placing each RegEx-cleaned text into
- * an object.
- *
- * @author Gaute Gjerløw Remen
- * @version 1.0
- *
- */
 
 public class BuildingParser {
 
     Pattern pattern;
     Matcher matcher;
-    List<UIBbuilding> uibBuildings = new ArrayList<>();
-    List<UIBroom> listOfRooms = new ArrayList<>();
+    List<String> uibBuildingNames = new ArrayList<>();
 
-    public BuildingParser(String url) throws IOException {
+
+    public BuildingParser(String url) throws IOException, DownloadException {
         createBuilding(getValueFromHTML(url));
     }
 
@@ -63,14 +50,13 @@ public class BuildingParser {
      *             .jp/projects/jfxmessagebox/downloads/57065/jfxmessagebox
      *             -1.1.0.jar/
      */
-    public Elements getValueFromHTML(String url) {
+    public Elements getValueFromHTML(String url) throws IOException, DownloadException {
         Document doc = null;
         try {
             doc = Jsoup.connect(url).get();
         } catch (SocketTimeoutException | UnknownHostException e) {
             System.out.println("No conn");
-        } catch (IOException e) {
-            e.printStackTrace();
+            throw new DownloadException();
         }
         Elements realTimeValues = doc.select("option[value*=:]");
 
@@ -79,7 +65,7 @@ public class BuildingParser {
 
     /**
      * Cleans the building tags for special characters and unnecessary text,
-     * using RegEx, and creates objects from the output.
+     * using RegEx, and adds the building name to the list.
      *
      * @param buildings
      */
@@ -91,8 +77,7 @@ public class BuildingParser {
             matcher = pattern.matcher(building.text());
 
             if (matcher.find()) {
-                UIBbuilding uib_building = new UIBbuilding(matcher.group(0), emptyList);
-                uibBuildings.add(uib_building);
+                uibBuildingNames.add(matcher.group(0));
             }
 
         }
@@ -102,8 +87,8 @@ public class BuildingParser {
      *
      * @return the list of building names
      */
-    public List<UIBbuilding> getBuildings() {
-        return uibBuildings;
+    public List<String> getBuildings() {
+        return uibBuildingNames;
     }
 
 }

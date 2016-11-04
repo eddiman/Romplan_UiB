@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.pensive.android.romplanuib.ArrayAdapters.BuildingAdapter;
-import com.pensive.android.romplanuib.util.DownloadAndStoreData;
+import com.pensive.android.romplanuib.util.DataManager;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -22,7 +22,8 @@ public class AllBuildingsFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    DownloadAndStoreData dl = new DownloadAndStoreData();
+    DataManager dataManager;
+
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -48,7 +49,8 @@ public class AllBuildingsFragment extends Fragment {
 
         ListView allBuildListView = (ListView)rootView.findViewById(R.id.test_list);
 
-        BuildingAdapter adapter  = new BuildingAdapter(getActivity(), R.layout.list_building_element, dl.getStoredDataAllBuildings(getActivity()));
+        dataManager = new DataManager(rootView.getContext());
+        BuildingAdapter adapter  = new BuildingAdapter(getActivity(), R.layout.list_building_element, dataManager.getAllBuildings());
 
         allBuildListView.setAdapter(adapter);
 
