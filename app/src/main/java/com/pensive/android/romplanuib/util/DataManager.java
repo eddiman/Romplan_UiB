@@ -22,7 +22,6 @@ import java.util.List;
 /**
  * DataManager takes care of downloading and storing data about buildings and rooms.
  */
-
 public class DataManager {
     List<UIBbuilding> allBuildings;
 
@@ -52,8 +51,6 @@ public class DataManager {
             }
             storeData(context, error);
         }
-        System.out.println("Succsess");
-
     }
 
     /**
@@ -146,12 +143,8 @@ public class DataManager {
      */
     private boolean checkError(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("error", null);
-        Type type = new TypeToken<String>(){}.getType();
-        String error = gson.fromJson(json,type);
-
-
+        String error = sharedPreferences.getString("error", null);
+        System.out.println(error);
         return error != null && !error.equals("none");
     }
 }

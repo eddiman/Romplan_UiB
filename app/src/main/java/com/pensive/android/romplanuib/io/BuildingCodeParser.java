@@ -20,8 +20,6 @@ public class BuildingCodeParser {
         Matcher matcher = pattern.matcher(buildingName);
 
         if (matcher.find()) {
-            System.out.println(matcher.group(0));
-
             return matcher.group(0);
         }
         return null;
