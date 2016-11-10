@@ -1,10 +1,5 @@
 package com.pensive.android.romplanuib;
 
-/**
- * Created by EddiStat on 31.10.2016.
- * TODO: Implement favorites
- */
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +11,10 @@ import com.pensive.android.romplanuib.ArrayAdapters.BuildingAdapter;
 
 /**
  * A placeholder fragment containing a simple view.
+ * TODO: Implement favorites
+ *
+ * @author Edvard Bjørgen
+ * @version 1.0
  */
 public class FavoritesFragment extends Fragment {
     /**

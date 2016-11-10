@@ -21,7 +21,7 @@ import com.pensive.android.romplanuib.models.UIBroom;
 import java.util.List;
 
 /**
- * Author: Edvard P. B.
+ * @author Edvard P. B.
  *
  * "Splashscreen"-class to load all buildings and rooms
  */

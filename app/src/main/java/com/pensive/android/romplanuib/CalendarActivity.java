@@ -26,6 +26,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * @author Edvard Bjørgen
+ * @version 1.0
+ */
 public class CalendarActivity extends AppCompatActivity implements MonthLoader.MonthChangeListener {
 
 
@@ -143,7 +147,6 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
             super();
             this.context = context;
             this.room = room;
-            System.out.println("JSOUPCalendarCOnstrutor");
 
             asyncDialog = new ProgressDialog(context);
 
@@ -154,7 +157,6 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
             asyncDialog.setMessage("Getting data...");
             asyncDialog.setCancelable(false);
             asyncDialog.show();
-            System.out.println("JSOUPCalendarPREEXCUTE");
             super.onPreExecute();
         }
 
@@ -172,12 +174,8 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
                     event.setColor(rnd.getRandomColorFilter());
                     events.add(event);
                 }
-
-                System.out.println("There are: " + events.size());
             } catch(NullPointerException e){
                 e.printStackTrace();
-                System.out.println("UiB rom is error");
-
             }
             return events;
 
@@ -186,7 +184,6 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
 
 
             mWeekView.notifyDatasetChanged();
-            System.out.println("JSOUPCalendarPOST-EXCUTE");
             mWeekView.goToDate(getFirstDayofWeek());
             mWeekView.goToHour(7);
 
