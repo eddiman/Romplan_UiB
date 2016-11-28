@@ -168,7 +168,7 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
 
                 for(int i = 0; i < listOfCal.size(); i++ ){
 
-                    WeekViewEvent event = new WeekViewEvent(i, listOfCal.get(i).getSubject() +" - " + listOfCal.get(i).getDescription() + " - " + listOfCal.get(i).getWeekday(), listOfCal.get(i).getBeginTime(), listOfCal.get(i).getEndTime());
+                    WeekViewEvent event = new WeekViewEvent(i, listOfCal.get(i).getSubject() +" - " + listOfCal.get(i).getDescription(), listOfCal.get(i).getBeginTime(), listOfCal.get(i).getEndTime());
                     event.setColor(rnd.getRandomColorFilter());
                     events.add(event);
                 }
