@@ -8,9 +8,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
@@ -22,9 +24,11 @@ import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.util.Randomized;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class CalendarActivity extends AppCompatActivity implements MonthLoader.MonthChangeListener {
 
@@ -63,7 +67,35 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         weekNumber = (TextView) findViewById(R.id.week_text);
 
         if(mWeekView != null){
-            mWeekView.setMonthChangeListener(this);}
+            mWeekView.setMonthChangeListener(this);
+            mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
+                @Override
+                public String interpretDate(Calendar date) {
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("EEE dd.M", Locale.getDefault());
+                        return sdf.format(date.getTime()).toUpperCase();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return "";
+                    }
+                }
+
+                @Override
+                public String interpretTime(int hour) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(Calendar.HOUR_OF_DAY, hour);
+                    calendar.set(Calendar.MINUTE, 0);
+
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                        return sdf.format(calendar.getTime());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return "";
+                    }
+                }
+            });
+        }
         weekNumber.setText("Uke: " + getWeekNumber());
 
         setRoomImage();
