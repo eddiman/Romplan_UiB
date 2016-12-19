@@ -26,8 +26,6 @@ import org.jsoup.select.Elements;
  * @version 1.1
  *
  */
-
-
 public class BuildingParser {
 
     Pattern pattern;
@@ -55,7 +53,6 @@ public class BuildingParser {
         try {
             doc = Jsoup.connect(url).get();
         } catch (SocketTimeoutException | UnknownHostException e) {
-            System.out.println("No conn");
             throw new DownloadException();
         }
         Elements realTimeValues = doc.select("option[value*=:]");

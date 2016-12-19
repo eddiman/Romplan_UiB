@@ -28,7 +28,10 @@ import java.util.List;
 import jp.wasabeef.picasso.transformations.ColorFilterTransformation;
 import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 
-
+/**
+ * @author Edvard Bjørgen
+ * @version 1.0
+ */
 public class RoomActivity extends AppCompatActivity {
 
     UIBbuilding building;

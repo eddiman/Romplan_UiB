@@ -21,7 +21,8 @@ import java.util.List;
 import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 
 /**
- * Created by EddiStat on 24.05.2016.
+ * @author Edvard Bjørgen
+ * @version 1.0
  */
 public class RoomAdapter extends ArrayAdapter<UIBroom> {
 

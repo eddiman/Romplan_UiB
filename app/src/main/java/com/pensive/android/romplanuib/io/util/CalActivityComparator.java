@@ -5,7 +5,8 @@ import com.pensive.android.romplanuib.models.CalActivity;
 import java.util.Comparator;
 
 /**
- * Created by EddiStat on 05.06.2016.
+ * @author Edvard Bjørgen
+ * @version 1.0
  */
 public class CalActivityComparator implements Comparator<CalActivity> {
 

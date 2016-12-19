@@ -6,6 +6,9 @@ import java.util.Comparator;
 
 /**
  * Comparator for comparing {@link UIBbuilding}s
+ *
+ * @author Fredrik Heimsæter
+ * @version 1.0
  */
 
 public class UiBBuildingComparator implements Comparator<UIBbuilding>{

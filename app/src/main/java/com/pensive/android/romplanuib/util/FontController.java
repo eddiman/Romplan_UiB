@@ -8,8 +8,10 @@ import android.text.style.TypefaceSpan;
 import android.support.v7.widget.Toolbar;
 
 /**
- * Created by Edvard on 01.11.2016.
  * Various methods for setting the fonts
+ *
+ * @author Edvard Bjørgen
+ * @version 1.0
  */
 
 public class FontController {
