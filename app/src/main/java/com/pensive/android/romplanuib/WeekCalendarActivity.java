@@ -3,8 +3,10 @@ package com.pensive.android.romplanuib;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,14 +21,19 @@ import com.pensive.android.romplanuib.io.CalActivityParser;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.CalActivity;
 import com.pensive.android.romplanuib.models.UIBroom;
+import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.Randomized;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class CalendarActivity extends AppCompatActivity implements MonthLoader.MonthChangeListener {
+import jp.wasabeef.picasso.transformations.ColorFilterTransformation;
+import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
+
+public class WeekCalendarActivity extends AppCompatActivity implements MonthLoader.MonthChangeListener {
 
 
     WeekView mWeekView;
@@ -37,6 +44,10 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
     String buildingCode;
     com.pensive.android.romplanuib.util.StringCleaner sc = new com.pensive.android.romplanuib.util.StringCleaner();
     private ImageView roomImage;
+    FontController fc = new FontController();
+    private CollapsingToolbarLayout collapsingToolbar;
+    AppBarLayout appBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,16 +58,54 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        CollapsingToolbarLayout collapsingToolbar =
+
+        appBar = (AppBarLayout) findViewById(R.id.cal_appbar);
+
+        collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        if(collapsingToolbar != null){
-            collapsingToolbar.setTitle( room.getName() + " - " +  sc.createBuildingName(room.getBuilding()));
-        }
-        getWindow().setStatusBarColor(ContextCompat.getColor(CalendarActivity.this, R.color.transpBlack));
 
 
-        jsoupTask = new JsoupTask(CalendarActivity.this, room);
+
+        jsoupTask = new JsoupTask(WeekCalendarActivity.this, room);
         jsoupTask.execute();
+
+        initGUI();
+
+
+    }
+
+    private void initGUI() {
+        initCal();
+        setRoomImage();
+        if(collapsingToolbar != null){
+
+            collapsingToolbar.setTitle( room.getName() + " - " +  sc.createBuildingName(room.getBuilding()));
+            collapsingToolbar.setCollapsedTitleTypeface(fc.getTypeface(this, "fonts/roboto_thin.ttf"));
+            collapsingToolbar.setExpandedTitleTypeface(fc.getTypeface(this, "fonts/roboto_thin.ttf"));
+        }
+        getWindow().setStatusBarColor(ContextCompat.getColor(WeekCalendarActivity.this, R.color.transpBlack));
+
+        AppBarLayout.OnOffsetChangedListener mListener = new AppBarLayout.OnOffsetChangedListener() {
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if(collapsingToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
+                    collapsingToolbar.setTitle(room.getName() + " - " +  sc.createBuildingName(room.getBuilding()));
+                } else {
+                    collapsingToolbar.setTitle(room.getName());
+
+                }
+            }
+        };
+
+        appBar.addOnOffsetChangedListener(mListener);
+
+
+
+
+    }
+
+    private void initCal() {
 
         roomImage = (ImageView) findViewById(R.id.backdrop_room);
         mWeekView = (WeekView) findViewById(R.id.weekView);
@@ -64,21 +113,26 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
 
         if(mWeekView != null){
             mWeekView.setMonthChangeListener(this);}
-        weekNumber.setText("Uke: " + getWeekNumber());
+          weekNumber.setText("Uke: " + getWeekNumber());
 
-        setRoomImage();
     }
+
 
     private void setRoomImage() {
 
         buildingCode = sc.createBuildingCode(room.getBuilding());
 
+        List<Transformation> transformations = new ArrayList<>();
+        transformations.add(new GrayscaleTransformation());
+        transformations.add(new ColorFilterTransformation(ContextCompat.getColor(this, R.color.transp_primary_blue)));
+
         String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/"+ buildingCode + "_" + room.getCode() + "/"+ buildingCode + "_" + room.getCode() + "I.jpg";
-        Picasso.with(CalendarActivity.this)
+        Picasso.with(WeekCalendarActivity.this)
                 .load(URLEncoding.encode(url))
                 .centerCrop()
                 .fit()
                 .placeholder(R.drawable.uiblogo)
+                .transform(transformations)
                 .into(roomImage);
     }
 
@@ -90,7 +144,7 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         return Integer.toString(week);
     }
 
-    private Calendar getFirstDayofWeek() {
+    private Calendar getFirstDayOfWeek() {
 // Get calendar set to current date and time
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -123,7 +177,6 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         return matchedEvents;
     }
 
-
     private boolean eventMatches(WeekViewEvent event, int year, int month) {
         return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) == month - 1) ||
                 (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
@@ -139,11 +192,11 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
         Context context;
 
 
-        public JsoupTask(Context context, UIBroom room){
+        JsoupTask(Context context, UIBroom room){
             super();
             this.context = context;
             this.room = room;
-            System.out.println("JSOUPCalendarCOnstrutor");
+            System.out.println("JSOUPCalendarConstrutor");
 
             asyncDialog = new ProgressDialog(context);
 
@@ -187,7 +240,7 @@ public class CalendarActivity extends AppCompatActivity implements MonthLoader.M
 
             mWeekView.notifyDatasetChanged();
             System.out.println("JSOUPCalendarPOST-EXCUTE");
-            mWeekView.goToDate(getFirstDayofWeek());
+            mWeekView.goToDate(getFirstDayOfWeek());
             mWeekView.goToHour(7);
 
             asyncDialog.dismiss();
