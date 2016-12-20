@@ -1,9 +1,5 @@
 package com.pensive.android.romplanuib;
 
-/**
- * Created by EddiStat on 31.10.2016.
- */
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,6 +12,9 @@ import com.pensive.android.romplanuib.util.DataManager;
 
 /**
  * A placeholder fragment containing a simple view.
+ *
+ * @author Edvard Bjørgen
+ * @version 1.0
  */
 public class AllBuildingsFragment extends Fragment {
     /**

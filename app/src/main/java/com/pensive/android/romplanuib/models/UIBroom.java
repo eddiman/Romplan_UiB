@@ -5,8 +5,8 @@ import java.io.Serializable;
 /**
  * Class for making a room object
  *
- * @author Gaute Gjerløw Remen
- * @version 1.0
+ * @author Gaute Gjerløw Remen, Fredrik Heimsæter
+ * @version 1.1
  *
  */
 public class UIBroom implements Serializable{

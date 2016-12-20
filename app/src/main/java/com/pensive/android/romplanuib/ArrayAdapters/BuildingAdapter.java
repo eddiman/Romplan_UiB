@@ -19,7 +19,8 @@ import com.pensive.android.romplanuib.util.StringCleaner;
 import java.util.List;
 
 /**
- * Created by EddiStat on 24.05.2016.
+ * @author Edvard Bjørgen
+ * @version 1.0
  */
 public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
 
