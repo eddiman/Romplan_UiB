@@ -1,7 +1,8 @@
 package com.pensive.android.romplanuib.util;
 
 /**
- * Created by EddiStat on 05.06.2016.
+ * @author Edvard Bjørgen
+ * @version 1.0
  */
 public class StringCleaner {
 

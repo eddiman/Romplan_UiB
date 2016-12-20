@@ -15,7 +15,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by EddiStat on 05.06.2016.
+ * @author Edvard Bjørgen & Fredrik Heimsæter
+ * @version 1.0
  */
 public class CalActivityParser implements ParserInterface {
 
@@ -29,7 +30,8 @@ public class CalActivityParser implements ParserInterface {
     /**
      *
      * @param url containing activities
-     * @param roomCode is a String containing the building code for the room
+     * @param buildingCode the building code for the building where the room is located
+     * @param roomCode the room code
      */
     public CalActivityParser(String url, String buildingCode, String roomCode) {
         try{
@@ -43,6 +45,12 @@ public class CalActivityParser implements ParserInterface {
         }
     }
 
+    /**
+     * Fetches the document from the specified URL
+     * @param url the url to fetch
+     * @return the document
+     * @throws IOException
+     */
     private Document getDocumentFromURL(String url) throws IOException {
         return Jsoup.connect(url).get();
     }
@@ -51,7 +59,6 @@ public class CalActivityParser implements ParserInterface {
      * Short method for converting the document object to convert the document
      * into a list of nodes
      */
-
     @Override
     public void docToLists() {
         nodesToList(document, null, nodes);
@@ -69,7 +76,6 @@ public class CalActivityParser implements ParserInterface {
      *            The list to add the nodes to
      * @return
      */
-
     @Override
     public List<Node> nodesToList(Node paramnode, Node parent,
                                   List<Node> nodeList) {
@@ -144,7 +150,11 @@ public class CalActivityParser implements ParserInterface {
     }
 
 
-
+    /**
+     * Returns a sorted version of the list of activities
+     * @param activityList The list to be sorted
+     * @return The sorted list
+     */
     private List<CalActivity> sortActivities(List<CalActivity> activityList) {
         CalActivityComparator comparator = new CalActivityComparator();
 

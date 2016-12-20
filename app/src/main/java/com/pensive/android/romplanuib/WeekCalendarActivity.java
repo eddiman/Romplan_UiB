@@ -33,8 +33,11 @@ import java.util.List;
 import jp.wasabeef.picasso.transformations.ColorFilterTransformation;
 import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 
-public class WeekCalendarActivity extends AppCompatActivity implements MonthLoader.MonthChangeListener {
-
+/**
+ * @author Edvard Bjørgen
+ * @version 1.0
+ */
+public class CalendarActivity extends AppCompatActivity implements MonthLoader.MonthChangeListener {
 
     WeekView mWeekView;
     JsoupTask jsoupTask;
@@ -196,7 +199,10 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             super();
             this.context = context;
             this.room = room;
+<<<<<<< HEAD:app/src/main/java/com/pensive/android/romplanuib/CalendarActivity.java
+=======
             System.out.println("JSOUPCalendarConstrutor");
+>>>>>>> 6bb47a5888e55b9fc0d379da88d610e87faa8710:app/src/main/java/com/pensive/android/romplanuib/WeekCalendarActivity.java
 
             asyncDialog = new ProgressDialog(context);
 
@@ -207,7 +213,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             asyncDialog.setMessage("Getting data...");
             asyncDialog.setCancelable(false);
             asyncDialog.show();
-            System.out.println("JSOUPCalendarPREEXCUTE");
             super.onPreExecute();
         }
 
@@ -225,12 +230,8 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                     event.setColor(rnd.getRandomColorFilter());
                     events.add(event);
                 }
-
-                System.out.println("There are: " + events.size());
             } catch(NullPointerException e){
                 e.printStackTrace();
-                System.out.println("UiB rom is error");
-
             }
             return events;
 
@@ -239,8 +240,12 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
 
             mWeekView.notifyDatasetChanged();
+<<<<<<< HEAD:app/src/main/java/com/pensive/android/romplanuib/CalendarActivity.java
+            mWeekView.goToDate(getFirstDayofWeek());
+=======
             System.out.println("JSOUPCalendarPOST-EXCUTE");
             mWeekView.goToDate(getFirstDayOfWeek());
+>>>>>>> 6bb47a5888e55b9fc0d379da88d610e87faa8710:app/src/main/java/com/pensive/android/romplanuib/WeekCalendarActivity.java
             mWeekView.goToHour(7);
 
             asyncDialog.dismiss();
