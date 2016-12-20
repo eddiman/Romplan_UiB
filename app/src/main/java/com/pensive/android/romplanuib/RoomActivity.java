@@ -1,9 +1,11 @@
 package com.pensive.android.romplanuib;
 
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -40,6 +42,8 @@ public class RoomActivity extends AppCompatActivity {
     ListView roomList;
 
     StringCleaner sc = new StringCleaner();
+    private CollapsingToolbarLayout collapsingToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +63,9 @@ public class RoomActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        CollapsingToolbarLayout collapsingToolbar =
+        AppBarLayout appBar = (AppBarLayout) findViewById(R.id.room_appbar);
+
+         collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         if(collapsingToolbar != null){
             collapsingToolbar.setTitle(buildingName);
@@ -77,6 +83,9 @@ public class RoomActivity extends AppCompatActivity {
         RoomAdapter adapter  = new RoomAdapter(RoomActivity.this, R.layout.list_room_layout, building.getListOfRooms());
         roomList.setAdapter(adapter);
         roomList.setFastScrollEnabled(true);
+
+
+
     }
 
     /**
