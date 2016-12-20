@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RoomActivity" />
-        <activity android:name=".CalendarActivity" />
+        <activity android:name=".WeekCalendarActivity" />
 
         <activity
             android:name=".TabActivity"

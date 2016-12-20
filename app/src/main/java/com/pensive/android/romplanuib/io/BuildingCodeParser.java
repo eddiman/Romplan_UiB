@@ -37,11 +37,16 @@ public class BuildingCodeParser {
                 + URLEncoding.encode(getBuildingCode(buildingName));
     }
 
+    /**
+     * Method for getting the complete URL for a rom from the name of the room and the building
+     * @param buildingName The name of the building where the room is located
+     * @param roomName The name of the room
+     * @return The URL for the room
+     */
     public static String getRoomURL(String buildingName, String roomName) {
         String buildingCode = getBuildingCode(buildingName);
         buildingCode = URLEncoding.encode(buildingCode);
         roomName = URLEncoding.encode(roomName);
-        // http://rom.app.uib.no/ukesoversikt/?entry=byggrom&building=SV%3A&room=SV%3AS204
         return "http://rom.app.uib.no/ukesoversikt/?entry=byggrom&building=" + buildingCode + "&room=" + buildingCode + roomName + "&showtime=7-22";
     }
 }

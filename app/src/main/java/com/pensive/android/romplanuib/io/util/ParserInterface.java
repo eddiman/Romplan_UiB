@@ -7,7 +7,8 @@ import org.jsoup.nodes.Node;
 import java.util.List;
 
 /**
- * Created by EddiStat on 06.06.2016.
+ * @author Edvard Bjørgen
+ * @version 1.0
  */
 public interface ParserInterface {
 

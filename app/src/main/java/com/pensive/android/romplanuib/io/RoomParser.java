@@ -19,6 +19,7 @@ import org.jsoup.select.Elements;
 
 /**
  * Class used to retrieve a list of rooms from a URL
+ *
  * @author Gaute Gjerløw Remen
  * @version 1.0
  *
@@ -48,7 +49,6 @@ public class RoomParser {
         try {
             doc = Jsoup.connect(url).get();
         } catch (SocketTimeoutException | UnknownHostException e) {
-            System.out.println("No conn");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,7 +76,6 @@ public class RoomParser {
                 if(roomNameMatcher.find()) {
                     UIBroom uib_room = new UIBroom(roomCodeMatcher.group(1), building, roomNameMatcher.group(0).trim());
                     uibRooms.add(uib_room);
-                    //System.out.println(roomCodeMatcher.group(1));
                 }else {
                     UIBroom uib_room = new UIBroom(roomCodeMatcher.group(1), building, roomCodeMatcher.group(1));
                     uibRooms.add(uib_room);

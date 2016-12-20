@@ -5,7 +5,8 @@ import org.jsoup.nodes.Node;
 import java.util.Calendar;
 
 /**
- * Created by EddiStat on 05.06.2016.
+ * @author Edvard Bjørgen
+ * @version 1.0
  */
 public interface CalActivityInterface {
 

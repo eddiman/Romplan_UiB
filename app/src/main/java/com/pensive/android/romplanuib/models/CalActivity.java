@@ -9,7 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by EddiStat on 05.06.2016.
+ * @author Edvard Bjørgen
+ * @version 1.0
  */
 public class CalActivity implements CalActivityInterface {
 
@@ -75,65 +76,6 @@ public class CalActivity implements CalActivityInterface {
         this.buildingCode = building;
 
     }
-    /**
-     *
-     * @return the String containing which weekday this activity occurs
-     *         on
-     */
-	/*
-	private String weekdayProperty() {
-		if (weekday == null)
-			weekday = "weekday";
-		return weekday;
-	}
-
-	/**
-	 *
-	 * @return the String containing the time of day this activity
-	 *         occurs
-	 */
-	/*
-	private String timeProperty() {
-		if (time == null)
-			time = new SimpleStringProperty(this, "time");
-		return time;
-	}
-
-	/**
-	 *
-	 * @return the String containing the date which this activity occurs
-	 */
-	/*
-	private String dateProperty() {
-		if (date == null)
-			date = new SimpleString(this, "date");
-		return date;
-	}
-
-	/**
-	 *
-	 * @return the String containing the subject this activity belongs
-	 *         to
-	 */
-	/*
-	private String subjectProperty() {
-		if (subject == null)
-			subject = new SimpleString(this, "subject");
-		return subject;
-	}
-
-	/**
-	 *
-	 * @return the String containing the subject this activity belongs
-	 *         to
-	 */
-	/*
-	private String typeProperty() {
-		if (type == null)
-			type ="type";
-		return type;
-	}*/
-
 
     public String getDate() {
         return date;

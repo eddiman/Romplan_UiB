@@ -6,11 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.pensive.android.romplanuib.CalendarActivity;
+import com.pensive.android.romplanuib.WeekCalendarActivity;
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.UIBroom;
@@ -22,7 +21,8 @@ import java.util.List;
 import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 
 /**
- * Created by EddiStat on 24.05.2016.
+ * @author Edvard Bjørgen
+ * @version 1.0
  */
 public class RoomAdapter extends ArrayAdapter<UIBroom> {
 
@@ -100,7 +100,7 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
             public void onClick(View arg0) {
 
                 Intent i = new Intent(context,
-                        CalendarActivity.class);
+                        WeekCalendarActivity.class);
                 i.putExtra("room", getItem(position));
                 context.startActivity(i);
 
