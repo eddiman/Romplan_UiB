@@ -232,7 +232,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     /**
      * Returns the first weekDayChanged of the week
      *
-     * @return Calender with first weekDayChanged of wee
+     * @return Calender with first weekDayChanged of week
      */
     private Calendar getFirstDayOfWeek() {
 // Get calendar set to current date and time
