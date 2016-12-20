@@ -122,12 +122,40 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     private void initCal() {
 
-        if (mWeekView != null) {
+        if(mWeekView != null) {
             mWeekView.setMonthChangeListener(this);
         }
+        mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
+            @Override
+            public String interpretDate(Calendar date) {
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("EEE dd.M", Locale.getDefault());
+                    return sdf.format(date.getTime()).toUpperCase();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "";
+                }
+            }
 
+            @Override
+            public String interpretTime(int hour) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, hour);
+                calendar.set(Calendar.MINUTE, 0);
 
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                    return sdf.format(calendar.getTime());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "";
+                }
+            }
+        });
     }
+
+
+
 
     /**
      * Sets the listener of the next- and last week buttons
@@ -207,37 +235,9 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                 } else {
                     //Expanded, normal state
                     collapsingToolbar.setTitle(room.getName());
-        if(mWeekView != null){
-            mWeekView.setMonthChangeListener(this);
-            mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
-                @Override
-                public String interpretDate(Calendar date) {
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("EEE dd.M", Locale.getDefault());
-                        return sdf.format(date.getTime()).toUpperCase();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return "";
-                    }
-                }
 
-                @Override
-                public String interpretTime(int hour) {
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(Calendar.HOUR_OF_DAY, hour);
-                    calendar.set(Calendar.MINUTE, 0);
 
-                    try {
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
-                        return sdf.format(calendar.getTime());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return "";
-                    }
-                }
-            });
-        }
-        weekNumber.setText("Uke: " + getWeekNumber());
+        weekNumber.setText("Uke: " + currentWeekNumber);
 
                 }
             }
