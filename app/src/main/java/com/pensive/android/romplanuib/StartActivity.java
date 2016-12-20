@@ -73,16 +73,14 @@ public class StartActivity extends AppCompatActivity {
 }
 
 class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
-    private Activity mActivity;
     private Context context;
     private ProgressDialog asyncDialog;
-    private DataManager dataManager;
 
 
     public JsoupTask(Context context, Activity mActivity){
         super();
         this.context = context;
-        this.mActivity = mActivity;
+        Activity mActivity1 = mActivity;
         asyncDialog = new ProgressDialog(context);
 
 
@@ -109,7 +107,7 @@ class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
     @Override
     protected List<UIBbuilding> doInBackground(Void... param) {
 
-        dataManager = new DataManager(context);
+        DataManager dataManager = new DataManager(context);
 
 
         return dataManager.getAllBuildings();

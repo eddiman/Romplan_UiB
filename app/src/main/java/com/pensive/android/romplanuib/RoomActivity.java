@@ -62,7 +62,9 @@ public class RoomActivity extends AppCompatActivity {
         //GUI elements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         AppBarLayout appBar = (AppBarLayout) findViewById(R.id.room_appbar);
 
          collapsingToolbar =

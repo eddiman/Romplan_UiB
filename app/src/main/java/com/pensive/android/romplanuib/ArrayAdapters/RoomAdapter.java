@@ -16,6 +16,7 @@ import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.util.Randomized;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
 import java.util.List;
 
 import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
@@ -102,6 +103,7 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
                 Intent i = new Intent(context,
                         WeekCalendarActivity.class);
                 i.putExtra("room", getItem(position));
+                i.putExtra("currentWeek", getWeekNumber());
                 context.startActivity(i);
 
             }
@@ -117,5 +119,20 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
         TextView roomText;
         ImageView roomImage;
 
+    }
+
+    /**
+     * Gets the current week number, to send to next activity with the room.
+     * @return the current week
+     */
+    public String getWeekNumber(){
+        Calendar c = Calendar.getInstance();
+        //Normalizing the weeks, Java calculates the range of week going from 1 to 53, week definitions changes depending on local/region set on phone
+        c.setFirstDayOfWeek(Calendar.MONDAY);
+        c.setMinimalDaysInFirstWeek(7);
+        int week = c.get(Calendar.WEEK_OF_YEAR);
+
+
+        return Integer.toString(week);
     }
 }
