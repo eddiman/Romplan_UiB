@@ -16,7 +16,7 @@ import android.support.v7.widget.Toolbar;
 
 public class FontController {
 
-    public void setTitleFont(Context context, String toolbarTitle, Toolbar actionBar, String fontType, int size){
+    public void setActionBarTitleFont(Context context, String toolbarTitle, Toolbar actionBar, String fontType, int size){
         SpannableString title = new SpannableString(toolbarTitle);
 
         // Add a span for the custom font font

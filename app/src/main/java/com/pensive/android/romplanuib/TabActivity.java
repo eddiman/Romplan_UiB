@@ -1,6 +1,5 @@
 package com.pensive.android.romplanuib;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
@@ -88,7 +87,7 @@ public class TabActivity extends AppCompatActivity {
             tabLayout.setupWithViewPager(mViewPager);
 
 
-        fc.setTitleFont(this, getResources().getString(R.string.splash_title), toolbar, "roboto_thin.ttf", 0);
+        fc.setActionBarTitleFont(this, getResources().getString(R.string.splash_title), toolbar, "roboto_thin.ttf", 0);
 
         setAppBarLayoutNonDrag();
         initAnim();
@@ -130,9 +129,9 @@ public class TabActivity extends AppCompatActivity {
                  */
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    Intent intent = getData(query, 0);
+                    /*Intent intent = getData(query, 0);
                     startActivity(intent);
-                    mSearchView.close(true);
+                    mSearchView.close(true);*/
                     return true;
                 }
 

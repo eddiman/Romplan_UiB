@@ -5,9 +5,15 @@
     <string name="title_activity_tab">TabActivity</string>
     <string name="action_settings">Innstillinger</string>
     <string name="action_search">Søk</string>
+    <string name="event_no_descript">Ingen beskrivelse</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="splash_title">Romplan for Universitetet i Bergen</string>
     <string name="main_title">Romplan for UiB</string>
+
+    <string name="event_cancel">Tilbake</string>
+    <string name="event_added">Hendelsen vil bli lagt til i kalenderen din.</string>
+
+    <string name="week">Uke</string>
 
 
     <!--Generelt -->

@@ -81,7 +81,7 @@ class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
         super();
         this.context = context;
         Activity mActivity1 = mActivity;
-        asyncDialog = new ProgressDialog(context);
+        asyncDialog = new ProgressDialog(context, R.style.DialogTheme);
 
 
     }
