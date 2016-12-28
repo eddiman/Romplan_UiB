@@ -45,7 +45,7 @@
             />
         </android.support.v7.widget.Toolbar>
 
-        <android.support.design.widget.TabLayout
+        <com.pensive.android.romplanuib.ArrayAdapters.CustomTabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

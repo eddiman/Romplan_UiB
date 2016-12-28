@@ -1,5 +1,6 @@
 package com.pensive.android.romplanuib;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
@@ -14,17 +15,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchHistoryTable;
 import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
+import com.pensive.android.romplanuib.ArrayAdapters.CustomTabLayout;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.models.UIBroom;
@@ -54,10 +58,6 @@ public class TabActivity extends AppCompatActivity {
     Animation animationFadeOut;
     Animation animationFadeIn;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
     AppBarLayout appBarLayout;
     private SearchView mSearchView;
 
@@ -75,10 +75,13 @@ public class TabActivity extends AppCompatActivity {
         mSearchView.setVisibility(View.INVISIBLE);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), getApplicationContext());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        /*
+      The {@link ViewPager} that will host the section contents.
+     */
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.container);
         if (mViewPager != null) { mViewPager.setAdapter(mSectionsPagerAdapter); }
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -86,8 +89,15 @@ public class TabActivity extends AppCompatActivity {
         if (tabLayout != null)
             tabLayout.setupWithViewPager(mViewPager);
 
+        // Iterate over all tabs and set the custom view
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            tab.setCustomView(mSectionsPagerAdapter.getTabView(i));
+        }
 
-        fc.setActionBarTitleFont(this, getResources().getString(R.string.splash_title), toolbar, "roboto_thin.ttf", 0);
+
+
+        //fc.setActionBarTitleFont(this, getResources().getString(R.string.main_title), toolbar, "roboto_thin.ttf", 0);
 
         setAppBarLayoutNonDrag();
         initAnim();
@@ -297,6 +307,9 @@ public class TabActivity extends AppCompatActivity {
             }
 
             case R.id.action_settings: {
+                Intent intent = new Intent(TabActivity.this, SettingsActivity.class);
+                startActivity(intent);
+
                 return true;
             }
         }
@@ -311,9 +324,10 @@ public class TabActivity extends AppCompatActivity {
      * one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
+        Context context;
+        public SectionsPagerAdapter(FragmentManager fm, Context context) {
             super(fm);
+            this.context = context;
         }
 
         @Override
@@ -341,6 +355,8 @@ public class TabActivity extends AppCompatActivity {
             return 2;
         }
 
+
+
         /**
          * Returns the title of the section in the viewpager
          * @param position the position to return the title of
@@ -356,5 +372,16 @@ public class TabActivity extends AppCompatActivity {
             }
             return null;
         }
+
+        public View getTabView(int position) {
+            String tabTitles[] = new String[] { getResources().getString(R.string.tab_buildings), getResources().getString(R.string.tab_favorites) };
+            // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
+            View v = LayoutInflater.from(context).inflate(R.layout.custom_viewpager, null);
+            TextView tv = (TextView) v.findViewById(R.id.tab_textView);
+            tv.setText(tabTitles[position]);
+            return v;
+        }
+
+
     }
 }

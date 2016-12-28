@@ -46,6 +46,7 @@
         <item name="android:background">@color/primaryDark_blue</item>
         <item name="colorAccent">@color/accent_yellow</item>
         <item name="android:textColor">@color/secondary_text_white</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
     </style>
 
 

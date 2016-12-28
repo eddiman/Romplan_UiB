@@ -1,5 +1,7 @@
 package com.pensive.android.romplanuib;
 
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 import android.support.design.widget.AppBarLayout;
@@ -10,10 +12,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.pensive.android.romplanuib.ArrayAdapters.RoomAdapter;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
@@ -29,6 +33,8 @@ import java.util.List;
 
 import jp.wasabeef.picasso.transformations.ColorFilterTransformation;
 import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
+
+import static java.security.AccessController.getContext;
 
 /**
  * @author Edvard Bjørgen
@@ -148,6 +154,11 @@ public class RoomActivity extends AppCompatActivity {
                     Snackbar snack = Snackbar.make(view, getResources().getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                             .setAction("Action", null);
                     View sbView = snack.getView();
+
+                    TextView tv = (TextView) (sbView).findViewById(android.support.design.R.id.snackbar_text);
+                    Typeface font = Typeface.createFromAsset(getBaseContext().getAssets(), "fonts/roboto_thin.ttf");
+                    tv.setTypeface(font);
+
                     sbView.setBackgroundColor(getResources().getColor(R.color.primary_blue));
                     snack.show();
                 }
@@ -178,6 +189,23 @@ public class RoomActivity extends AppCompatActivity {
             params.height = Math.round(getResources().getDisplayMetrics().heightPixels * weight);
             appBar.setLayoutParams(params);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    public void onBackPressed() {
+        super.onBackPressed();
+        /*Intent intent = new Intent(RoomActivity.this, TabActivity.class);
+        startActivity(intent);
+        finish();*/
+
     }
 
 }

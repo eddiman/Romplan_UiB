@@ -10,6 +10,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.TypefaceSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -66,7 +69,7 @@ public class StartActivity extends AppCompatActivity {
      * Executes the inner class JsoupTask
      */
     private void populateList() {
-        JsoupTask jsoupTask = new JsoupTask(context, this);
+        JsoupTask jsoupTask = new JsoupTask(context, this, getResources().getString(R.string.load_data_string));
         jsoupTask.execute();
     }
 
@@ -75,14 +78,15 @@ public class StartActivity extends AppCompatActivity {
 class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
     private Context context;
     private ProgressDialog asyncDialog;
+    private SpannableString loadSpanString;
 
 
-    public JsoupTask(Context context, Activity mActivity){
+    public JsoupTask(Context context, Activity mActivity, String loadDataString){
         super();
         this.context = context;
-        Activity mActivity1 = mActivity;
         asyncDialog = new ProgressDialog(context, R.style.DialogTheme);
 
+        loadSpanString = new SpannableString(loadDataString);
 
     }
 
@@ -91,7 +95,12 @@ class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
      */
     @Override
     protected void onPreExecute() {
-        asyncDialog.setMessage("Henter data...");
+
+
+        // Add a span for the custom font font
+        loadSpanString.setSpan(new TypefaceSpan("roboto_thin.ttf"), 0, loadSpanString.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+
+        asyncDialog.setTitle(loadSpanString);
         asyncDialog.setCancelable(false);
         asyncDialog.show();
 

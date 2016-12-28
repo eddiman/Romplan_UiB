@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -80,6 +81,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     int currentWeekNumber;
     int nextYear = 0;
     DateFormatter df;
+    String loadDataString;
 
     Calendar weekDayChanged;
     /**
@@ -101,10 +103,8 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         appBar = (AppBarLayout) findViewById(R.id.cal_appbar);
-
-        collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-
+        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        loadDataString = getResources().getString(R.string.load_data_string);
 
         jsoupTask = new JsoupTask(WeekCalendarActivity.this, room);
         jsoupTask.execute();
@@ -124,7 +124,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         mWeekView.goToDate(weekDayChanged);
         mWeekView.goToHour(7);
-
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -156,7 +155,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     }
 
 
-    /**
+    /**1w
      * @param weight Set AppBar height to 0.2->0.5 weight of screen height
      */
     protected void setAppBarLayoutHeightOfScreenWeight(@FloatRange(from = 0.2F, to = 0.5F) float weight) {
@@ -289,6 +288,14 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                     Snackbar snack = Snackbar.make(view, getResources().getString(R.string.event_added), Snackbar.LENGTH_LONG)
                             .setAction("Action", null);
                     View sbView = snack.getView();
+
+                    //Set custom typeface
+                    TextView tv = (TextView) (sbView).findViewById(android.support.design.R.id.snackbar_text);
+                    Typeface font = Typeface.createFromAsset(getBaseContext().getAssets(), "fonts/roboto_thin.ttf");
+                    tv.setTypeface(font);
+                    tv.setTextSize(16);
+
+
                     sbView.setBackgroundColor(getResources().getColor(R.color.primaryDark_blue));
                     snack.show();
 
@@ -331,6 +338,13 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                     Snackbar snack = Snackbar.make(view, getResources().getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                             .setAction("Action", null);
                     View sbView = snack.getView();
+                    //Set custom typeface
+                    TextView tv = (TextView) (sbView).findViewById(android.support.design.R.id.snackbar_text);
+                    Typeface font = Typeface.createFromAsset(getBaseContext().getAssets(), "fonts/roboto_thin.ttf");
+                    tv.setTypeface(font);
+                    tv.setTextSize(16);
+
+
                     sbView.setBackgroundColor(getResources().getColor(R.color.primary_blue));
                     snack.show();
                 }
@@ -374,7 +388,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     /**
     Updates the week text view
-     TODO:
      */
     private void updateWeekTextView() {
         weekNumber.setText(getString(R.string.week) + " " + currentWeekNumber);
@@ -402,6 +415,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         weekDayChanged.add(Calendar.DAY_OF_YEAR, 7);
         mWeekView.goToDate(weekDayChanged);
         updateWeekTextView();
+
 
     }
 
@@ -534,6 +548,14 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                 (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
     }
 
+    public void onBackPressed() {
+        super.onBackPressed();
+        /*Intent intent = new Intent(SettingsActivity.this, TabActivity.class);
+        startActivity(intent);
+        finish();*/
+
+    }
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -587,6 +609,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         boolean timeoutError;
 
 
+
         JsoupTask(Context context, UIBroom room) {
             super();
             this.context = context;
@@ -599,7 +622,8 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         @Override
         protected void onPreExecute() {
-            asyncDialog.setMessage("Getting data...");
+
+            asyncDialog.setTitle("");
             asyncDialog.setCancelable(false);
             asyncDialog.show();
             System.out.println("JSOUPCalendarPREEXCUTE");
