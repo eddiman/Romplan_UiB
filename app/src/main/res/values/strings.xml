@@ -1,23 +1,128 @@
 <resources>
-    <string name="app_name">Romplan UiB</string>
-    <string name="title_activity_room">RoomActivity</string>
-    <string name="title_activity_test">test</string>
-    <string name="title_activity_tab">TabActivity</string>
-    <string name="action_settings">Innstillinger</string>
-    <string name="action_search">Søk</string>
-    <string name="section_format">Hello World from section: %1$d</string>
-    <string name="splash_title">Romplan for Universitetet i Bergen</string>
-    <string name="main_title">Romplan for UiB</string>
+
+
+
+
+
 
 
     <!--Generelt -->
+    <string name="main_title">Romplan for UiB</string>
+    <string name="splash_title">Romplan for Universitetet i Bergen</string>
+    <string name="app_title">Romplan UiB</string>
+    <string name="load_data_string">Henter data…</string>
+
     <string name="add_elem_to_fav">Favoritter kommer snart</string>
     <!--TabActivity -->
+    <string name="action_search">Søk</string>
+    <string name="action_settings">Innstillinger</string>
     <string name="search_buildings">Søk etter bygninger…</string>
+    <string name="tab_buildings">BYGNINGER</string>
+    <string name="tab_favorites">FAVORITTER</string>
+    <string name="title_activity_settings">Innstillinger</string>
+
+
+
+
     <!--RoomActivity -->
 
     <!--WeekCalendarActivity -->
+    <string name="event_no_descript">Ingen beskrivelse</string>
+    <string name="event_cancel">Tilbake</string>
+    <string name="event_added">Hendelsen vil bli lagt til i kalenderen din.</string>
+    <string name="week">Uke</string>
 
     <!--SettingsActivity -->
+    <string name="pref_thirdparty_title">Innstillinger</string>
+    <string name="pref_about">Om</string>
+    <string name="pref_about_text_1">Dataen i denne applikasjonen blir hentet fra: </string>
+    <string name="pref_about_text_2">Source code can be found at: </string>
+    <string name="pref_version">Versjon</string>
+    <string name="pref_language">Språk</string>
+    <string name="pref_general">Generelt</string>
+    <string name="pref_libs">Tredjepartsbiblioteker</string>
+    <string name="pref_license_title">Lisenser</string>
+
+
+
+    <!-- Licenses -->
+
+    <string name="pref_license_androidweekview">Copyright 2014 Raquib-ul-Alam
+        \n Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at \n
+
+   http://www.apache.org/licenses/LICENSE-2.0
+\n
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</string>
+
+    <string name="pref_license_gson">
+        Copyright 2008 Google Inc.
+\n
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+\n
+    http://www.apache.org/licenses/LICENSE-2.0
+\n
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+    </string>
+
+    <string name="pref_license_picasso">
+Copyright 2013 Square, Inc.
+\n
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+\n
+   http://www.apache.org/licenses/LICENSE-2.0
+\n
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+    </string>
+
+    <string name="pref_license_picassotrans">
+Copyright 2015 Wasabeef
+\n
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+\n
+   http://www.apache.org/licenses/LICENSE-2.0
+\n
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+    </string>
+
+    <string name="pref_license_rounded">
+Copyright 2015 Vincent Mi
+\n
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+\n
+   http://www.apache.org/licenses/LICENSE-2.0
+\n
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+    </string>
+
 
 </resources>
