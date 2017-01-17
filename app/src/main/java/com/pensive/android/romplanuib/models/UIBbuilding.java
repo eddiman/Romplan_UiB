@@ -43,5 +43,10 @@ public class UIBbuilding implements Serializable{
         return listOfRooms;
     }
 
-
+    @Override
+    public String toString() {
+        return "UIBbuilding{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

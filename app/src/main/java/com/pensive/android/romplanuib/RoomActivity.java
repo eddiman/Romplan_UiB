@@ -17,6 +17,7 @@ import com.pensive.android.romplanuib.ArrayAdapters.RoomAdapter;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
+import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.StringCleaner;
 import com.squareup.picasso.Picasso;
@@ -40,6 +41,8 @@ public class RoomActivity extends AppCompatActivity {
     String buildingName;
     String buildingCode;
     ListView roomList;
+    DataManager dataManager;
+
 
     StringCleaner sc = new StringCleaner();
     private CollapsingToolbarLayout collapsingToolbar;
@@ -52,6 +55,7 @@ public class RoomActivity extends AppCompatActivity {
         building = getBuildingFromLastActivity();
         buildingCode = sc.createBuildingCode(building.getName());
         buildingName = sc.createBuildingName(building.getName());
+        updateDataManager();
 
         initGUI();
 
@@ -137,15 +141,28 @@ public class RoomActivity extends AppCompatActivity {
      */
     private void floatingActionButtonListener() {
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if(fab != null)
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar.make(view, getResources().getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
+                    updateDataManager();
+                    if(!dataManager.getFavoriteBuildings().contains(building)) {
+                        dataManager.addFavoriteBuilding(building, findViewById(R.id.room_listView).getContext());
+                        Snackbar.make(view, building.getName() + " added to favorites", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }else{
+                        dataManager.removeFavoriteBuilding(building,findViewById(R.id.room_listView).getContext());
+                        Snackbar.make(view, building.getName() + " removed from favorites", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                    updateDataManager();
                 }
             });
+    }
+    public void updateDataManager(){
+        this.dataManager = new DataManager(findViewById(R.id.room_listView).getContext());
+
     }
 
 

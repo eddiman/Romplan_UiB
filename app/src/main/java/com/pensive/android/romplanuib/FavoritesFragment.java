@@ -8,6 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.pensive.android.romplanuib.ArrayAdapters.BuildingAdapter;
+import com.pensive.android.romplanuib.models.UIBbuilding;
+import com.pensive.android.romplanuib.util.DataManager;
+import com.pensive.android.romplanuib.util.UiBBuildingComparator;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -24,6 +30,7 @@ public class FavoritesFragment extends Fragment {
 
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+    DataManager dataManager;
 
     public FavoritesFragment() {
     }
@@ -44,7 +51,18 @@ public class FavoritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_favorites, container, false);
+        ListView allBuildListView = (ListView)rootView.findViewById(R.id.fav_list);
+        dataManager = new DataManager(rootView.getContext());
+        if(dataManager.getFavoriteBuildings().size()>0) {
+            System.out.println("crap " + dataManager.getFavoriteBuildings());
+            List<UIBbuilding> favBuilds = dataManager.getFavoriteBuildings();
+            Collections.sort(favBuilds,new UiBBuildingComparator());
+            BuildingAdapter adapter = new BuildingAdapter(getActivity(), R.layout.list_building_element, favBuilds);
 
+            allBuildListView.setAdapter(adapter);
+
+            allBuildListView.setFastScrollEnabled(true);
+        }
         return rootView;
     }
 }
