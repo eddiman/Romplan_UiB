@@ -179,7 +179,6 @@ public class RoomActivity extends AppCompatActivity {
     }
     public void updateDataManager(){
         this.dataManager = new DataManager(findViewById(R.id.room_listView).getContext());
-
     }
 
     /**

@@ -41,4 +41,22 @@ public class UIBroom implements Serializable{
         this.building = building;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UIBroom uiBroom = (UIBroom) o;
+
+        if (code != null ? !code.equals(uiBroom.code) : uiBroom.code != null) return false;
+        return name != null ? name.equals(uiBroom.name) : uiBroom.name == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = code != null ? code.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
 }

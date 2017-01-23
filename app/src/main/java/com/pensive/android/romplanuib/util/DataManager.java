@@ -146,6 +146,9 @@ public class DataManager {
         String json = sharedPreferences.getString("favorite_rooms",null);
         Type type = new TypeToken<List<UIBroom>>(){}.getType();
         List<UIBroom> favorites = gson.fromJson(json,type);
+        if (favorites==null){
+            favorites = new ArrayList<>();
+        }
         return favorites;
     }
 
@@ -200,5 +203,9 @@ public class DataManager {
 
     public List<UIBbuilding> getFavoriteBuildings(){
         return favoriteBuildings;
+    }
+
+    public List<UIBroom> getFavoriteRoom() {
+        return favoriteRoom;
     }
 }
