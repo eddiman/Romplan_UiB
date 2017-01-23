@@ -2,7 +2,6 @@
 
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -216,10 +215,65 @@
                         android:textColor="@color/secondary_text_white"
                         android:fontFamily="sans-serif-thin"
                         android:autoLink="web"
+
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/transpWhite"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="16dp"
                         />
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/about_1"
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pref_about_text_1"
+
+                    />
+                <TextView
+                    android:id="@+id/about_url"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="rom.app.uib.no/rominfo/"
+                    android:autoLink="web"
+
+                    android:layout_marginBottom="8dp"
+
+                     />
+
+                <TextView
+                    android:fontFamily="sans-serif-thin"
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pref_about_text_3"
+                    />
+                <TextView
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="github.com/eddiman/Romplan_UiB"
+                    android:autoLink="web"
+                    android:layout_marginBottom="16dp"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/transpWhite"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="16dp"
+                    />
                 <TextView
                     android:text="@string/pref_license_title"
                     android:fontFamily="sans-serif-thin"
@@ -238,7 +292,7 @@
                     android:textSize="18sp"
                     android:textColor="@color/secondary_text_white"
                     android:fontFamily="sans-serif-thin"
-                    />
+                    android:id="@+id/textView" />
 
                 <TextView
                     android:text="@string/pref_license_androidweekview"

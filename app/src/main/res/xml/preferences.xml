@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:title=""
+        android:key="key_back"
+        />
+    <!-- <PreferenceCategory
+        android:title="Generelt"
+        />
+   <ListPreference android:title="@string/pref_language"
+        android:summary="Norsk"
+        android:key="languages"
+        android:entries="@array/listLanguages"
+        android:entryValues="@array/listValues"/> -->
+    <PreferenceCategory
+        android:title="@string/pref_about"
+        />
+    <Preference
+        android:title="@string/pref_libs"
+        android:key="third_party"/>
+    <Preference
+        android:title="@string/pref_version"
+        android:summary="0.0.1"
+        android:key="version"
+ />
+
+</PreferenceScreen>
+
