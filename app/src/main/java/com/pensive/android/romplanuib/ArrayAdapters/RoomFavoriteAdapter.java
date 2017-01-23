@@ -77,8 +77,6 @@ public class RoomFavoriteAdapter extends ArrayAdapter<UIBroom> {
 
         UIBroom uibRoom = rooms.get(position);
         holder.buildCode.setTypeface(bebasFont);
-        System.out.println("****************HALLO*****************");
-        System.out.println(uibRoom.getName());
         holder.roomName.setText(uibRoom.getName());
         holder.buildCode.setText(sc.createBuildingCode(uibRoom.getBuilding()));
 

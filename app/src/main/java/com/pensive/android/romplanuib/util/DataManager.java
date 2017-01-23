@@ -135,7 +135,6 @@ public class DataManager {
         Type type = new TypeToken<List<UIBbuilding>>(){}.getType();
         List<UIBbuilding> favorites = gson.fromJson(json,type);
         if (favorites==null){
-            System.out.println("SJALLABAIS");
             favorites = new ArrayList<>();
         }
         return favorites;
