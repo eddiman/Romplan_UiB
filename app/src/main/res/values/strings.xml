@@ -33,10 +33,11 @@
     <string name="week">Uke</string>
 
     <!--SettingsActivity -->
-    <string name="pref_thirdparty_title">Innstillinger</string>
+    <string name="pref_title">Innstillinger</string>
     <string name="pref_about">Om</string>
     <string name="pref_about_text_1">Dataen i denne applikasjonen blir hentet fra: </string>
     <string name="pref_about_text_2">Source code can be found at: </string>
+    <string name="pref_about_text_3">Kildekoden finnes på åpent på GitHub: </string>
     <string name="pref_version">Versjon</string>
     <string name="pref_language">Språk</string>
     <string name="pref_general">Generelt</string>

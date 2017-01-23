@@ -18,7 +18,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pref_thirdparty_title"
+            android:text="@string/pref_title"
             android:fontFamily="sans-serif-light"
             android:textSize="24sp"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
@@ -31,42 +31,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        app:cardBackgroundColor="@color/primary_blue"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_margin="16dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_vertical_margin"
-            >
-            <TextView
-                android:id="@+id/about_1"
-                android:fontFamily="sans-serif-light"
-                android:textSize="12sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pref_about_text_1"
-                android:layout_centerHorizontal="true"
-                />
 
-            <TextView
-                android:id="@+id/about_url"
-                android:fontFamily="sans-serif-light"
-                android:textSize="16sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="rom.app.uib.no/rominfo/"
-                android:autoLink="web"
-                android:layout_below="@+id/about_1"
-                android:layout_centerHorizontal="true" />
-
-
-        </RelativeLayout>
-
-
-    </android.support.v7.widget.CardView>
 </RelativeLayout>

@@ -2,6 +2,9 @@ package com.pensive.android.romplanuib;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Handler;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -15,6 +18,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.style.TypefaceSpan;
+import android.util.AttributeSet;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,9 +42,12 @@ import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.UiBBuildingComparator;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static java.security.AccessController.getContext;
 
 public class TabActivity extends AppCompatActivity {
 
@@ -95,9 +105,6 @@ public class TabActivity extends AppCompatActivity {
             tab.setCustomView(mSectionsPagerAdapter.getTabView(i));
         }
 
-
-
-        //fc.setActionBarTitleFont(this, getResources().getString(R.string.main_title), toolbar, "roboto_thin.ttf", 0);
 
         setAppBarLayoutNonDrag();
         initAnim();
@@ -160,7 +167,7 @@ public class TabActivity extends AppCompatActivity {
 /**
  * Listens to clicks on the Voice icon
  */
-        //TODO: Implement the rest of voice search, maybe not necessary though.
+            //TODO: Implement the rest of voice search, maybe not necessary though.
             mSearchView.setVoiceText("Set permission on Android 6.0+ !");
             mSearchView.setOnVoiceClickListener(new SearchView.OnVoiceClickListener() {
                 @Override
@@ -277,9 +284,51 @@ public class TabActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
+        /*SpannableStringBuilder title = new SpannableStringBuilder(getString(R.string.pref_title));
+        title.setSpan(tf, 0, title.length(), 0);
+        menu.add(Menu.NONE, R.id.action_settings, 0, title); // THIS
+        */
         getMenuInflater().inflate(R.menu.menu_tab, menu);
-        return true;
+
+        LayoutInflater layoutInflater = getLayoutInflater();
+        final LayoutInflater.Factory existingFactory = layoutInflater.getFactory();
+            // use introspection to allow a new Factory to be set
+        try {
+            Field field = LayoutInflater.class.getDeclaredField("mFactorySet");
+            field.setAccessible(true);
+            field.setBoolean(layoutInflater, false);
+            getLayoutInflater().setFactory(new LayoutInflater.Factory() {
+                @Override
+                public View onCreateView(String name, final Context context, AttributeSet attrs) {
+
+                    if (name.equalsIgnoreCase(
+                            "com.android.internal.view.menu.IconMenuItemView")) {
+                        View view = null;
+                        // if a factory was already set, we use the returned view
+                        if (existingFactory != null) {
+                            view = existingFactory.onCreateView(name, context, attrs);
+                            Typeface tf = fc.getTypeface(getParent(), "fonts/roboto_thin.ttf");
+                            view.setBackgroundColor(getResources().getColor(R.color.primaryDark_blue));
+                            ((TextView) view).setTextColor(Color.RED);
+                            ((TextView) view).setTypeface(tf);
+                        }
+
+
+                        return view;
+                    }
+                    return null;
+                }
+            });
+        } catch (NoSuchFieldException e) {
+            // ...
+        } catch (IllegalArgumentException e) {
+            // ...
+        } catch (IllegalAccessException e) {
+            // ...
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     /**
