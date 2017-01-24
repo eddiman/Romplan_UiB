@@ -329,7 +329,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     /**
      * Initializes the floating action button.
-     * TODO: Use it for adding and removing favorites.
      */
     private void floatingActionButtonFavoriteListener() {
 
@@ -342,11 +341,11 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                     Snackbar snack;
                     if(!dataManager.getFavoriteRoom().contains(room)) {
                         dataManager.addFavoriteRoom(room, findViewById(R.id.weekView).getContext());
-                        snack = Snackbar.make(view, room.getName() + " added to favorites", Snackbar.LENGTH_LONG)
+                        snack = Snackbar.make(view, room.getName() + getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
                     }else{
                         dataManager.removeFavoriteRoom(room,findViewById(R.id.weekView).getContext());
-                        snack = Snackbar.make(view, room.getName() + " removed from favorites", Snackbar.LENGTH_LONG)
+                        snack = Snackbar.make(view, room.getName() + getString(R.string.remove_elem_from_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
                     }
                     updateDataManager();

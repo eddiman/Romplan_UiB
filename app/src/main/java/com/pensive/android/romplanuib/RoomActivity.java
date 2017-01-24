@@ -38,7 +38,7 @@ import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 import static java.security.AccessController.getContext;
 
 /**
- * @author Edvard Bjørgen
+ * @author Edvard Bjørgen & Fredrik Heimsæter
  * @version 1.0
  */
 public class RoomActivity extends AppCompatActivity {
@@ -158,11 +158,11 @@ public class RoomActivity extends AppCompatActivity {
                     Snackbar snack;
                     if(!dataManager.getFavoriteBuildings().contains(building)) {
                         dataManager.addFavoriteBuilding(building, findViewById(R.id.room_listView).getContext());
-                        snack = Snackbar.make(view, building.getName() + " added to favorites", Snackbar.LENGTH_LONG)
+                        snack = Snackbar.make(view, building.getName() + getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
                     }else{
                         dataManager.removeFavoriteBuilding(building,findViewById(R.id.room_listView).getContext());
-                        snack = Snackbar.make(view, building.getName() + " removed from favorites", Snackbar.LENGTH_LONG)
+                        snack = Snackbar.make(view, building.getName() + getString(R.string.remove_elem_from_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
                     }
                     updateDataManager();

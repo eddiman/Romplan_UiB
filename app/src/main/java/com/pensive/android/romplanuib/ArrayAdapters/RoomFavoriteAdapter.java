@@ -10,9 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.pensive.android.romplanuib.R;
-import com.pensive.android.romplanuib.RoomActivity;
 import com.pensive.android.romplanuib.WeekCalendarActivity;
-import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.StringCleaner;
@@ -21,7 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 
 /**
- * @author Edvard Bjørgen
+ * @author Edvard Bjørgen & Fredrik Heimsæter
  * @version 1.0
  */
 public class RoomFavoriteAdapter extends ArrayAdapter<UIBroom> {

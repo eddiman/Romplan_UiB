@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.pensive.android.romplanuib.ArrayAdapters.BuildingAdapter;
-import com.pensive.android.romplanuib.ArrayAdapters.RoomAdapter;
 import com.pensive.android.romplanuib.ArrayAdapters.RoomFavoriteAdapter;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
@@ -20,19 +19,17 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * A placeholder fragment containing a simple view.
- * TODO: Implement favorites
+ * A fragment containing views for the favorites.
  *
- * @author Edvard Bjørgen
+ * @author Edvard Bjørgen & Fredrik Heimsæter
  * @version 1.0
  */
 public class FavoritesFragment extends Fragment {
+
     /**
      * The fragment argument representing the section number for this
      * fragment.
      */
-
-
     private static final String ARG_SECTION_NUMBER = "section_number";
     DataManager dataManager;
 
