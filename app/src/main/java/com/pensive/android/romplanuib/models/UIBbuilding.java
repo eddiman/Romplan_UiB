@@ -43,5 +43,26 @@ public class UIBbuilding implements Serializable{
         return listOfRooms;
     }
 
+    @Override
+    public String toString() {
+        return "UIBbuilding{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UIBbuilding that = (UIBbuilding) o;
+
+        return name.equals(that.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

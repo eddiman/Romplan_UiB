@@ -43,6 +43,7 @@ import com.pensive.android.romplanuib.io.CalActivityParser;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.CalActivity;
 import com.pensive.android.romplanuib.models.UIBroom;
+import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.DateFormatter;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.Randomized;
@@ -82,6 +83,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     int nextYear = 0;
     DateFormatter df;
     String loadDataString;
+    DataManager dataManager;
 
     Calendar weekDayChanged;
     /**
@@ -108,6 +110,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         jsoupTask = new JsoupTask(WeekCalendarActivity.this, room);
         jsoupTask.execute();
+        updateDataManager();
 
         initGUI();
 
@@ -326,7 +329,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     /**
      * Initializes the floating action button.
-     * TODO: Use it for adding and removing favorites.
      */
     private void floatingActionButtonFavoriteListener() {
 
@@ -335,21 +337,33 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar snack = Snackbar.make(view, getResources().getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null);
+                    updateDataManager();
+                    Snackbar snack;
+                    if(!dataManager.getFavoriteRoom().contains(room)) {
+                        dataManager.addFavoriteRoom(room, findViewById(R.id.weekView).getContext());
+                        snack = Snackbar.make(view, room.getName() + getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
+                                .setAction("Action", null);
+                    }else{
+                        dataManager.removeFavoriteRoom(room,findViewById(R.id.weekView).getContext());
+                        snack = Snackbar.make(view, room.getName() + getString(R.string.remove_elem_from_fav), Snackbar.LENGTH_LONG)
+                                .setAction("Action", null);
+                    }
+                    updateDataManager();
                     View sbView = snack.getView();
-                    //Set custom typeface
+
                     TextView tv = (TextView) (sbView).findViewById(android.support.design.R.id.snackbar_text);
                     Typeface font = Typeface.createFromAsset(getBaseContext().getAssets(), "fonts/roboto_thin.ttf");
                     tv.setTypeface(font);
-                    tv.setTextSize(16);
-
 
                     sbView.setBackgroundColor(getResources().getColor(R.color.primary_blue));
                     snack.show();
                 }
             });
     }
+    public void updateDataManager(){
+        this.dataManager = new DataManager(findViewById(R.id.weekView).getContext());
+    }
+
     /**
      * Sets the listener of the next- and last week buttons
      */

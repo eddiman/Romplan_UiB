@@ -8,22 +8,30 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.pensive.android.romplanuib.ArrayAdapters.BuildingAdapter;
+import com.pensive.android.romplanuib.ArrayAdapters.RoomFavoriteAdapter;
+import com.pensive.android.romplanuib.models.UIBbuilding;
+import com.pensive.android.romplanuib.models.UIBroom;
+import com.pensive.android.romplanuib.util.DataManager;
+import com.pensive.android.romplanuib.util.UiBBuildingComparator;
+import com.pensive.android.romplanuib.util.UiBRoomComparator;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
- * A placeholder fragment containing a simple view.
- * TODO: Implement favorites
+ * A fragment containing views for the favorites.
  *
- * @author Edvard Bjørgen
+ * @author Edvard Bjørgen & Fredrik Heimsæter
  * @version 1.0
  */
 public class FavoritesFragment extends Fragment {
+
     /**
      * The fragment argument representing the section number for this
      * fragment.
      */
-
-
     private static final String ARG_SECTION_NUMBER = "section_number";
+    DataManager dataManager;
 
     public FavoritesFragment() {
     }
@@ -44,7 +52,25 @@ public class FavoritesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_favorites, container, false);
+        ListView allBuildListView = (ListView)rootView.findViewById(R.id.fav_build_list);
+        dataManager = new DataManager(rootView.getContext());
+        if(dataManager.getFavoriteBuildings().size()>0) {
+            List<UIBbuilding> favBuilds = dataManager.getFavoriteBuildings();
+            Collections.sort(favBuilds,new UiBBuildingComparator());
+            BuildingAdapter adapter = new BuildingAdapter(getActivity(), R.layout.list_building_element, favBuilds);
 
+            allBuildListView.setAdapter(adapter);
+            allBuildListView.setFastScrollEnabled(true);
+        }
+        ListView allRoomListView = (ListView)rootView.findViewById(R.id.fav_room_list);
+        if(dataManager.getFavoriteRoom().size()>0){
+            List<UIBroom> favRooms = dataManager.getFavoriteRoom();
+            Collections.sort(favRooms, new UiBRoomComparator());
+            RoomFavoriteAdapter roomAdapter = new RoomFavoriteAdapter(getActivity(), R.layout.list_room_element, favRooms);
+
+            allRoomListView.setAdapter(roomAdapter);
+            allBuildListView.setFastScrollEnabled(true);
+        }
         return rootView;
     }
 }

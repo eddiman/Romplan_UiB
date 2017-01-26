@@ -23,6 +23,7 @@ import com.pensive.android.romplanuib.ArrayAdapters.RoomAdapter;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
+import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.StringCleaner;
 import com.squareup.picasso.Picasso;
@@ -37,7 +38,7 @@ import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 import static java.security.AccessController.getContext;
 
 /**
- * @author Edvard Bjørgen
+ * @author Edvard Bjørgen & Fredrik Heimsæter
  * @version 1.0
  */
 public class RoomActivity extends AppCompatActivity {
@@ -48,7 +49,9 @@ public class RoomActivity extends AppCompatActivity {
     String buildingName;
     String buildingCode;
     ListView roomList;
+    DataManager dataManager;
     AppBarLayout appBar;
+
 
     StringCleaner sc = new StringCleaner();
     private CollapsingToolbarLayout collapsingToolbar;
@@ -61,6 +64,7 @@ public class RoomActivity extends AppCompatActivity {
         building = getBuildingFromLastActivity();
         buildingCode = sc.createBuildingCode(building.getName());
         buildingName = sc.createBuildingName(building.getName());
+        updateDataManager();
 
         initGUI();
 
@@ -145,14 +149,23 @@ public class RoomActivity extends AppCompatActivity {
      * TODO: Use it for adding and removing favorites.
      */
     private void floatingActionButtonFavoriteListener() {
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabRoom);
         if(fab != null)
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar snack = Snackbar.make(view, getResources().getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null);
+                    updateDataManager();
+                    Snackbar snack;
+                    if(!dataManager.getFavoriteBuildings().contains(building)) {
+                        dataManager.addFavoriteBuilding(building, findViewById(R.id.room_listView).getContext());
+                        snack = Snackbar.make(view, building.getName() + getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
+                                .setAction("Action", null);
+                    }else{
+                        dataManager.removeFavoriteBuilding(building,findViewById(R.id.room_listView).getContext());
+                        snack = Snackbar.make(view, building.getName() + getString(R.string.remove_elem_from_fav), Snackbar.LENGTH_LONG)
+                                .setAction("Action", null);
+                    }
+                    updateDataManager();
                     View sbView = snack.getView();
 
                     TextView tv = (TextView) (sbView).findViewById(android.support.design.R.id.snackbar_text);
@@ -163,6 +176,9 @@ public class RoomActivity extends AppCompatActivity {
                     snack.show();
                 }
             });
+    }
+    public void updateDataManager(){
+        this.dataManager = new DataManager(findViewById(R.id.room_listView).getContext());
     }
 
     /**

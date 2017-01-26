@@ -4,10 +4,27 @@
     android:layout_height="match_parent"
     tools:context="com.pensive.android.romplanuib.AllBuildingsFragment">
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Favorites are coming..."/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+
+        android:layout_marginBottom="56dp"
+        android:id="@+id/fav_build_list"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true" />
+    <ListView
+
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+
+        android:layout_marginBottom="56dp"
+        android:id="@+id/fav_room_list"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
 
 
 </RelativeLayout>

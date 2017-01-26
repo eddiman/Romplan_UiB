@@ -27,6 +27,8 @@ import java.util.List;
  */
 public class DataManager {
     List<UIBbuilding> allBuildings;
+    List<UIBbuilding> favoriteBuildings;
+    List<UIBroom> favoriteRoom;
 
     /**
      * If the data is already stored it loads it.
@@ -34,7 +36,9 @@ public class DataManager {
      */
     public DataManager(Context context) {
         if(isDataStored(context)){
-            this.allBuildings = loadData(context);
+            this.allBuildings = loadBuildingData(context);
+            this.favoriteBuildings = loadFavoriteBuildings(context);
+            this.favoriteRoom = loadFavoriteRooms(context);
         }else{
             String error = "";
             try {
@@ -99,25 +103,52 @@ public class DataManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
 
-        String json = gson.toJson(allBuildings);
+        String allBuildingsString = gson.toJson(allBuildings);
+        String favoriteBuildingsString = gson.toJson(favoriteBuildings);
+        String favoriteRoomsString = gson.toJson(favoriteRoom);
         editor.putString("error", error);
-        editor.putString("all_buildings",json);
+        editor.putString("all_buildings",allBuildingsString);
+        editor.putString("favorite_buildings",favoriteBuildingsString);
+        editor.putString("favorite_rooms",favoriteRoomsString);
         editor.apply();
     }
 
 
     /**
-     * Loads the data from the storage.
+     * Loads the building data from the storage.
      * @param context the context of the activity
      * @return a list of {@link UIBbuilding}s
      */
-    public List<UIBbuilding> loadData(Context context){
+    public List<UIBbuilding> loadBuildingData(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("all_buildings", null);
         Type type = new TypeToken<List<UIBbuilding>>(){}.getType();
         List<UIBbuilding> buildings = gson.fromJson(json,type);
         return buildings;
+    }
+
+    public List<UIBbuilding> loadFavoriteBuildings(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("favorite_buildings",null);
+        Type type = new TypeToken<List<UIBbuilding>>(){}.getType();
+        List<UIBbuilding> favorites = gson.fromJson(json,type);
+        if (favorites==null){
+            favorites = new ArrayList<>();
+        }
+        return favorites;
+    }
+    public List<UIBroom> loadFavoriteRooms(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("favorite_rooms",null);
+        Type type = new TypeToken<List<UIBroom>>(){}.getType();
+        List<UIBroom> favorites = gson.fromJson(json,type);
+        if (favorites==null){
+            favorites = new ArrayList<>();
+        }
+        return favorites;
     }
 
     /**
@@ -133,7 +164,7 @@ public class DataManager {
      * @return true if data is stored, false if it isn't
      */
     public boolean isDataStored(Context context){
-        if(checkError(context) || loadData(context)==null){
+        if(checkError(context) || loadBuildingData(context)==null){
             return false;
         }else {
             return true;
@@ -148,5 +179,32 @@ public class DataManager {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String error = sharedPreferences.getString("error", null);
         return error != null && !error.equals("none");
+    }
+
+    public void addFavoriteBuilding(UIBbuilding newFavoriteBuilding,Context context) {
+        this.favoriteBuildings.add(newFavoriteBuilding);
+        storeData(context,"");
+    }
+    public void removeFavoriteBuilding(UIBbuilding oldFavoriteBuilding,Context context){
+        this.favoriteBuildings.remove(oldFavoriteBuilding);
+        storeData(context,"");
+    }
+
+    public void addFavoriteRoom(UIBroom newFavoriteRoom,Context context) {
+        this.favoriteRoom.add(newFavoriteRoom);
+        storeData(context, "");
+    }
+
+    public void removeFavoriteRoom(UIBroom oldFavoriteRoom, Context context){
+        this.favoriteRoom.remove(oldFavoriteRoom);
+        storeData(context,"");
+    }
+
+    public List<UIBbuilding> getFavoriteBuildings(){
+        return favoriteBuildings;
+    }
+
+    public List<UIBroom> getFavoriteRoom() {
+        return favoriteRoom;
     }
 }
