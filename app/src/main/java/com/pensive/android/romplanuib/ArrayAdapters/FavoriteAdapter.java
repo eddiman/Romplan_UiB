@@ -76,8 +76,12 @@ public class FavoriteAdapter extends ArrayAdapter<UiBunit> {
 
         UiBunit uibUnit = units.get(position);
         holder.buildCode.setTypeface(bebasFont);
-        holder.unitName.setText(uibUnit.getName());
-        holder.buildCode.setText(uibUnit.getBuildingCode());
+        String name = uibUnit.getName();
+        if(name.startsWith("(")){
+            name = sc.createBuildingName(name);
+        }
+        holder.unitName.setText(name);
+        holder.buildCode.setText(uibUnit.getBuildingCode().replace(":",""));
 
 
         row.setOnClickListener(new View.OnClickListener(){
