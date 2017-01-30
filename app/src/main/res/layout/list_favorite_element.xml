@@ -35,7 +35,7 @@
                 android:gravity="center_vertical"
                 >
                 <TextView
-                    android:id="@+id/favorite_room_building_code"
+                    android:id="@+id/favorite_building_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="QQ"
@@ -54,7 +54,7 @@
                 android:gravity="center"
                 >
                 <TextView
-                    android:id="@+id/favorite_room_name"
+                    android:id="@+id/favorite_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TestSalmevitskapleg Fak"

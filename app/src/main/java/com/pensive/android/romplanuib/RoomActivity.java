@@ -116,7 +116,7 @@ public class RoomActivity extends AppCompatActivity {
         if( extra != null){
             extraBuilding = (UIBbuilding)getIntent().getSerializableExtra("building");
         } else {
-            extraBuilding = new UIBbuilding("Error building",  errorList);
+            extraBuilding = new UIBbuilding("Error building", "Error building",  errorList);
         }
         return extraBuilding;
     }

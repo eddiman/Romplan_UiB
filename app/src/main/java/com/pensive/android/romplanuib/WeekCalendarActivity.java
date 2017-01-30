@@ -492,7 +492,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         transformations.add(new GrayscaleTransformation());
         transformations.add(new ColorFilterTransformation(ContextCompat.getColor(this, R.color.transp_primary_blue)));
 
-        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/" + buildingCode + "_" + room.getCode() + "/" + buildingCode + "_" + room.getCode() + "I.jpg";
+        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/" + buildingCode + "_" + room.getBuildingCode() + "/" + buildingCode + "_" + room.getBuildingCode() + "I.jpg";
         Picasso.with(WeekCalendarActivity.this)
                 .load(URLEncoding.encode(url))
                 .centerCrop()
@@ -649,8 +649,8 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
             //TODO: Problem here when going back and forth in weeks, adds the events everytime it reloads a week, must adapt to not add events if week has already been loaded
             try {
-                String roomURL = BuildingCodeParser.getRoomURL(room.getBuilding(), room.getCode()) + "&printweek=" + currentWeekNumber + "&nextyear=" + nextYear;
-                CalActivityParser parser = new CalActivityParser(roomURL, room.getBuilding(), sc.createBuildingCode(room.getCode()));
+                String roomURL = BuildingCodeParser.getRoomURL(room.getBuilding(), room.getBuildingCode()) + "&printweek=" + currentWeekNumber + "&nextyear=" + nextYear;
+                CalActivityParser parser = new CalActivityParser(roomURL, room.getBuilding(), sc.createBuildingCode(room.getBuildingCode()));
                 List<CalActivity> listOfCal = parser.getCalActivityList();
 
 

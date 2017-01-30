@@ -9,33 +9,19 @@ import java.io.Serializable;
  * @version 1.1
  *
  */
-public class UIBroom implements Serializable{
-    private String code;
+public class UIBroom extends UiBunit implements Serializable{
     private String building;
-    private String name;
 
 
     public UIBroom(String code , String building, String name) {
-        this.code = code;
+        super(code,name);
         this.building = building;
-        this.name = name;
 
     }
     public String getBuilding() {
         return building;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public void setBuilding(String building) {
         this.building = building;
@@ -48,15 +34,15 @@ public class UIBroom implements Serializable{
 
         UIBroom uiBroom = (UIBroom) o;
 
-        if (code != null ? !code.equals(uiBroom.code) : uiBroom.code != null) return false;
-        return name != null ? name.equals(uiBroom.name) : uiBroom.name == null;
+        if (this.getBuildingCode() != null ? !this.getBuildingCode().equals(uiBroom.getBuildingCode()) : uiBroom.getBuildingCode() != null) return false;
+        return this.getName() != null ? this.getName().equals(uiBroom.getName()) : uiBroom.getName() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = code != null ? code.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        int result = this.getBuildingCode() != null ? this.getBuildingCode().hashCode() : 0;
+        result = 31 * result + (this.getName() != null ? this.getName().hashCode() : 0);
         return result;
     }
 }

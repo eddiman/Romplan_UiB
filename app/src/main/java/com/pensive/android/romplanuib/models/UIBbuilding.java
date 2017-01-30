@@ -12,27 +12,13 @@ import java.util.List;
  * @version 1.0
  *
  */
-public class UIBbuilding implements Serializable{
-
-    private String name;
-    private boolean mIsHistory = false;
-
+public class UIBbuilding extends UiBunit implements Serializable{
     private List<UIBroom> listOfRooms;
 
 
-    public UIBbuilding(String name, List<UIBroom> listOfRooms) {
-        this.name = name;
+    public UIBbuilding(String name, String buildingCode, List<UIBroom> listOfRooms) {
+        super(buildingCode, name);
         this.listOfRooms = listOfRooms;
-
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setListOfRooms(List<UIBroom> listOfRooms) {
@@ -46,7 +32,7 @@ public class UIBbuilding implements Serializable{
     @Override
     public String toString() {
         return "UIBbuilding{" +
-                "name='" + name + '\'' +
+                "name='" + this.getName() + '\'' +
                 '}';
     }
 
@@ -57,12 +43,12 @@ public class UIBbuilding implements Serializable{
 
         UIBbuilding that = (UIBbuilding) o;
 
-        return name.equals(that.name);
+        return this.getName().equals(that.getName());
 
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return this.getName().hashCode();
     }
 }
