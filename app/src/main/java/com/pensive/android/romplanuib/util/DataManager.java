@@ -46,7 +46,8 @@ public class DataManager {
                 ArrayList<UIBbuilding> downloadedBuildings = new ArrayList<>();
                 for (String name : buildingNames) {
                     List<UIBroom> rooms = downloadRooms(name);
-                    UIBbuilding building = new UIBbuilding(name, rooms);
+                    String buildingCode = BuildingCodeParser.getBuildingCode(name);
+                    UIBbuilding building = new UIBbuilding(name, buildingCode, rooms);
                     downloadedBuildings.add(building);
                 }
                 Collections.sort(downloadedBuildings,new UiBBuildingComparator());
