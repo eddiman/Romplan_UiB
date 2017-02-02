@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="font_family_light">sans-serif-light</string>
+    <string name="action_search">Søk</string>
+    <string name="action_settings">Innstillingar</string>
+    <string name="add_elem_to_fav">\u0020er lagt til i favorittar</string>
+    <string name="app_title">Romplan UiB</string>
+    <string name="event_added">Hendinga vert lagt til i kalendaren din.</string>
+    <string name="event_cancel">Tilbake</string>
+    <string name="event_no_descript">Inga beskriving</string>
+    <string name="font_family_black">sans-serif-black</string>
+    <string name="font_family_condensed">sans-serif-condensed</string>
+    <string name="font_family_medium">sans-serif-medium</string>
+    <string name="font_family_regular">sans-serif</string>
+    <string name="font_family_thin">sans-serif-thin</string>
+    <string name="load_data_string">Hentar data…</string>
+    <string name="main_title">Romplan for UiB</string>
+    <string name="pref_about">Om</string>
+    <string name="pref_about_text_1">Dataa i denne applikasjonen vert henta frå:</string>
+    <string name="pref_about_text_2"></string>
+    <string name="pref_about_text_3">Kjeldekoden finnast open på GitHub:</string>
+    <string name="pref_general">Generelt</string>
+    <string name="pref_language">Språk</string>
+    <string name="pref_libs">Tredjepartsbibliotek</string>
+    <string name="pref_license_title">Lisensar</string>
+    <string name="pref_title">Innstillingar</string>
+    <string name="pref_version">Versjon</string>
+    <string name="remove_elem_from_fav">\u0020er fjerna frå favorittar</string>
+    <string name="search_buildings">Søk etter bygningar…</string>
+    <string name="splash_title">Romplan for Universitetet i Bergen</string>
+    <string name="tab_buildings">BYGNINGAR</string>
+    <string name="tab_favorites">FAVORITTAR</string>
+    <string name="title_activity_settings">Innstillingar</string>
+    <string name="week">Veke</string>
+</resources>
