@@ -12,10 +12,8 @@ import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.models.UiBunit;
 import com.pensive.android.romplanuib.util.DataManager;
-import com.pensive.android.romplanuib.util.UiBRoomComparator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,6 +30,10 @@ public class FavoritesFragment extends Fragment {
      */
     private static final String ARG_SECTION_NUMBER = "section_number";
     DataManager dataManager;
+    private FavoriteAdapter adapter;
+    private View rootView;
+    private ListView allFavoritesListView;
+    private ArrayList<UiBunit> favorites;
 
     public FavoritesFragment() {
     }
@@ -51,20 +53,48 @@ public class FavoritesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_favorites, container, false);
-        ListView allFavoritesListView = (ListView)rootView.findViewById(R.id.fav_list);
+         rootView = inflater.inflate(R.layout.fragment_favorites, container, false);
+         allFavoritesListView = (ListView)rootView.findViewById(R.id.fav_list);
         dataManager = new DataManager(rootView.getContext());
+
         if(dataManager.getFavoriteBuildings().size()>0 || dataManager.getFavoriteRoom().size()>0) {
             List<UIBbuilding> favBuilds = dataManager.getFavoriteBuildings();
             List<UIBroom> favRooms = dataManager.getFavoriteRoom();
-            List<UiBunit> favorites = new ArrayList<UiBunit>(favBuilds);
+            favorites = new ArrayList<UiBunit>(favBuilds);
             favorites.addAll(favRooms);
 
-            FavoriteAdapter adapter = new FavoriteAdapter(getActivity(), R.layout.list_favorite_element, favorites);
-
+            adapter = new FavoriteAdapter(getActivity(), R.layout.list_favorite_element, favorites);
             allFavoritesListView.setAdapter(adapter);
             allFavoritesListView.setFastScrollEnabled(true);
         }
         return rootView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        allFavoritesListView.setAdapter(null);
+        dataManager = new DataManager(getActivity());
+
+        if(dataManager.getFavoriteBuildings().size()>0 || dataManager.getFavoriteRoom().size()>0) {
+            List<UIBbuilding> favBuilds = dataManager.getFavoriteBuildings();
+            List<UIBroom> favRooms = dataManager.getFavoriteRoom();
+            List<UiBunit> favorites = new ArrayList<UiBunit>(favBuilds);
+            favorites = new ArrayList<UiBunit>(favBuilds);
+            favorites.addAll(favRooms);
+
+            adapter = new FavoriteAdapter(getActivity(), R.layout.list_favorite_element, favorites);
+            allFavoritesListView.setAdapter(adapter);
+            allFavoritesListView.setFastScrollEnabled(true);
+            adapter.notifyDataSetChanged();
+            allFavoritesListView.refreshDrawableState();
+        }
+    }
+
+    public void updateListView() {
+        if(adapter!=null){
+            adapter.notifyDataSetChanged();
+        }
+    }
+
 }
