@@ -9,7 +9,7 @@
     <string name="event_cancel">Back</string>
     <string name="event_no_descript">No description</string>
     <string name="load_data_string">Fetching data…</string>
-    <string name="main_title">Roomschedule for UiB</string>
+    <string name="main_title">Room schedule for UiB</string>
     <string name="pref_about">About</string>
     <string name="pref_about_text_1">The data in this application is fetched from:</string>
     <string name="pref_about_text_2">Source code can be found at:</string>

@@ -1,19 +1,14 @@
 <resources>
 
-
-
-
-
-
-
     <!--Generelt -->
     <string name="main_title">Romplan for UiB</string>
     <string name="splash_title">Romplan for Universitetet i Bergen</string>
     <string name="app_title">Romplan UiB</string>
     <string name="load_data_string">Henter data…</string>
-
     <string name="add_elem_to_fav">\u0020er lagt til i favoritter</string>
     <string name="remove_elem_from_fav">\u0020er fjernet fra favoritter</string>
+
+
     <!--TabActivity -->
     <string name="action_search">Søk</string>
     <string name="action_settings">Innstillinger</string>
