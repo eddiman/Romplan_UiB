@@ -1,6 +1,5 @@
 package com.pensive.android.romplanuib;
 
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
@@ -35,13 +34,11 @@ import java.util.List;
 import jp.wasabeef.picasso.transformations.ColorFilterTransformation;
 import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 
-import static java.security.AccessController.getContext;
-
 /**
  * @author Edvard Bjørgen & Fredrik Heimsæter
  * @version 1.0
  */
-public class RoomActivity extends AppCompatActivity {
+public class BuildingActivity extends AppCompatActivity {
 
     UIBbuilding building;
     List<UIBroom> errorList = new ArrayList<>();
@@ -55,6 +52,8 @@ public class RoomActivity extends AppCompatActivity {
 
     StringCleaner sc = new StringCleaner();
     private CollapsingToolbarLayout collapsingToolbar;
+    private FloatingActionButton fab;
+    private boolean isBuildingFav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +80,7 @@ public class RoomActivity extends AppCompatActivity {
         //
         appBar = (AppBarLayout) findViewById(R.id.room_appbar);
 
-         collapsingToolbar =
+        collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         if(collapsingToolbar != null){
             collapsingToolbar.setTitle(buildingName);
@@ -92,15 +91,28 @@ public class RoomActivity extends AppCompatActivity {
         loadBackdrop();
         floatingActionButtonFavoriteListener();
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(RoomActivity.this, R.color.transpBlack));
+        getWindow().setStatusBarColor(ContextCompat.getColor(BuildingActivity.this, R.color.transpBlack));
 
         roomList = (ListView) findViewById(R.id.room_listView);
 
-        RoomAdapter adapter  = new RoomAdapter(RoomActivity.this, R.layout.list_room_layout, building.getListOfRooms());
+        RoomAdapter adapter  = new RoomAdapter(BuildingActivity.this, R.layout.list_room_layout, building.getListOfRooms());
         roomList.setAdapter(adapter);
         roomList.setFastScrollEnabled(true);
-
+        checkIfBuildIsFav();
         setAppBarLayoutHeightOfScreenDivide(2);
+
+    }
+
+    private void checkIfBuildIsFav() {
+
+        if(dataManager.getFavoriteBuildings().contains(building)) {
+            fab.setImageResource(R.drawable.ic_star_full);
+            isBuildingFav = true;
+        }else{
+            fab.setImageResource(R.drawable.ic_star_empty);
+            isBuildingFav = false;
+
+        }
 
     }
 
@@ -149,21 +161,26 @@ public class RoomActivity extends AppCompatActivity {
      * TODO: Use it for adding and removing favorites.
      */
     private void floatingActionButtonFavoriteListener() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabRoom);
+        fab = (FloatingActionButton) findViewById(R.id.fabRoom);
         if(fab != null)
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     updateDataManager();
                     Snackbar snack;
-                    if(!dataManager.getFavoriteBuildings().contains(building)) {
+                    if(!isBuildingFav) {
                         dataManager.addFavoriteBuilding(building, findViewById(R.id.room_listView).getContext());
                         snack = Snackbar.make(view, building.getName() + getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
+                        fab.setImageResource(R.drawable.ic_star_full);
+                        isBuildingFav = true;
                     }else{
                         dataManager.removeFavoriteBuilding(building,findViewById(R.id.room_listView).getContext());
                         snack = Snackbar.make(view, building.getName() + getString(R.string.remove_elem_from_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
+                        fab.setImageResource(R.drawable.ic_star_empty);
+                        isBuildingFav = false;
+
                     }
                     updateDataManager();
                     View sbView = snack.getView();
@@ -218,7 +235,7 @@ public class RoomActivity extends AppCompatActivity {
     }
     public void onBackPressed() {
         super.onBackPressed();
-        /*Intent intent = new Intent(RoomActivity.this, TabActivity.class);
+        /*Intent intent = new Intent(BuildingActivity.this, TabActivity.class);
         startActivity(intent);
         finish();*/
 

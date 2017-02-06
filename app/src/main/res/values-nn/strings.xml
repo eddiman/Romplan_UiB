@@ -17,14 +17,14 @@
     <string name="main_title">Romplan for UiB</string>
     <string name="pref_about">Om</string>
     <string name="pref_about_text_1">Dataa i denne applikasjonen vert henta frå:</string>
-    <string name="pref_about_text_2"></string>
     <string name="pref_about_text_3">Kjeldekoden finnast open på GitHub:</string>
-    <string name="pref_general">Generelt</string>
     <string name="pref_language">Språk</string>
     <string name="pref_libs">Tredjepartsbibliotek</string>
     <string name="pref_license_title">Lisensar</string>
     <string name="pref_title">Innstillingar</string>
     <string name="pref_version">Versjon</string>
+    <string name="building">Bygning</string>
+
     <string name="remove_elem_from_fav">\u0020er fjerna frå favorittar</string>
     <string name="search_buildings">Søk etter bygningar…</string>
     <string name="splash_title">Romplan for Universitetet i Bergen</string>
@@ -32,4 +32,5 @@
     <string name="tab_favorites">FAVORITTAR</string>
     <string name="title_activity_settings">Innstillingar</string>
     <string name="week">Veke</string>
+    <string name="pref_about_text_2">Kjeldekoden finnast på:</string>
 </resources>

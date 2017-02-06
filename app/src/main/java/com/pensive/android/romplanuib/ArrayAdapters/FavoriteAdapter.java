@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.pensive.android.romplanuib.R;
-import com.pensive.android.romplanuib.RoomActivity;
+import com.pensive.android.romplanuib.BuildingActivity;
 import com.pensive.android.romplanuib.WeekCalendarActivity;
 import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.models.UiBunit;
@@ -95,7 +95,7 @@ public class FavoriteAdapter extends ArrayAdapter<UiBunit> {
                     i.putExtra("currentWeek", getWeekNumber());
                     context.startActivity(i);
                 }else {
-                    Intent i = new Intent(context, RoomActivity.class);
+                    Intent i = new Intent(context, BuildingActivity.class);
                     i.putExtra("building", getItem(position));
                     context.startActivity(i);
                 }

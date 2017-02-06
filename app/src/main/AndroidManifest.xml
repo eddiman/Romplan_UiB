@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RoomActivity" />
+        <activity android:name=".BuildingActivity" />
         <activity android:name=".WeekCalendarActivity" />
         <activity
             android:name=".TabActivity"

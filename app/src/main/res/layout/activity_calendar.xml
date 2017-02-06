@@ -80,15 +80,34 @@
 
 
             <!-- **************************************************************************************************************************-->
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="128dp"
                 android:orientation="horizontal"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bygning: "
+                    android:id="@+id/building_name_text"
+                    android:textSize="24sp"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginEnd="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="sans-serif-thin"
+                    android:lines="1"
+                    android:scrollHorizontally="true"
+                    android:ellipsize="end"
+
+
+                    />
+
+
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -96,7 +115,9 @@
                     android:id="@+id/lastweek_button"
                     android:layout_gravity="center_vertical"
                     android:foreground="?android:attr/selectableItemBackground"
-                    />
+
+                    android:layout_alignBottom="@+id/week_text"
+                    android:layout_alignParentStart="true" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -108,6 +129,8 @@
                     android:fontFamily="sans-serif-thin"
 
 
+                    android:layout_alignBottom="@+id/nextweek_button"
+                    android:layout_toEndOf="@+id/lastweek_button"
                     />
 
                 <ImageButton
@@ -117,8 +140,9 @@
                     android:id="@+id/nextweek_button"
                     android:layout_gravity="center_vertical"
                     android:foreground="?android:attr/selectableItemBackground"
-/>
-            </LinearLayout>
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/week_text" />
+            </RelativeLayout>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"

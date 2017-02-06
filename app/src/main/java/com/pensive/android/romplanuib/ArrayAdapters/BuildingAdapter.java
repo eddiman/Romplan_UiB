@@ -3,15 +3,14 @@ package com.pensive.android.romplanuib.ArrayAdapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.pensive.android.romplanuib.BuildingActivity;
 import com.pensive.android.romplanuib.R;
-import com.pensive.android.romplanuib.RoomActivity;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.StringCleaner;
@@ -84,7 +83,7 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
             public void onClick(View arg0) {
                 //Toast.makeText(context, getItem(position).getListOfRooms().get(0).getCode(), Toast.LENGTH_SHORT).show();
 
-                Intent i = new Intent(context, RoomActivity.class);
+                Intent i = new Intent(context, BuildingActivity.class);
                 i.putExtra("building", getItem(position));
                 context.startActivity(i);
 

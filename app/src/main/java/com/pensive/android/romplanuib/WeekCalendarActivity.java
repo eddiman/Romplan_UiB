@@ -23,6 +23,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Display;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -83,14 +84,17 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     int nextYear = 0;
     DateFormatter df;
     String loadDataString;
-    DataManager dataManager;
+    private TextView buildingNameText;
+    Boolean isRoomfav;
 
+    DataManager dataManager;
     Calendar weekDayChanged;
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    private FloatingActionButton fab;
 
 
     @Override
@@ -124,6 +128,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         roomImage = (ImageView) findViewById(R.id.backdrop_room);
         mWeekView = (WeekView) findViewById(R.id.weekView);
         weekNumber = (TextView) findViewById(R.id.week_text);
+        buildingNameText = (TextView) findViewById(R.id.building_name_text);
 
         mWeekView.goToDate(weekDayChanged);
         mWeekView.goToHour(7);
@@ -135,13 +140,31 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         setAppBarLayoutHeightOfScreenDivide(2);
         floatingActionButtonFavoriteListener();
         getWindow().setStatusBarColor(ContextCompat.getColor(WeekCalendarActivity.this, R.color.transpBlack));
+
+        checkIfRoomIsFav();
+
         setRoomImage();
         setCollapsingTitles();
+        setBuildingTextView();
         setWeekButtons();
         updateWeekTextView();
 
 
     }
+
+    private void checkIfRoomIsFav() {
+
+        if(dataManager.getFavoriteRoom().contains(room)) {
+            fab.setImageResource(R.drawable.ic_star_full);
+            isRoomfav = true;
+        }else{
+            fab.setImageResource(R.drawable.ic_star_empty);
+            isRoomfav = false;
+
+        }
+
+    }
+
 
     /**
      * @param divide Set AppBar height to screen height divided by 2->5
@@ -332,21 +355,27 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      */
     private void floatingActionButtonFavoriteListener() {
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabWeekCal);
+        fab = (FloatingActionButton) findViewById(R.id.fabWeekCal);
         if(fab != null)
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     updateDataManager();
                     Snackbar snack;
-                    if(!dataManager.getFavoriteRoom().contains(room)) {
+                    if(!isRoomfav) {
+                        fab.setImageResource(R.drawable.ic_star_full);
                         dataManager.addFavoriteRoom(room, findViewById(R.id.weekView).getContext());
                         snack = Snackbar.make(view, room.getName() + getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
+                        isRoomfav = true;
+
                     }else{
+                        fab.setImageResource(R.drawable.ic_star_empty);
                         dataManager.removeFavoriteRoom(room,findViewById(R.id.weekView).getContext());
                         snack = Snackbar.make(view, room.getName() + getString(R.string.remove_elem_from_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
+                        isRoomfav = false;
                     }
                     updateDataManager();
                     View sbView = snack.getView();
@@ -363,6 +392,23 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     public void updateDataManager(){
         this.dataManager = new DataManager(findViewById(R.id.weekView).getContext());
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setBuildingTextView() {
+        String currBuildingName = room.getBuilding();
+        buildingNameText.setText(getString(R.string.building) + ": " +currBuildingName);
+
+    }
+
 
     /**
      * Sets the listener of the next- and last week buttons
@@ -564,9 +610,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     public void onBackPressed() {
         super.onBackPressed();
-        /*Intent intent = new Intent(SettingsActivity.this, TabActivity.class);
-        startActivity(intent);
-        finish();*/
 
     }
 

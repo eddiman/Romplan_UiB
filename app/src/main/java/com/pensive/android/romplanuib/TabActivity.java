@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Handler;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -18,24 +17,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.text.SpannableStringBuilder;
-import android.text.style.TypefaceSpan;
 import android.util.AttributeSet;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchHistoryTable;
 import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
-import com.pensive.android.romplanuib.ArrayAdapters.CustomTabLayout;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.models.UIBroom;
@@ -46,8 +40,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 public class TabActivity extends AppCompatActivity {
 
@@ -205,7 +197,7 @@ public class TabActivity extends AppCompatActivity {
              * When an item is clicked, onItemClick is fired. Initializes the textview in the
              * item-element. Then gets the string from it and passes it on in the getData()-method.
              * If the query matches a building name, getData() returns an intent. The intent is
-             * then started, and will open RoomActivity with the queried building.
+             * then started, and will open BuildingActivity with the queried building.
              */
             searchAdapter.addOnItemClickListener(new SearchAdapter.OnItemClickListener() {
                 @Override
@@ -234,7 +226,7 @@ public class TabActivity extends AppCompatActivity {
         mHistoryDatabase.addItem(new SearchItem(text));
         List<UIBbuilding> uiBbuildingList = dataManager.getAllBuildings();
         int index = Collections.binarySearch(uiBbuildingList, new UIBbuilding(text,"", new ArrayList<UIBroom>()), new UiBBuildingComparator());
-        Intent intent = new Intent(TabActivity.this, RoomActivity.class);
+        Intent intent = new Intent(TabActivity.this, BuildingActivity.class);
         intent.putExtra("building", uiBbuildingList.get(index));
         return intent;
 
@@ -366,7 +358,11 @@ public class TabActivity extends AppCompatActivity {
 
     }
 
+    public void onBackPressed() {
+        this.finishAffinity();
 
+
+    }
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
