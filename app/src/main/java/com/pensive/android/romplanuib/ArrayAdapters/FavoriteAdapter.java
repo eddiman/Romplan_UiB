@@ -81,6 +81,9 @@ public class FavoriteAdapter extends ArrayAdapter<UiBunit> {
             name = sc.createBuildingName(name);
         }
         holder.unitName.setText(name);
+        if(uibUnit instanceof UIBroom){
+            holder.buildCode.setText(sc.createBuildingCode(((UIBroom) uibUnit).getBuilding()));
+        }
         holder.buildCode.setText(uibUnit.getBuildingCode().replace(":",""));
 
 
