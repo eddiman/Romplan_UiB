@@ -31,5 +31,5 @@
     <string name="font_family_medium">sans-serif-medium</string>
     <string name="font_family_regular">sans-serif</string>
     <string name="font_family_thin">sans-serif-thin</string>
-    <string name="splash_title">Roomschedule for University of Bergen</string>
+    <string name="splash_title">Room schedule for University of Bergen</string>
 </resources>
