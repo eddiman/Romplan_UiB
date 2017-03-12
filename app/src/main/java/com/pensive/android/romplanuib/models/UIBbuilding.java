@@ -8,16 +8,16 @@ import java.util.List;
 /**
  * Class for making a building object
  *
- * @author Gaute Gjerløw Remen
- * @version 1.0
+ * @author Gaute Gjerløw Remen & Fredrik Heimsæter
+ * @version 2.0
  *
  */
 public class UIBbuilding extends UiBunit implements Serializable{
     private List<UIBroom> listOfRooms;
 
 
-    public UIBbuilding(String name, String buildingCode, List<UIBroom> listOfRooms) {
-        super(buildingCode, name);
+    public UIBbuilding(String areaID, String buildingID, String buildingName, List<UIBroom> listOfRooms) {
+        super(areaID, buildingID, buildingName);
         this.listOfRooms = listOfRooms;
     }
 
@@ -32,7 +32,10 @@ public class UIBbuilding extends UiBunit implements Serializable{
     @Override
     public String toString() {
         return "UIBbuilding{" +
-                "name='" + this.getName() + '\'' +
+                "areaID='" + this.getAreaID() + '\'' +
+                ", buildingID='" + this.getBuildingID() + '\'' +
+                ", name='" + this.getName() + '\'' +
+                "listOfRooms=" + listOfRooms +
                 '}';
     }
 

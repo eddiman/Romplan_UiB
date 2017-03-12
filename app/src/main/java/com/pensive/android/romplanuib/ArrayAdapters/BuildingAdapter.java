@@ -13,7 +13,6 @@ import com.pensive.android.romplanuib.BuildingActivity;
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.util.FontController;
-import com.pensive.android.romplanuib.util.StringCleaner;
 
 import java.util.List;
 
@@ -28,7 +27,6 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
     Context context;
     int textViewResourceId;
     List<UIBbuilding> buildings;
-    StringCleaner sc = new StringCleaner();
     FontController fc = new FontController();
     Typeface bebasFont;
 
@@ -74,8 +72,8 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
 
         UIBbuilding uibBuilding = buildings.get(position);
         holder.buildCode.setTypeface(bebasFont);
-        holder.buildText.setText(sc.createBuildingName(uibBuilding.getName()));
-        holder.buildCode.setText(sc.createBuildingCode(uibBuilding.getName()));
+        holder.buildText.setText(uibBuilding.getName());
+        holder.buildCode.setText(uibBuilding.getBuildingAcronym());
 
 
         row.setOnClickListener(new View.OnClickListener(){

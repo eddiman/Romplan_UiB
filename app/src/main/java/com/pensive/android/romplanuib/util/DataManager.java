@@ -5,13 +5,17 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.pensive.android.romplanuib.Exceptions.DownloadException;
-import com.pensive.android.romplanuib.io.BuildingCodeParser;
-import com.pensive.android.romplanuib.io.BuildingParser;
-import com.pensive.android.romplanuib.io.RoomParser;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -23,7 +27,7 @@ import java.util.List;
  * DataManager takes care of downloading and storing data about buildings and rooms.
  *
  * @author Fredrik Heimsæter & Edvard Bjørgen
- * @version 1.0
+ * @version 2.0
  */
 public class DataManager {
     List<UIBbuilding> allBuildings;
@@ -42,13 +46,11 @@ public class DataManager {
         }else{
             String error = "";
             try {
-                List<String> buildingNames = downloadBuildings();
+                List<String> areaIDs = downloadAreas();
                 ArrayList<UIBbuilding> downloadedBuildings = new ArrayList<>();
-                for (String name : buildingNames) {
-                    List<UIBroom> rooms = downloadRooms(name);
-                    String buildingCode = BuildingCodeParser.getBuildingCode(name);
-                    UIBbuilding building = new UIBbuilding(name, buildingCode, rooms);
-                    downloadedBuildings.add(building);
+                for (String ac : areaIDs) {
+                    downloadedBuildings.addAll(downloadBuildingsInArea(ac));
+
                 }
                 Collections.sort(downloadedBuildings,new UiBBuildingComparator());
                 this.allBuildings = downloadedBuildings;
@@ -62,35 +64,98 @@ public class DataManager {
     }
 
     /**
-     * Downloads the name off all buildings
-     * @return a list of buildingnames
+     * Downloads the list of areaIds
+     * @return List of Ids
      */
-    public List<String> downloadBuildings() throws DownloadException{
-        List<String> buildingNames;
+    public List<String> downloadAreas(){
+        List<String> areaIDs = new ArrayList<>();
+        Document doc = null;
         try {
-            BuildingParser buildingParser = new BuildingParser("http://rom.app.uib.no/ukesoversikt/?entry=byggrom");
-            buildingNames = buildingParser.getBuildings();
+            doc = Jsoup.connect("https://tp.data.uib.no/KEY.../ws/room/2.0/areas.php").ignoreContentType(true).get();
+            JsonParser jsonParser = new JsonParser();
+            JsonObject json = jsonParser.parse(doc.body().text()).getAsJsonObject();
+
+            for(JsonElement area: json.getAsJsonArray("data")){
+                areaIDs.add(area.getAsJsonObject().get("id").getAsString());
+            }
         }catch (IOException e){
-            throw new DownloadException();
+            e.printStackTrace();
         }
-        return buildingNames;
+        return areaIDs;
+    }
+
+    /**
+     * Downloads information about buildings, and creates the buildingObjects
+     * @param areaID the are to download buildings for
+     * @return A List of buildings
+     * @throws DownloadException
+     */
+    public List<UIBbuilding> downloadBuildingsInArea(String areaID) throws DownloadException{
+        List<UIBbuilding> buildingsInArea = new ArrayList<>();
+        try {
+            Document doc = Jsoup.connect("https://tp.data.uib.no/KEY.../ws/room/2.0/buildings.php?id="+areaID).ignoreContentType(true).get();
+            JsonParser jsonParser = new JsonParser();
+            JsonObject json = jsonParser.parse(doc.body().text()).getAsJsonObject();
+
+            for(JsonElement buildingJson: json.getAsJsonArray("data")){
+                String id = buildingJson.getAsJsonObject().get("id").getAsString();
+                String name = buildingJson.getAsJsonObject().get("name").getAsString();
+                List<UIBroom> roomsInBuilding = downloadRoomsInBuilding(areaID, id);
+                UIBbuilding building = new UIBbuilding(areaID, id, name, roomsInBuilding);
+                if(roomsInBuilding.size()>0) {
+                    building.setBuildingAcronym(roomsInBuilding.get(0).getBuildingAcronym());
+                }else{
+                    building.setBuildingAcronym("??");
+                }
+                buildingsInArea.add(building);
+                System.out.println(building);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        return buildingsInArea;
     }
 
     /**
      * Downloads the rooms for a building
-     * @param buildingName the name of the building to fetch rooms for
+     * @param areaID the area the building is located in
+     * @param buildingID the id of the building to get rooms for
      * @return a list of rooms
+     * @throws DownloadException
      */
-    public List<UIBroom> downloadRooms(String buildingName) throws DownloadException{
-        List<UIBroom> rooms;
-        try{
-            String buildingURL = BuildingCodeParser.getBuildingURL(buildingName);
-            RoomParser roomParser = new RoomParser(buildingURL,buildingName);
-            rooms = roomParser.getRooms();
+    public List<UIBroom> downloadRoomsInBuilding(String areaID, String buildingID) throws DownloadException{
+        List<UIBroom> roomsInBuilding = new ArrayList<>();
+        try {
+            Document doc = Jsoup.connect("https://tp.data.uib.no/KEY.../ws/room/2.0/rooms.php?id="+buildingID).ignoreContentType(true).get();
+            JsonParser jsonParser = new JsonParser();
+            JsonObject json = jsonParser.parse(doc.body().text()).getAsJsonObject();
+
+            for(JsonElement roomJson: json.getAsJsonArray("data")){
+                String id = roomJson.getAsJsonObject().get("id").getAsString();
+                String name = roomJson.getAsJsonObject().get("name").getAsString();
+                String type = roomJson.getAsJsonObject().get("typeid").getAsString();
+                int size = roomJson.getAsJsonObject().get("size").getAsInt();
+
+                doc = Jsoup.connect("https://tp.data.uib.no/KEY.../ws/room/2.0/?id="+id).ignoreContentType(true).get();
+                json = jsonParser.parse(doc.body().text()).getAsJsonObject().get("data").getAsJsonObject();
+                String buildingAcronym = json.get("buildingacronym").getAsString();
+                String imageURL;
+                try {
+                    imageURL = json.get("roomimg_url").getAsString();
+                }catch (UnsupportedOperationException e){
+                    imageURL = "defaultImage";//Todo fix
+                }
+                UIBroom room = new UIBroom(areaID, buildingID, id, name, type, size);
+                room.setBuildingAcronym(buildingAcronym);
+                room.setImageURL(imageURL);
+                roomsInBuilding.add(room);
+            }
         }catch (IOException e){
-            throw new DownloadException();
+            e.printStackTrace();
         }
-        return rooms;
+
+        return roomsInBuilding;
     }
 
     /**
@@ -107,10 +172,10 @@ public class DataManager {
         String allBuildingsString = gson.toJson(allBuildings);
         String favoriteBuildingsString = gson.toJson(favoriteBuildings);
         String favoriteRoomsString = gson.toJson(favoriteRoom);
-        editor.putString("error", error);
-        editor.putString("all_buildings",allBuildingsString);
-        editor.putString("favorite_buildings",favoriteBuildingsString);
-        editor.putString("favorite_rooms",favoriteRoomsString);
+        editor.putString("error_v2", error);
+        editor.putString("all_buildings_v2",allBuildingsString);
+        editor.putString("favorite_buildings_v2",favoriteBuildingsString);
+        editor.putString("favorite_rooms_v2",favoriteRoomsString);
         editor.apply();
     }
 
@@ -123,7 +188,7 @@ public class DataManager {
     public List<UIBbuilding> loadBuildingData(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("all_buildings", null);
+        String json = sharedPreferences.getString("all_buildings_v2", null);
         Type type = new TypeToken<List<UIBbuilding>>(){}.getType();
         List<UIBbuilding> buildings = gson.fromJson(json,type);
         return buildings;
@@ -132,7 +197,7 @@ public class DataManager {
     public List<UIBbuilding> loadFavoriteBuildings(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("favorite_buildings",null);
+        String json = sharedPreferences.getString("favorite_buildings_v2",null);
         Type type = new TypeToken<List<UIBbuilding>>(){}.getType();
         List<UIBbuilding> favorites = gson.fromJson(json,type);
         if (favorites==null){
@@ -143,7 +208,7 @@ public class DataManager {
     public List<UIBroom> loadFavoriteRooms(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("favorite_rooms",null);
+        String json = sharedPreferences.getString("favorite_rooms_v2",null);
         Type type = new TypeToken<List<UIBroom>>(){}.getType();
         List<UIBroom> favorites = gson.fromJson(json,type);
         if (favorites==null){
@@ -178,7 +243,7 @@ public class DataManager {
      */
     private boolean checkError(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String error = sharedPreferences.getString("error", null);
+        String error = sharedPreferences.getString("error_v2", null);
         return error != null && !error.equals("none");
     }
 

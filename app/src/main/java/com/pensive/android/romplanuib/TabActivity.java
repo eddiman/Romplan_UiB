@@ -225,7 +225,7 @@ public class TabActivity extends AppCompatActivity {
     protected Intent getData(String text, int position) {
         mHistoryDatabase.addItem(new SearchItem(text));
         List<UIBbuilding> uiBbuildingList = dataManager.getAllBuildings();
-        int index = Collections.binarySearch(uiBbuildingList, new UIBbuilding(text,"", new ArrayList<UIBroom>()), new UiBBuildingComparator());
+        int index = Collections.binarySearch(uiBbuildingList, new UIBbuilding(text,"","", new ArrayList<UIBroom>()), new UiBBuildingComparator());
         Intent intent = new Intent(TabActivity.this, BuildingActivity.class);
         intent.putExtra("building", uiBbuildingList.get(index));
         return intent;
