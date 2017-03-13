@@ -59,8 +59,8 @@ public class BuildingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_room);
 
         building = getBuildingFromLastActivity();
-        buildingCode = "";//sc.createBuildingCode(building.getName());
-        buildingName = "";//sc.createBuildingName(building.getName());
+        buildingCode = building.getBuildingAcronym();
+        buildingName = building.getName();
         updateDataManager();
 
         initGUI();

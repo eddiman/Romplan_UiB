@@ -288,7 +288,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         final String eventTitleCal = eventData[0];
         final long eventStartInMillis = event.getStartTime().getTimeInMillis();
         final long eventEndInMillis = event.getEndTime().getTimeInMillis();
-        final String location = "";//TODO sc.createBuildingName(room.getRoomID());
+        final String location = room.getBuildingAcronym();//TODO should be buildingname, not acronym
 
 
         //Checks whether eventData contains description, then sets the FINAL string to the temporary description.
@@ -400,7 +400,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     }
 
     private void setBuildingTextView() {
-        String currBuildingName = room.getRoomID();
+        String currBuildingName = room.getBuildingAcronym();//TODO buildingname?
         buildingNameText.setText(getString(R.string.building) + ": " +currBuildingName);
 
     }
@@ -510,7 +510,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (collapsingToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
                     //Collapsed, after scrolling down
-                    collapsingToolbar.setTitle(room.getName() + " - ");//TODO + sc.createBuildingName(room.getRoomID()));
+                    collapsingToolbar.setTitle(room.getName() + " - " + room.getBuildingAcronym());//TODO should be buildingname, not acronym
                 } else {
                     //Expanded, normal state
                     collapsingToolbar.setTitle(room.getName());
@@ -527,14 +527,12 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
 
     private void setRoomImage() {
-
-        buildingCode = "";//TODO sc.createBuildingCode(room.getRoomID());
-
+        
         List<Transformation> transformations = new ArrayList<>();
         transformations.add(new GrayscaleTransformation());
         transformations.add(new ColorFilterTransformation(ContextCompat.getColor(this, R.color.transp_primary_blue)));
 
-        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/" + buildingCode + "_" + room.getAreaID() + "/" + buildingCode + "_" + room.getAreaID() + "I.jpg";
+        String url = room.getImageURL();// "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/" + buildingCode + "_" + room.getAreaID() + "/" + buildingCode + "_" + room.getAreaID() + "I.jpg";
         Picasso.with(WeekCalendarActivity.this)
                 .load(URLEncoding.encode(url))
                 .centerCrop()
