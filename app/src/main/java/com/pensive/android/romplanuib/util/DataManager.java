@@ -108,7 +108,6 @@ public class DataManager {
                     building.setBuildingAcronym("??");
                 }
                 buildingsInArea.add(building);
-                System.out.println(building);
             }
         }catch (IOException e){
             e.printStackTrace();

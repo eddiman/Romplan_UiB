@@ -527,12 +527,12 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
 
     private void setRoomImage() {
-        
+
         List<Transformation> transformations = new ArrayList<>();
         transformations.add(new GrayscaleTransformation());
         transformations.add(new ColorFilterTransformation(ContextCompat.getColor(this, R.color.transp_primary_blue)));
 
-        String url = room.getImageURL();// "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/" + buildingCode + "_" + room.getAreaID() + "/" + buildingCode + "_" + room.getAreaID() + "I.jpg";
+        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/" + buildingCode + "_" + room.getAreaID() + "/" + buildingCode + "_" + room.getAreaID() + "I.jpg";
         Picasso.with(WeekCalendarActivity.this)
                 .load(URLEncoding.encode(url))
                 .centerCrop()

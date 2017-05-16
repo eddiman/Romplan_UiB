@@ -3,7 +3,10 @@ package com.pensive.android.romplanuib.models;
 import java.io.Serializable;
 
 /**
- * Created by fredrik on 1/26/17.
+ * Superclass for Units (Buildings and rooms)
+ *
+ * @author Fredrik Heimsæter
+ * @version 2.0
  */
 
 public abstract class UiBunit implements Serializable{
