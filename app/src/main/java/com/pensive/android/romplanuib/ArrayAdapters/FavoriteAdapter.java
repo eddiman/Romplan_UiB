@@ -15,7 +15,6 @@ import com.pensive.android.romplanuib.WeekCalendarActivity;
 import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.models.UiBunit;
 import com.pensive.android.romplanuib.util.FontController;
-import com.pensive.android.romplanuib.util.StringCleaner;
 
 import java.util.Calendar;
 import java.util.List;
@@ -31,7 +30,6 @@ public class FavoriteAdapter extends ArrayAdapter<UiBunit> {
     Context context;
     int textViewResourceId;
     List<UiBunit> units;
-    StringCleaner sc = new StringCleaner();
     FontController fc = new FontController();
     Typeface bebasFont;
 
@@ -77,14 +75,9 @@ public class FavoriteAdapter extends ArrayAdapter<UiBunit> {
         UiBunit uibUnit = units.get(position);
         holder.buildCode.setTypeface(bebasFont);
         String name = uibUnit.getName();
-        if(name.startsWith("(")){
-            name = sc.createBuildingName(name);
-        }
         holder.unitName.setText(name);
-        if(uibUnit instanceof UIBroom){
-            holder.buildCode.setText(sc.createBuildingCode(((UIBroom) uibUnit).getBuilding()));
-        }
-        holder.buildCode.setText(uibUnit.getBuildingCode().replace(":",""));
+        holder.buildCode.setText(uibUnit.getBuildingAcronym());
+
 
 
         row.setOnClickListener(new View.OnClickListener(){

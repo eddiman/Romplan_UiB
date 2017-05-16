@@ -39,8 +39,6 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.pensive.android.romplanuib.io.BuildingCodeParser;
-import com.pensive.android.romplanuib.io.CalActivityParser;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.CalActivity;
 import com.pensive.android.romplanuib.models.UIBroom;
@@ -48,7 +46,6 @@ import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.DateFormatter;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.Randomized;
-import com.pensive.android.romplanuib.util.StringCleaner;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -75,7 +72,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     List<WeekViewEvent> events = new ArrayList<>();
     TextView weekNumber;
     String buildingCode;
-    StringCleaner sc = new StringCleaner();
     private ImageView roomImage;
     FontController fc = new FontController();
     private CollapsingToolbarLayout collapsingToolbar;
@@ -292,7 +288,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         final String eventTitleCal = eventData[0];
         final long eventStartInMillis = event.getStartTime().getTimeInMillis();
         final long eventEndInMillis = event.getEndTime().getTimeInMillis();
-        final String location = sc.createBuildingName(room.getBuilding());
+        final String location = room.getBuildingAcronym();//TODO should be buildingname, not acronym
 
 
         //Checks whether eventData contains description, then sets the FINAL string to the temporary description.
@@ -404,7 +400,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     }
 
     private void setBuildingTextView() {
-        String currBuildingName = room.getBuilding();
+        String currBuildingName = room.getBuildingAcronym();//TODO buildingname?
         buildingNameText.setText(getString(R.string.building) + ": " +currBuildingName);
 
     }
@@ -514,7 +510,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (collapsingToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
                     //Collapsed, after scrolling down
-                    collapsingToolbar.setTitle(room.getName() + " - " + sc.createBuildingName(room.getBuilding()));
+                    collapsingToolbar.setTitle(room.getName() + " - " + room.getBuildingAcronym());//TODO should be buildingname, not acronym
                 } else {
                     //Expanded, normal state
                     collapsingToolbar.setTitle(room.getName());
@@ -531,14 +527,12 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
 
     private void setRoomImage() {
-
-        buildingCode = sc.createBuildingCode(room.getBuilding());
-
+        
         List<Transformation> transformations = new ArrayList<>();
         transformations.add(new GrayscaleTransformation());
         transformations.add(new ColorFilterTransformation(ContextCompat.getColor(this, R.color.transp_primary_blue)));
 
-        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/" + buildingCode + "_" + room.getBuildingCode() + "/" + buildingCode + "_" + room.getBuildingCode() + "I.jpg";
+        String url = room.getImageURL();// "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/" + buildingCode + "_" + room.getAreaID() + "/" + buildingCode + "_" + room.getAreaID() + "I.jpg";
         Picasso.with(WeekCalendarActivity.this)
                 .load(URLEncoding.encode(url))
                 .centerCrop()
@@ -580,7 +574,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             currentWeekNumber = Integer.parseInt(weekNumberString);
 
         } else {
-            extraBuilding = new UIBroom("Error:Room", "Error building", "Error");
+            extraBuilding = new UIBroom("Error:Room", "Error building", "Error", "Error", "Error", 0);
         }
         return extraBuilding;
     }
@@ -661,7 +655,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         ProgressDialog asyncDialog;
         UIBroom room;
         Randomized rnd = new Randomized();
-        StringCleaner sc = new StringCleaner();
         Context context;
         boolean timeoutError;
 
@@ -692,9 +685,9 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
             //TODO: Problem here when going back and forth in weeks, adds the events everytime it reloads a week, must adapt to not add events if week has already been loaded
             try {
-                String roomURL = BuildingCodeParser.getRoomURL(room.getBuilding(), room.getBuildingCode()) + "&printweek=" + currentWeekNumber + "&nextyear=" + nextYear;
-                CalActivityParser parser = new CalActivityParser(roomURL, room.getBuilding(), sc.createBuildingCode(room.getBuildingCode()));
-                List<CalActivity> listOfCal = parser.getCalActivityList();
+                String roomURL = "";//BuildingCodeParser.getRoomURL(room.getRoomID(), room.getAreaID()) + "&printweek=" + currentWeekNumber + "&nextyear=" + nextYear;
+                //CalActivityParser parser = new CalActivityParser(roomURL, room.getRoomID(), sc.createBuildingCode(room.getAreaID()));
+                List<CalActivity> listOfCal = new ArrayList<CalActivity>();//  parser.getCalActivityList();
 
 
                 for (int i = 0; i < listOfCal.size(); i++) {

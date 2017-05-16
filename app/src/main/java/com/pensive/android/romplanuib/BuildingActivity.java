@@ -24,7 +24,6 @@ import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.FontController;
-import com.pensive.android.romplanuib.util.StringCleaner;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -50,7 +49,6 @@ public class BuildingActivity extends AppCompatActivity {
     AppBarLayout appBar;
 
 
-    StringCleaner sc = new StringCleaner();
     private CollapsingToolbarLayout collapsingToolbar;
     private FloatingActionButton fab;
     private boolean isBuildingFav;
@@ -61,8 +59,8 @@ public class BuildingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_room);
 
         building = getBuildingFromLastActivity();
-        buildingCode = sc.createBuildingCode(building.getName());
-        buildingName = sc.createBuildingName(building.getName());
+        buildingCode = building.getBuildingAcronym();
+        buildingName = building.getName();
         updateDataManager();
 
         initGUI();
@@ -128,7 +126,7 @@ public class BuildingActivity extends AppCompatActivity {
         if( extra != null){
             extraBuilding = (UIBbuilding)getIntent().getSerializableExtra("building");
         } else {
-            extraBuilding = new UIBbuilding("Error building", "Error building",  errorList);
+            extraBuilding = new UIBbuilding("Error building", "Error building","Error building",  errorList);
         }
         return extraBuilding;
     }

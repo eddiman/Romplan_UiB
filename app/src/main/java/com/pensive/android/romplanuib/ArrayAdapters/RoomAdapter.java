@@ -33,7 +33,6 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
     int textViewResourceId;
     List<UIBroom> uiBrooms;
     String buildingCode;
-    com.pensive.android.romplanuib.util.StringCleaner stringCleaner = new com.pensive.android.romplanuib.util.StringCleaner();
     Randomized randomized = new Randomized();
 
     public RoomAdapter(Context context, int textViewResourceId, List<UIBroom> buildings) {
@@ -61,7 +60,7 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
     public View getView(final int position, View convertView, ViewGroup parent){
         View row = convertView;
         RoomHolder holder = null;
-        buildingCode = stringCleaner.createBuildingCode(uiBrooms.get(position).getBuilding());
+        buildingCode = uiBrooms.get(position).getBuildingAcronym();
 
         if (row == null) {
             holder = new RoomHolder();
@@ -81,7 +80,7 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
 
 
         //http://rom_img.app.uib.no/byggogrombilder/GR_/GR_110/GR_110I.jpg
-        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/"+ buildingCode + "_" + uiBrooms.get(position).getBuildingCode() + "/"+ buildingCode + "_" + uiBrooms.get(position).getBuildingCode() + "I.jpg";
+        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/"+ buildingCode + "_" + uiBrooms.get(position).getAreaID() + "/"+ buildingCode + "_" + uiBrooms.get(position).getAreaID() + "I.jpg";
         Picasso.with(context)
                 .load(URLEncoding.encode(url))
                 .centerCrop()
