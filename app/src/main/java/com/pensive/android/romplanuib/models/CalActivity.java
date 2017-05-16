@@ -140,17 +140,6 @@ public class CalActivity implements CalActivityInterface {
         return null;
     }
 
-    /**
-     * Method to assist in serializing activitites. Do note that information
-     * about which Node this activity belongs to is lost during serialization.
-     *
-     * @return a serializable representation of this activity To deserialize
-     */
-    public CalActivitySerializationHelper getSerializableObject() {
-        return new CalActivitySerializationHelper(getWeekday(), getTime(),
-                getDate(), getSubject(), getType(), getBuildingCode(),
-                getRoomCode());
-    }
 
     /**
      * Returns a string representation of the object with the date, time and
