@@ -15,7 +15,7 @@ public class CalActivityComparator implements Comparator<CalActivity> {
      */
     @Override
     public int compare(CalActivity activity1, CalActivity activity2) {
-        return activity1.getDate().compareTo(activity2.getDate());
+        return activity1.getBeginTime().compareTo(activity2.getBeginTime());
     }
 
 }

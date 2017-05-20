@@ -242,7 +242,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      * @param event the event to be displayed
      */
     private void createEventDialog(WeekViewEvent event) {
-        String[] eventData = event.getName().split(" - ");
+        String[] eventData = event.getName().split(" - ", 2);
 
         final AlertDialog dialog = new AlertDialog.Builder(this, R.style.DialogTheme)
                 .setView(R.layout.dialog_event)
@@ -682,20 +682,17 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         @Override
         protected List<WeekViewEvent> doInBackground(Void... param) {
+            updateDataManager();
 
             //TODO: Problem here when going back and forth in weeks, adds the events everytime it reloads a week, must adapt to not add events if week has already been loaded
             try {
-                String roomURL = "";//BuildingCodeParser.getRoomURL(room.getRoomID(), room.getAreaID()) + "&printweek=" + currentWeekNumber + "&nextyear=" + nextYear;
-                //CalActivityParser parser = new CalActivityParser(roomURL, room.getRoomID(), sc.createBuildingCode(room.getAreaID()));
-                List<CalActivity> listOfCal = new ArrayList<CalActivity>();//  parser.getCalActivityList();
 
+                List<CalActivity> listOfCal = dataManager.fetchCalendarActivities(room.getRoomID(), "2017-05-20", "2017-12-31");
 
                 for (int i = 0; i < listOfCal.size(); i++) {
 
 
-                    WeekViewEvent event = new WeekViewEvent(i, listOfCal.get(i).getSubject() +" - " + listOfCal.get(i).getDescription(), listOfCal.get(i).getBeginTime(), listOfCal.get(i).getEndTime());
-
-                    //UIBEvent event = new UIBEvent(i, listOfCal.get(i).getSubject() +" - " + listOfCal.get(i).getDescription(), listOfCal.get(i).getBeginTime(), listOfCal.get(i).getEndTime(), listOfCal.get(i).getSubject(), listOfCal.get(i).getDescription());
+                    WeekViewEvent event = new WeekViewEvent(i, listOfCal.get(i).getCourseID() + " " + listOfCal.get(i).getTeachingMethodName() + " - " + listOfCal.get(i).getSummary(), listOfCal.get(i).getBeginTime(), listOfCal.get(i).getEndTime());
 
                     event.setColor(rnd.getRandomColorFilter());
                     events.add(event);

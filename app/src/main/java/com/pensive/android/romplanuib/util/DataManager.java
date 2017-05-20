@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.pensive.android.romplanuib.Exceptions.DownloadException;
+import com.pensive.android.romplanuib.models.CalActivity;
 import com.pensive.android.romplanuib.models.UIBbuilding;
 import com.pensive.android.romplanuib.models.UIBroom;
 
@@ -155,6 +156,32 @@ public class DataManager {
         }
 
         return roomsInBuilding;
+    }
+
+    public List<CalActivity> fetchCalendarActivities(String roomID, String fromDate, String toDate){
+        List<CalActivity> calActivities = new ArrayList<>();
+        Document doc = null;
+        try {
+            doc = Jsoup.connect("https://tp.data.uib.no/KEY.../ws/1.4/room.php?id=" + roomID + "&fromdate=" + fromDate + "&todate=" + toDate + "&lang=nn").ignoreContentType(true).get();
+            JsonParser jsonParser = new JsonParser();
+            JsonObject json = jsonParser.parse(doc.body().text()).getAsJsonObject();
+
+            for(JsonElement event: json.getAsJsonArray("events")){
+                String courseID = event.getAsJsonObject().get("courseid").getAsString();
+                int weekNumber = event.getAsJsonObject().get("weeknr").getAsInt();
+                String teachingMethod = event.getAsJsonObject().get("teaching-method").getAsString();
+                String teachingMethodName = event.getAsJsonObject().get("teaching-method-name").getAsString();
+                String teachingTitle = event.getAsJsonObject().get("teaching-title").getAsString();
+                String beginTime = event.getAsJsonObject().get("dtstart").getAsString();
+                String endTime = event.getAsJsonObject().get("dtend").getAsString();
+                String summary = event.getAsJsonObject().get("summary").getAsString();
+                CalActivity calActivity = new CalActivity(courseID, weekNumber, teachingMethod, teachingMethodName, teachingTitle, beginTime, endTime, summary);
+                calActivities.add(calActivity);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return calActivities;
     }
 
     /**
