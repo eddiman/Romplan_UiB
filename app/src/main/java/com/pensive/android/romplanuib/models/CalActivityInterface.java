@@ -11,27 +11,12 @@ import java.util.Calendar;
 public interface CalActivityInterface {
 
 
-    /**
-     * Returns the value of the field node, which saves the primary node of the
-     * activity
-     *
-     * @return Node the HTML node
-     */
-    public Node getNode();
-
-    /**
-     * Gets the type of activity
-     *
-     * @return String the type of activity
-     */
-    public String getType();
-
-    /**
-     * Gets the room associated with the Activity
-     *
-     * @return String the room name
-     */
-    public String getRoomCode();
+    public String getCourseID();
+    public int getWeekNumber();
+    public String getTeachingMethod();
+    public String getTeachingMethodName();
+    public String getTeachingTitle();
+    public String getSummary();
 
     /**
      * Gets the begin date and time of the Activity saved as a Calendar object
@@ -52,5 +37,4 @@ public interface CalActivityInterface {
      *
      * @return String the description
      */
-    public String getDescription();
 }

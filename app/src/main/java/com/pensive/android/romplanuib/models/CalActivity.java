@@ -1,12 +1,8 @@
 package com.pensive.android.romplanuib.models;
 
-import org.jsoup.nodes.Node;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Edvard Bjørgen
@@ -14,123 +10,40 @@ import java.util.regex.Pattern;
  */
 public class CalActivity implements CalActivityInterface {
 
-    // Node is not serializable, drop from serialization
-    private Node activityNode;
+    private String courseID;
+    private int weekNumber;
+    private String teachingMethod;
+    private String teachingMethodName;
+    private String teachingTitle;
+    private Calendar beginTime;
+    private Calendar endTime;
+    private String summary;
 
-    private String roomCode;
-    private String buildingCode;
+    public CalActivity(String courseID, int weekNumber, String teachingMethod, String teachingMethodName, String teachingTitle, String beginTime, String endTime, String summary) {
+        this.courseID = courseID;
+        this.weekNumber = weekNumber;
+        this.teachingMethod = teachingMethod;
+        this.teachingMethodName = teachingMethodName;
+        this.teachingTitle = teachingTitle;
+        this.beginTime = parseCalendarDate(beginTime);
+        this.endTime = parseCalendarDate(endTime);
+        this.summary = summary;
+    }
 
-    private String subject;
-    private String type;
-    private String weekday;
-    private String time;
-    private String date;
 
-    private Calendar startCalendar;
-    private Calendar endCalendar;
 
     /**
      *
-     * @param activityNode
-     *            Node containing the activity itself
-     * @param subject
-     *            String representing the subject
-     * @param time
-     *            String representation of start and endtime of the activity
-     * @param type
-     *            String type of the activity (Forelesning/Seminar ect)
-     * @param room
-     *            String representation of the code for the room the activity
-     *            takes place in
-     * @param building
-     *            String represenatation of the code of the building the
-     *            activity takes place in
-     * @param date
-     *            String representation of the date for the activity
+     * @param timeDateString
+     *            String containing the date for the activity in a yyyy-MM-dd'T'HH:mm:ssZ format
+     * @return A Calendar object with the time and date input, or null if either parameter is invalid
      */
+    private Calendar parseCalendarDate(String timeDateString) {
 
-    public CalActivity(Node activityNode, String subject, String time,
-                       String type, String building, String room, String date) {
-
-        String calendarDate = "";
-
-        Pattern pattern = Pattern.compile("[0-9.]+");
-        Matcher matcher = pattern.matcher(date);
-
-        if (matcher.find())
-            calendarDate = matcher.group(0);
-
-        setWeekday(date.substring(0, 7));
-        setSubject(subject);
-        setTime(time);
-        setType(type);
-        setDate(calendarDate);
-
-        this.startCalendar = parseCalendarDate(calendarDate,
-                time.substring(0, 5));
-        this.endCalendar = parseCalendarDate(calendarDate,
-                time.substring(6, 11));
-
-        this.activityNode = activityNode;
-        this.roomCode = room;
-        this.buildingCode = building;
-
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getWeekday() {
-        return weekday;
-    }
-
-    public void setWeekday(String weekday) {
-        this.weekday = weekday;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    /**
-     *
-     * @param dateString
-     *            String containing the date for the activity in a dd.mm.yyyy
-     *            format
-     * @param timeString
-     *            String containing the start or endtime for the activity in a
-     *            hh:mm format
-     * @return A Calendar object with the time and date input, or null if either
-     *         parameter is invalid
-     */
-    private Calendar parseCalendarDate(String dateString, String timeString) {
-
-        String formatedDateString = timeString + "." + dateString;
-        SimpleDateFormat dateformater = new SimpleDateFormat("HH:mm.dd.MM.yyyy");
+        SimpleDateFormat dateformater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
 
         try {
-            Date date = dateformater.parse(formatedDateString);
+            Date date = dateformater.parse(timeDateString);
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
             return cal;
@@ -141,14 +54,18 @@ public class CalActivity implements CalActivityInterface {
     }
 
 
-    /**
-     * Returns a string representation of the object with the date, time and
-     * room code
-     */
     @Override
     public String toString() {
-        return getWeekday() + " " + getTime() + " " + getDate() + " "
-                + getSubject() + " " + getType() + " " + getRoomCode();
+        return "CalActivity{" +
+                "courseID='" + courseID + '\'' +
+                ", weekNumber=" + weekNumber +
+                ", teachingMethod='" + teachingMethod + '\'' +
+                ", teachingMethodName='" + teachingMethodName + '\'' +
+                ", teachingTitle='" + teachingTitle + '\'' +
+                ", beginTime=" + beginTime +
+                ", endTime=" + endTime +
+                ", summary='" + summary + '\'' +
+                '}';
     }
 
     /**
@@ -156,29 +73,35 @@ public class CalActivity implements CalActivityInterface {
      *         note that this will return null if the object has loaded from a
      *         file
      */
+
     @Override
-    public Node getNode() {
-        return activityNode;
+    public String getCourseID() {
+        return courseID;
     }
 
-    /**
-     * Returns what type of activity this is (Lecture/Seminar ect..)
-     */
     @Override
-    public String getType() {
-        return type;
+    public int getWeekNumber() {
+        return weekNumber;
     }
 
-    /**
-     * Returns the room code for the room where the activity takes place
-     */
     @Override
-    public String getRoomCode() {
-        return roomCode;
+    public String getTeachingMethod() {
+        return teachingMethod;
     }
 
-    public String getBuildingCode() {
-        return buildingCode;
+    @Override
+    public String getTeachingMethodName() {
+        return teachingMethodName;
+    }
+
+    @Override
+    public String getTeachingTitle() {
+        return teachingTitle;
+    }
+
+    @Override
+    public String getSummary() {
+        return summary;
     }
 
     /**
@@ -186,7 +109,7 @@ public class CalActivity implements CalActivityInterface {
      */
     @Override
     public Calendar getBeginTime() {
-        return startCalendar;
+        return beginTime;
     }
 
     /**
@@ -194,16 +117,9 @@ public class CalActivity implements CalActivityInterface {
      */
     @Override
     public Calendar getEndTime() {
-        return endCalendar;
+        return endTime;
     }
 
-    /**
-     * Returns a string description of the activity (same as getType())
-     */
-    @Override
-    public String getDescription() {
-        return type;
-    }
 
 
 }
