@@ -5,21 +5,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TypefaceSpan;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
 
 import com.pensive.android.romplanuib.util.DataManager;
-import com.pensive.android.romplanuib.models.UIBbuilding;
-import com.pensive.android.romplanuib.models.UIBroom;
+import com.pensive.android.romplanuib.models.Building;
 
 import java.util.List;
 
@@ -75,7 +70,7 @@ public class StartActivity extends AppCompatActivity {
 
 }
 
-class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
+class JsoupTask extends AsyncTask<Void, Void, List<Building>>{
     private Context context;
     private ProgressDialog asyncDialog;
     private SpannableString loadSpanString;
@@ -114,7 +109,7 @@ class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
      * @return the list of allbuildings
      */
     @Override
-    protected List<UIBbuilding> doInBackground(Void... param) {
+    protected List<Building> doInBackground(Void... param) {
 
         DataManager dataManager = new DataManager(context);
 
@@ -126,7 +121,7 @@ class JsoupTask extends AsyncTask<Void, Void, List<UIBbuilding>>{
      * dismisses the dialog and starts the TabActivity
      * @param buildings a list of the buildings, again standard param for onPostExecute
      */
-    protected void onPostExecute(List<UIBbuilding> buildings){
+    protected void onPostExecute(List<Building> buildings){
 
         asyncDialog.dismiss();
 

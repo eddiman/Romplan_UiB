@@ -30,11 +30,11 @@ import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchHistoryTable;
 import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
-import com.pensive.android.romplanuib.models.UIBbuilding;
+import com.pensive.android.romplanuib.models.Building;
+import com.pensive.android.romplanuib.models.Room;
 import com.pensive.android.romplanuib.util.DataManager;
-import com.pensive.android.romplanuib.models.UIBroom;
 import com.pensive.android.romplanuib.util.FontController;
-import com.pensive.android.romplanuib.util.UiBBuildingComparator;
+import com.pensive.android.romplanuib.util.BuildingComparator;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -224,24 +224,24 @@ public class TabActivity extends AppCompatActivity {
     @CallSuper
     protected Intent getData(String text, int position) {
         mHistoryDatabase.addItem(new SearchItem(text));
-        List<UIBbuilding> uiBbuildingList = dataManager.getAllBuildings();
-        int index = Collections.binarySearch(uiBbuildingList, new UIBbuilding(text,"","", new ArrayList<UIBroom>()), new UiBBuildingComparator());
+        List<Building> buildingList = dataManager.getAllBuildings();
+        int index = Collections.binarySearch(buildingList, new Building(text,"","", new ArrayList<Room>()), new BuildingComparator());
         Intent intent = new Intent(TabActivity.this, BuildingActivity.class);
-        intent.putExtra("building", uiBbuildingList.get(index));
+        intent.putExtra("building", buildingList.get(index));
         return intent;
 
     }
 
     /**
-     * Returns a List of SearchItems. It gets the list of the UIBbuilding objects, then populates
+     * Returns a List of SearchItems. It gets the list of the Building objects, then populates
      * the SearchView list with the name of the buildings.
      * @return A list of SearchItems with the building names.
      */
     private List<SearchItem> getSearchItemList(){
         List<SearchItem> suggestionsList = new ArrayList<>();
-        List<UIBbuilding> allBuildings = dataManager.getAllBuildings();
+        List<Building> allBuildings = dataManager.getAllBuildings();
 
-        for (UIBbuilding build : allBuildings) {
+        for (Building build : allBuildings) {
             suggestionsList.add(new SearchItem(build.getName()));
         }
         return suggestionsList;

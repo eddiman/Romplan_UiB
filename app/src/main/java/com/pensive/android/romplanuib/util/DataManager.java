@@ -6,14 +6,13 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.pensive.android.romplanuib.Exceptions.DownloadException;
+import com.pensive.android.romplanuib.models.Building;
 import com.pensive.android.romplanuib.models.CalActivity;
-import com.pensive.android.romplanuib.models.UIBbuilding;
-import com.pensive.android.romplanuib.models.UIBroom;
+import com.pensive.android.romplanuib.models.Room;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,9 +30,9 @@ import java.util.List;
  * @version 2.0
  */
 public class DataManager {
-    List<UIBbuilding> allBuildings;
-    List<UIBbuilding> favoriteBuildings;
-    List<UIBroom> favoriteRoom;
+    List<Building> allBuildings;
+    List<Building> favoriteBuildings;
+    List<Room> favoriteRoom;
     ApiKeys api = new ApiKeys();
 
     /**
@@ -49,12 +48,12 @@ public class DataManager {
             String error = "";
             try {
                 List<String> areaIDs = downloadAreas();
-                ArrayList<UIBbuilding> downloadedBuildings = new ArrayList<>();
+                ArrayList<Building> downloadedBuildings = new ArrayList<>();
                 for (String ac : areaIDs) {
                     downloadedBuildings.addAll(downloadBuildingsInArea(ac));
 
                 }
-                Collections.sort(downloadedBuildings,new UiBBuildingComparator());
+                Collections.sort(downloadedBuildings,new BuildingComparator());
                 this.allBuildings = downloadedBuildings;
 
             }catch (DownloadException downloadException){
@@ -92,8 +91,8 @@ public class DataManager {
      * @return A List of buildings
      * @throws DownloadException
      */
-    public List<UIBbuilding> downloadBuildingsInArea(String areaID) throws DownloadException{
-        List<UIBbuilding> buildingsInArea = new ArrayList<>();
+    public List<Building> downloadBuildingsInArea(String areaID) throws DownloadException{
+        List<Building> buildingsInArea = new ArrayList<>();
         try {
             Document doc = Jsoup.connect("https://tp.data.uib.no/" + api.getUibApiKey() + "/ws/room/2.0/buildings.php?id="+areaID).ignoreContentType(true).get();
             JsonParser jsonParser = new JsonParser();
@@ -102,8 +101,8 @@ public class DataManager {
             for(JsonElement buildingJson: json.getAsJsonArray("data")){
                 String id = buildingJson.getAsJsonObject().get("id").getAsString();
                 String name = buildingJson.getAsJsonObject().get("name").getAsString();
-                List<UIBroom> roomsInBuilding = downloadRoomsInBuilding(areaID, id);
-                UIBbuilding building = new UIBbuilding(areaID, id, name, roomsInBuilding);
+                List<Room> roomsInBuilding = downloadRoomsInBuilding(areaID, id);
+                Building building = new Building(areaID, id, name, roomsInBuilding);
                 if(roomsInBuilding.size()>0) {
                     building.setBuildingAcronym(roomsInBuilding.get(0).getBuildingAcronym());
                 }else{
@@ -125,8 +124,8 @@ public class DataManager {
      * @return a list of rooms
      * @throws DownloadException
      */
-    public List<UIBroom> downloadRoomsInBuilding(String areaID, String buildingID) throws DownloadException{
-        List<UIBroom> roomsInBuilding = new ArrayList<>();
+    public List<Room> downloadRoomsInBuilding(String areaID, String buildingID) throws DownloadException{
+        List<Room> roomsInBuilding = new ArrayList<>();
         try {
             Document doc = Jsoup.connect("https://tp.data.uib.no/" + api.getUibApiKey() + "/ws/room/2.0/rooms.php?id="+buildingID).ignoreContentType(true).get();
             JsonParser jsonParser = new JsonParser();
@@ -148,7 +147,7 @@ public class DataManager {
                 }catch (UnsupportedOperationException e){
                     imageURL = "defaultImage";//Todo fix
                 }
-                UIBroom room = new UIBroom(areaID, buildingID, id, name, type, size);
+                Room room = new Room(areaID, buildingID, id, name, type, size);
                 room.setBuildingAcronym(buildingAcronym);
                 room.setImageURL(imageURL);
                 roomsInBuilding.add(room);
@@ -211,34 +210,34 @@ public class DataManager {
     /**
      * Loads the building data from the storage.
      * @param context the context of the activity
-     * @return a list of {@link UIBbuilding}s
+     * @return a list of {@link Building}s
      */
-    public List<UIBbuilding> loadBuildingData(Context context){
+    public List<Building> loadBuildingData(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("all_buildings_v2", null);
-        Type type = new TypeToken<List<UIBbuilding>>(){}.getType();
-        List<UIBbuilding> buildings = gson.fromJson(json,type);
+        Type type = new TypeToken<List<Building>>(){}.getType();
+        List<Building> buildings = gson.fromJson(json,type);
         return buildings;
     }
 
-    public List<UIBbuilding> loadFavoriteBuildings(Context context){
+    public List<Building> loadFavoriteBuildings(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("favorite_buildings_v2",null);
-        Type type = new TypeToken<List<UIBbuilding>>(){}.getType();
-        List<UIBbuilding> favorites = gson.fromJson(json,type);
+        Type type = new TypeToken<List<Building>>(){}.getType();
+        List<Building> favorites = gson.fromJson(json,type);
         if (favorites==null){
             favorites = new ArrayList<>();
         }
         return favorites;
     }
-    public List<UIBroom> loadFavoriteRooms(Context context){
+    public List<Room> loadFavoriteRooms(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
         String json = sharedPreferences.getString("favorite_rooms_v2",null);
-        Type type = new TypeToken<List<UIBroom>>(){}.getType();
-        List<UIBroom> favorites = gson.fromJson(json,type);
+        Type type = new TypeToken<List<Room>>(){}.getType();
+        List<Room> favorites = gson.fromJson(json,type);
         if (favorites==null){
             favorites = new ArrayList<>();
         }
@@ -249,7 +248,7 @@ public class DataManager {
      * Gets all buildings.
      * @return a list of all buildings.
      */
-    public List<UIBbuilding> getAllBuildings() {
+    public List<Building> getAllBuildings() {
         return allBuildings;
     }
 
@@ -275,30 +274,30 @@ public class DataManager {
         return error != null && !error.equals("none");
     }
 
-    public void addFavoriteBuilding(UIBbuilding newFavoriteBuilding,Context context) {
+    public void addFavoriteBuilding(Building newFavoriteBuilding, Context context) {
         this.favoriteBuildings.add(newFavoriteBuilding);
         storeData(context,"");
     }
-    public void removeFavoriteBuilding(UIBbuilding oldFavoriteBuilding,Context context){
+    public void removeFavoriteBuilding(Building oldFavoriteBuilding, Context context){
         this.favoriteBuildings.remove(oldFavoriteBuilding);
         storeData(context,"");
     }
 
-    public void addFavoriteRoom(UIBroom newFavoriteRoom,Context context) {
+    public void addFavoriteRoom(Room newFavoriteRoom, Context context) {
         this.favoriteRoom.add(newFavoriteRoom);
         storeData(context, "");
     }
 
-    public void removeFavoriteRoom(UIBroom oldFavoriteRoom, Context context){
+    public void removeFavoriteRoom(Room oldFavoriteRoom, Context context){
         this.favoriteRoom.remove(oldFavoriteRoom);
         storeData(context,"");
     }
 
-    public List<UIBbuilding> getFavoriteBuildings(){
+    public List<Building> getFavoriteBuildings(){
         return favoriteBuildings;
     }
 
-    public List<UIBroom> getFavoriteRoom() {
+    public List<Room> getFavoriteRoom() {
         return favoriteRoom;
     }
 }

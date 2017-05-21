@@ -9,13 +9,13 @@ import java.io.Serializable;
  * @version 2.0
  *
  */
-public class UIBroom extends UiBunit implements Serializable{
+public class Room extends Unit implements Serializable{
     private String roomID;
     private String roomType;
     private int roomSize;
 
 
-    public UIBroom(String areaID, String buildingID, String roomID, String name, String roomType, int roomSize) {
+    public Room(String areaID, String buildingID, String roomID, String name, String roomType, int roomSize) {
         super(areaID, buildingID, name);
         this.roomID = roomID;
         this.roomType = roomType;
@@ -49,7 +49,7 @@ public class UIBroom extends UiBunit implements Serializable{
 
     @Override
     public String toString() {
-        return "UIBroom{" +
+        return "Room{" +
                 "areaID='" + this.getAreaID() + '\'' +
                 ", buildingID='" + this.getBuildingID() + '\'' +
                 ", name='" + this.getName() + '\'' +
@@ -66,11 +66,11 @@ public class UIBroom extends UiBunit implements Serializable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UIBroom uiBroom = (UIBroom) o;
+        Room room = (Room) o;
 
-        if (roomSize != uiBroom.roomSize) return false;
-        if (!roomID.equals(uiBroom.roomID)) return false;
-        return roomType != null ? roomType.equals(uiBroom.roomType) : uiBroom.roomType == null;
+        if (roomSize != room.roomSize) return false;
+        if (!roomID.equals(room.roomID)) return false;
+        return roomType != null ? roomType.equals(room.roomType) : room.roomType == null;
 
     }
 

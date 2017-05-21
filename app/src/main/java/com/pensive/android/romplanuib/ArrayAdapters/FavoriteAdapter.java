@@ -12,8 +12,8 @@ import android.widget.TextView;
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.BuildingActivity;
 import com.pensive.android.romplanuib.WeekCalendarActivity;
-import com.pensive.android.romplanuib.models.UIBroom;
-import com.pensive.android.romplanuib.models.UiBunit;
+import com.pensive.android.romplanuib.models.Room;
+import com.pensive.android.romplanuib.models.Unit;
 import com.pensive.android.romplanuib.util.FontController;
 
 import java.util.Calendar;
@@ -23,18 +23,18 @@ import java.util.List;
  * @author Edvard Bjørgen & Fredrik Heimsæter
  * @version 1.0
  */
-public class FavoriteAdapter extends ArrayAdapter<UiBunit> {
+public class FavoriteAdapter extends ArrayAdapter<Unit> {
 
 
     LayoutInflater inflater;
     Context context;
     int textViewResourceId;
-    List<UiBunit> units;
+    List<Unit> units;
     FontController fc = new FontController();
     Typeface bebasFont;
 
 
-    public FavoriteAdapter(Context context, int textViewResourceId, List<UiBunit> units) {
+    public FavoriteAdapter(Context context, int textViewResourceId, List<Unit> units) {
         super(context, textViewResourceId, units);
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -47,7 +47,7 @@ public class FavoriteAdapter extends ArrayAdapter<UiBunit> {
     public int getCount() {
         return units.size();
     }
-    public UiBunit getItem(int position) {
+    public Unit getItem(int position) {
         return units.get(position);
     }
     @Override
@@ -72,7 +72,7 @@ public class FavoriteAdapter extends ArrayAdapter<UiBunit> {
             holder = (UnitHolder)row.getTag();
         }
 
-        UiBunit uibUnit = units.get(position);
+        Unit uibUnit = units.get(position);
         holder.buildCode.setTypeface(bebasFont);
         String name = uibUnit.getName();
         holder.unitName.setText(name);
@@ -85,7 +85,7 @@ public class FavoriteAdapter extends ArrayAdapter<UiBunit> {
             public void onClick(View arg0) {
                 //Toast.makeText(context, getItem(position).getListOfRooms().get(0).getCode(), Toast.LENGTH_SHORT).show();
 
-                if(getItem(position) instanceof UIBroom) {
+                if(getItem(position) instanceof Room) {
                     Intent i = new Intent(context, WeekCalendarActivity.class);
                     i.putExtra("room", getItem(position));
                     i.putExtra("currentWeek", getWeekNumber());

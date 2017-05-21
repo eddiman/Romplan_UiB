@@ -12,26 +12,26 @@ import java.util.List;
  * @version 2.0
  *
  */
-public class UIBbuilding extends UiBunit implements Serializable{
-    private List<UIBroom> listOfRooms;
+public class Building extends Unit implements Serializable{
+    private List<Room> listOfRooms;
 
 
-    public UIBbuilding(String areaID, String buildingID, String buildingName, List<UIBroom> listOfRooms) {
+    public Building(String areaID, String buildingID, String buildingName, List<Room> listOfRooms) {
         super(areaID, buildingID, buildingName);
         this.listOfRooms = listOfRooms;
     }
 
-    public void setListOfRooms(List<UIBroom> listOfRooms) {
+    public void setListOfRooms(List<Room> listOfRooms) {
         this.listOfRooms = listOfRooms;
     }
 
-    public List<UIBroom> getListOfRooms() {
+    public List<Room> getListOfRooms() {
         return listOfRooms;
     }
 
     @Override
     public String toString() {
-        return "UIBbuilding{" +
+        return "Building{" +
                 "areaID='" + this.getAreaID() + '\'' +
                 ", buildingID='" + this.getBuildingID() + '\'' +
                 ", name='" + this.getName() + '\'' +
@@ -44,7 +44,7 @@ public class UIBbuilding extends UiBunit implements Serializable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UIBbuilding that = (UIBbuilding) o;
+        Building that = (Building) o;
 
         return this.getName().equals(that.getName());
 

@@ -9,14 +9,14 @@ import java.io.Serializable;
  * @version 2.0
  */
 
-public abstract class UiBunit implements Serializable{
+public abstract class Unit implements Serializable{
     private String areaID;
     private String buildingID;
     private String buildingAcronym;
     private String name;
     private String imageURL;
 
-    public UiBunit(String areaID, String buildingID, String name) {
+    public Unit(String areaID, String buildingID, String name) {
         this.areaID = areaID;
         this.buildingID = buildingID;
         this.name = name;
@@ -64,7 +64,7 @@ public abstract class UiBunit implements Serializable{
 
     @Override
     public String toString() {
-        return "UiBunit{" +
+        return "Unit{" +
                 "areaID='" + areaID + '\'' +
                 ", buildingID='" + buildingID + '\'' +
                 ", name='" + name + '\'' +
