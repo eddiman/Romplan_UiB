@@ -138,7 +138,7 @@ public class DataManager {
                 String type = roomJson.getAsJsonObject().get("typeid").getAsString();
                 int size = roomJson.getAsJsonObject().get("size").getAsInt();
 
-                doc = Jsoup.connect("https://tp.data.uib.no/KEY6ytu6esu9/ws/room/2.0/?id="+id).ignoreContentType(true).get();
+                doc = Jsoup.connect("https://tp.data.uib.no/" + api.getUibApiKey() + "/ws/room/2.0/?id="+id).ignoreContentType(true).get();
                 json = jsonParser.parse(doc.body().text()).getAsJsonObject().get("data").getAsJsonObject();
                 String buildingAcronym = json.get("buildingacronym").getAsString();
                 String buildingMapUrl = json.get("buildingacronym").getAsString();
