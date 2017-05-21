@@ -111,6 +111,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         loadDataString = getResources().getString(R.string.load_data_string);
 
+
         int year = Calendar.getInstance().get(Calendar.YEAR);
         if(weekDayChanged.get(Calendar.YEAR)<Calendar.JULY){
             semesterStart = year + "-01-01";
@@ -177,7 +178,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     /**
      * @param divide Set AppBar height to screen height divided by 2->5
-            */
+     */
     protected void setAppBarLayoutHeightOfScreenDivide(@IntRange(from = 2, to = 5) int divide) {
         setAppBarLayoutHeightOfScreenPercent(100 / divide);
     }
@@ -345,15 +346,15 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                         public void onFinish() {
 
 
-                    Intent intent = new Intent(Intent.ACTION_INSERT)
-                            .setData(CalendarContract.Events.CONTENT_URI)
-                            .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, eventStartInMillis)
-                            .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, eventEndInMillis)
-                            .putExtra(CalendarContract.Events.TITLE, eventTitleCal)
-                            .putExtra(CalendarContract.Events.DESCRIPTION, eventDesc)
-                            .putExtra(CalendarContract.Events.EVENT_LOCATION, location + ", Bergen")
-                            .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
-                    startActivity(intent);}
+                            Intent intent = new Intent(Intent.ACTION_INSERT)
+                                    .setData(CalendarContract.Events.CONTENT_URI)
+                                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, eventStartInMillis)
+                                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, eventEndInMillis)
+                                    .putExtra(CalendarContract.Events.TITLE, eventTitleCal)
+                                    .putExtra(CalendarContract.Events.DESCRIPTION, eventDesc)
+                                    .putExtra(CalendarContract.Events.EVENT_LOCATION, location + ", Bergen")
+                                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+                            startActivity(intent);}
                     }.start();
                 }
             });
@@ -414,7 +415,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     private void setBuildingTextView() {
         String currBuildingName = room.getBuildingAcronym();//TODO buildingname?
-        buildingNameText.setText(getString(R.string.building) + ": " +currBuildingName);
+        buildingNameText.setText(getString(R.string.building) + ": " + currBuildingName);
 
     }
 
@@ -454,7 +455,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     }
 
     /**
-    Updates the week text view
+     Updates the week text view
      */
     private void updateWeekTextView() {
         weekNumber.setText(getString(R.string.week) + " " + currentWeekNumber);
@@ -476,9 +477,9 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         if(goToSemester != currentSemester){
             updateSemester();
             currentSemester = goToSemester;
-            emptyEventList();
-            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
-            jsoupTask.execute();
+            //emptyEventList();
+            //jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
+            //jsoupTask.execute();
         }
 
 
@@ -515,9 +516,9 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         if(goToSemester != currentSemester){
             updateSemester();
             currentSemester = goToSemester;
-            emptyEventList();
-            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
-            jsoupTask.execute();
+           // emptyEventList();
+            //jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
+            //jsoupTask.execute();
         }
         //see comments in goToNextWeek()
         currentWeekNumber--;
@@ -596,7 +597,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      * @return Calender with first weekDayChanged of week
      */
     private Calendar getFirstDayOfWeek() {
-// Get calendar set to current date and time
+    // Get calendar set to current date and time
         Calendar c = Calendar.getInstance();
 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);

@@ -34,6 +34,7 @@ public class DataManager {
     List<UIBbuilding> allBuildings;
     List<UIBbuilding> favoriteBuildings;
     List<UIBroom> favoriteRoom;
+    ApiKeys api = new ApiKeys();
 
     /**
      * If the data is already stored it loads it.
@@ -72,7 +73,7 @@ public class DataManager {
         List<String> areaIDs = new ArrayList<>();
         Document doc = null;
         try {
-            doc = Jsoup.connect("https://tp.data.uib.no/KEY.../ws/room/2.0/areas.php").ignoreContentType(true).get();
+            doc = Jsoup.connect("https://tp.data.uib.no/" + api.getUibApiKey() + "/ws/room/2.0/areas.php").ignoreContentType(true).get();
             JsonParser jsonParser = new JsonParser();
             JsonObject json = jsonParser.parse(doc.body().text()).getAsJsonObject();
 
@@ -94,7 +95,7 @@ public class DataManager {
     public List<UIBbuilding> downloadBuildingsInArea(String areaID) throws DownloadException{
         List<UIBbuilding> buildingsInArea = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect("https://tp.data.uib.no/KEY.../ws/room/2.0/buildings.php?id="+areaID).ignoreContentType(true).get();
+            Document doc = Jsoup.connect("https://tp.data.uib.no/" + api.getUibApiKey() + "/ws/room/2.0/buildings.php?id="+areaID).ignoreContentType(true).get();
             JsonParser jsonParser = new JsonParser();
             JsonObject json = jsonParser.parse(doc.body().text()).getAsJsonObject();
 
@@ -127,7 +128,7 @@ public class DataManager {
     public List<UIBroom> downloadRoomsInBuilding(String areaID, String buildingID) throws DownloadException{
         List<UIBroom> roomsInBuilding = new ArrayList<>();
         try {
-            Document doc = Jsoup.connect("https://tp.data.uib.no/KEY.../ws/room/2.0/rooms.php?id="+buildingID).ignoreContentType(true).get();
+            Document doc = Jsoup.connect("https://tp.data.uib.no/" + api.getUibApiKey() + "/ws/room/2.0/rooms.php?id="+buildingID).ignoreContentType(true).get();
             JsonParser jsonParser = new JsonParser();
             JsonObject json = jsonParser.parse(doc.body().text()).getAsJsonObject();
 
@@ -137,9 +138,10 @@ public class DataManager {
                 String type = roomJson.getAsJsonObject().get("typeid").getAsString();
                 int size = roomJson.getAsJsonObject().get("size").getAsInt();
 
-                doc = Jsoup.connect("https://tp.data.uib.no/KEY.../ws/room/2.0/?id="+id).ignoreContentType(true).get();
+                doc = Jsoup.connect("https://tp.data.uib.no/KEY6ytu6esu9/ws/room/2.0/?id="+id).ignoreContentType(true).get();
                 json = jsonParser.parse(doc.body().text()).getAsJsonObject().get("data").getAsJsonObject();
                 String buildingAcronym = json.get("buildingacronym").getAsString();
+                String buildingMapUrl = json.get("buildingacronym").getAsString();
                 String imageURL;
                 try {
                     imageURL = json.get("roomimg_url").getAsString();
@@ -162,7 +164,7 @@ public class DataManager {
         List<CalActivity> calActivities = new ArrayList<>();
         Document doc = null;
         try {
-            doc = Jsoup.connect("https://tp.data.uib.no/KEY.../ws/1.4/room.php?id=" + roomID + "&fromdate=" + fromDate + "&todate=" + toDate + "&lang=nn").ignoreContentType(true).get();
+            doc = Jsoup.connect("https://tp.data.uib.no/" + api.getUibApiKey() + "/ws/1.4/room.php?id=" + roomID + "&fromdate=" + fromDate + "&todate=" + toDate + "&lang=nn").ignoreContentType(true).get();
             JsonParser jsonParser = new JsonParser();
             JsonObject json = jsonParser.parse(doc.body().text()).getAsJsonObject();
 

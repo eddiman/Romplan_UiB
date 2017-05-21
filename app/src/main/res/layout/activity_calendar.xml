@@ -175,7 +175,7 @@
                     app:headerColumnBackground="#ffffffff"
                     app:todayHeaderTextColor="@color/colorAccent"
                     android:nestedScrollingEnabled="true"
-                    app:xScrollingSpeed="0"
+
                     />
                 <!--app:xScrollingSpeed="0.0"-->
             </android.support.v7.widget.CardView>
