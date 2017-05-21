@@ -77,6 +77,9 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     private CollapsingToolbarLayout collapsingToolbar;
     AppBarLayout appBar;
     int currentWeekNumber;
+    String currentSemester;
+    String semesterStart;
+    String semesterEnd;
     int nextYear = 0;
     DateFormatter df;
     String loadDataString;
@@ -108,7 +111,17 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         loadDataString = getResources().getString(R.string.load_data_string);
 
-        jsoupTask = new JsoupTask(WeekCalendarActivity.this, room);
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        if(weekDayChanged.get(Calendar.YEAR)<Calendar.JULY){
+            semesterStart = year + "-01-01";
+            semesterEnd = year + "-06-30";
+            currentSemester = "S";
+        }else{
+            semesterStart = year + "-07-01";
+            semesterEnd = year + "-12-31";
+            currentSemester = "F";
+        }
+        jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
         jsoupTask.execute();
         updateDataManager();
 
@@ -417,7 +430,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             @Override
             public void onClick(View v) {
                 goToNextWeek();
-                emptyEventList();
             }
         });
 
@@ -427,7 +439,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             @Override
             public void onClick(View v) {
                 goToLastWeek();
-                emptyEventList();
 
             }
         });
@@ -455,6 +466,22 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     private void goToNextWeek() {
         //increments a week number and corrects week numbers if it exceeds 52, and sets it to be next year
         currentWeekNumber++;
+        weekDayChanged.add(Calendar.DAY_OF_YEAR, 7);
+        String goToSemester;
+        if(weekDayChanged.get(Calendar.MONTH)<Calendar.JULY){
+            goToSemester = "S";
+        }else {
+            goToSemester = "F";
+        }
+        if(goToSemester != currentSemester){
+            updateSemester();
+            currentSemester = goToSemester;
+            emptyEventList();
+            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
+            jsoupTask.execute();
+        }
+
+
 
         //TODO: Clean this up later, hehe
         if(currentWeekNumber > 52){
@@ -464,11 +491,9 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             //And week -2 is week 50 in 2015 and so forth
             nextYear = 1;
         }
-        jsoupTask = new JsoupTask(WeekCalendarActivity.this, room);
-        jsoupTask.execute();
+
 
         //Adds -7 days to weekDayChanged, goes to last week
-        weekDayChanged.add(Calendar.DAY_OF_YEAR, 7);
         mWeekView.goToDate(weekDayChanged);
         updateWeekTextView();
 
@@ -480,20 +505,41 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      */
     private void goToLastWeek() {
 
+        weekDayChanged.add(Calendar.DAY_OF_YEAR, -7);
+        String goToSemester;
+        if(weekDayChanged.get(Calendar.MONTH)<Calendar.JULY){
+            goToSemester = "S";
+        }else {
+            goToSemester = "F";
+        }
+        if(goToSemester != currentSemester){
+            updateSemester();
+            currentSemester = goToSemester;
+            emptyEventList();
+            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
+            jsoupTask.execute();
+        }
         //see comments in goToNextWeek()
         currentWeekNumber--;
         if(currentWeekNumber < 1){
             currentWeekNumber = 52;
             nextYear = 0;
         }
-        jsoupTask = new JsoupTask(WeekCalendarActivity.this, room);
-        jsoupTask.execute();
 
         //Adds -7 days to weekDayChanged, goes to last week
-        weekDayChanged.add(Calendar.DAY_OF_YEAR, -7);
         mWeekView.goToDate(weekDayChanged);
         updateWeekTextView();
 
+    }
+
+    private void updateSemester(){
+        int year = weekDayChanged.get(Calendar.YEAR);
+        semesterStart = year + "-01-01";
+        semesterEnd = year + "-06-30";
+        if(weekDayChanged.get(Calendar.YEAR)>Calendar.JUNE){
+            semesterStart = year + "-07-01";
+            semesterEnd = year + "-12-31";
+        }
     }
 
     private void setCollapsingTitles() {
@@ -657,13 +703,17 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         Randomized rnd = new Randomized();
         Context context;
         boolean timeoutError;
+        String semesterStart;
+        String semesterEnd;
 
 
 
-        JsoupTask(Context context, UIBroom room) {
+        JsoupTask(Context context, UIBroom room, String semesterStart, String semesterEnd) {
             super();
             this.context = context;
             this.room = room;
+            this.semesterStart = semesterStart;
+            this.semesterEnd = semesterEnd;
             System.out.println("JSOUPCalendarConstrutor");
 
             asyncDialog = new ProgressDialog(context, R.style.DialogTheme);
@@ -687,7 +737,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             //TODO: Problem here when going back and forth in weeks, adds the events everytime it reloads a week, must adapt to not add events if week has already been loaded
             try {
 
-                List<CalActivity> listOfCal = dataManager.fetchCalendarActivities(room.getRoomID(), "2017-05-20", "2017-12-31");
+                List<CalActivity> listOfCal = dataManager.fetchCalendarActivities(room.getRoomID(), semesterStart, semesterEnd);
 
                 for (int i = 0; i < listOfCal.size(); i++) {
 
