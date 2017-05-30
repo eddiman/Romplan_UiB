@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.pensive.android.romplanuib.WeekCalendarActivity;
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
-import com.pensive.android.romplanuib.models.UIBroom;
+import com.pensive.android.romplanuib.models.Room;
 import com.pensive.android.romplanuib.util.Randomized;
 import com.squareup.picasso.Picasso;
 
@@ -25,31 +25,31 @@ import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
  * @author Edvard Bjørgen
  * @version 1.0
  */
-public class RoomAdapter extends ArrayAdapter<UIBroom> {
+public class RoomAdapter extends ArrayAdapter<Room> {
 
 
     LayoutInflater inflater;
     Context context;
     int textViewResourceId;
-    List<UIBroom> uiBrooms;
+    List<Room> rooms;
     String buildingCode;
     Randomized randomized = new Randomized();
 
-    public RoomAdapter(Context context, int textViewResourceId, List<UIBroom> buildings) {
+    public RoomAdapter(Context context, int textViewResourceId, List<Room> buildings) {
         super(context, textViewResourceId, buildings);
         this.context = context;
         inflater = LayoutInflater.from(context);
         this.textViewResourceId = textViewResourceId;
-        this.uiBrooms = buildings;
+        this.rooms = buildings;
 
 
     }
 
     public int getCount() {
-        return uiBrooms.size();
+        return rooms.size();
     }
-    public UIBroom getItem(int position) {
-        return uiBrooms.get(position);
+    public Room getItem(int position) {
+        return rooms.get(position);
     }
     @Override
     public long getItemId(int position) {
@@ -60,7 +60,7 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
     public View getView(final int position, View convertView, ViewGroup parent){
         View row = convertView;
         RoomHolder holder = null;
-        buildingCode = uiBrooms.get(position).getBuildingAcronym();
+        buildingCode = rooms.get(position).getBuildingAcronym();
 
         if (row == null) {
             holder = new RoomHolder();
@@ -80,7 +80,7 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
 
 
         //http://rom_img.app.uib.no/byggogrombilder/GR_/GR_110/GR_110I.jpg
-        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/"+ buildingCode + "_" + uiBrooms.get(position).getAreaID() + "/"+ buildingCode + "_" + uiBrooms.get(position).getAreaID() + "I.jpg";
+        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/"+ buildingCode + "_" + rooms.get(position).getAreaID() + "/"+ buildingCode + "_" + rooms.get(position).getAreaID() + "I.jpg";
         Picasso.with(context)
                 .load(URLEncoding.encode(url))
                 .centerCrop()
@@ -90,8 +90,8 @@ public class RoomAdapter extends ArrayAdapter<UIBroom> {
                 .into(holder.roomImage);
 
 
-        UIBroom uiBroom = uiBrooms.get(position);
-        holder.roomText.setText(uiBroom.getName());
+        Room room = rooms.get(position);
+        holder.roomText.setText(room.getName());
 
 
 

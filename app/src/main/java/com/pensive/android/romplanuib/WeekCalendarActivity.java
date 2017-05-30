@@ -41,7 +41,7 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.CalActivity;
-import com.pensive.android.romplanuib.models.UIBroom;
+import com.pensive.android.romplanuib.models.Room;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.DateFormatter;
 import com.pensive.android.romplanuib.util.FontController;
@@ -68,7 +68,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     WeekView mWeekView;
     JsoupTask jsoupTask;
-    private UIBroom room;
+    private Room room;
     List<WeekViewEvent> events = new ArrayList<>();
     TextView weekNumber;
     String buildingCode;
@@ -469,7 +469,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         currentWeekNumber++;
         weekDayChanged.add(Calendar.DAY_OF_YEAR, 7);
         String goToSemester;
-        if(weekDayChanged.get(Calendar.MONTH)<Calendar.JULY){
+        if(weekDayChanged.get(Calendar.MONTH) < Calendar.JULY){
             goToSemester = "S";
         }else {
             goToSemester = "F";
@@ -477,9 +477,9 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         if(goToSemester != currentSemester){
             updateSemester();
             currentSemester = goToSemester;
-            //emptyEventList();
-            //jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
-            //jsoupTask.execute();
+            emptyEventList();
+            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
+            jsoupTask.execute();
         }
 
 
@@ -516,9 +516,9 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         if(goToSemester != currentSemester){
             updateSemester();
             currentSemester = goToSemester;
-           // emptyEventList();
-            //jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
-            //jsoupTask.execute();
+            emptyEventList();
+            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
+            jsoupTask.execute();
         }
         //see comments in goToNextWeek()
         currentWeekNumber--;
@@ -606,22 +606,22 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     /**
      * Puts together the EXTRA data that was sent with the last activity
-     * @return a UIBroom with the room in question
+     * @return a Room with the room in question
      */
-    private UIBroom getDataFromLastActivity() {
-        UIBroom extraBuilding;
+    private Room getDataFromLastActivity() {
+        Room extraBuilding;
         String weekNumberString;
 
 
         Bundle extra = getIntent().getExtras();
         if (extra != null) {
-            extraBuilding = (UIBroom) getIntent().getSerializableExtra("room");
+            extraBuilding = (Room) getIntent().getSerializableExtra("room");
             weekNumberString = (String) getIntent().getSerializableExtra("currentWeek");
 
             currentWeekNumber = Integer.parseInt(weekNumberString);
 
         } else {
-            extraBuilding = new UIBroom("Error:Room", "Error building", "Error", "Error", "Error", 0);
+            extraBuilding = new Room("Error:Room", "Error building", "Error", "Error", "Error", 0);
         }
         return extraBuilding;
     }
@@ -700,7 +700,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      */
     class JsoupTask extends AsyncTask<Void, Void, List<WeekViewEvent>> {
         ProgressDialog asyncDialog;
-        UIBroom room;
+        Room room;
         Randomized rnd = new Randomized();
         Context context;
         boolean timeoutError;
@@ -709,7 +709,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
 
 
-        JsoupTask(Context context, UIBroom room, String semesterStart, String semesterEnd) {
+        JsoupTask(Context context, Room room, String semesterStart, String semesterEnd) {
             super();
             this.context = context;
             this.room = room;

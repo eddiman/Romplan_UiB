@@ -7,32 +7,82 @@
 
 
 
-    <!-- Random colorilter-->
-    <color name="color1">#ff584b</color>
-    <color name="color2">#ffa84b</color>
-    <color name="color3">#ffe74b</color>
-    <color name="color4">#69ff4b</color>
-    <color name="color5">#4bffff</color>
-    <color name="color6">#4b90ff</color>
-    <color name="color7">#4b63ff</color>
-    <color name="color8">#b44bff</color>
-    <color name="color9">#ff4be1</color>
+
 
     <color name="transpWhite">#8fffffff</color>
     <color name="transpBlack">#23000000</color>
     <color name="transpBlack2">#86000000</color>
     <color name="transparent">#00ffffff</color>
-    <color name="transp_primary_blue">#2d67a2ff</color>
+    <color name="secondary_text_white">#e5e5e5</color>
 
-    <color name="lighter_blue">#dbe1ea</color>
-
-
+    <!-- BlueTheme-->
     <color name="primary_blue">#354b6e</color>
     <color name="primaryDark_blue">#293b56</color>
-    <color name="accent_yellow">#f7f88b</color>
+    <color name="accent_blue">#f7f88b</color>
     <color name="background_blue_dark">#0e1c31</color>
-    <color name="navbar_darker">#060e1a</color>
-    <color name="secondary_text_white">#e5e5e5</color>
+    <color name="navbar_darker_blue">#060e1a</color>
+
+    <color name="transp_primary_blue">#2d67a2ff</color>
+
+    <color name="light_blue">#d5deec</color>
+    <color name="lighter_blue">#dbe1ea</color>
+    <color name="calendar_element_blue">#18000000</color>
+
+
+    <!-- RedTheme-->
+    <color name="primary_red">#6e3536</color>
+    <color name="primaryDark_red">#56292a</color>
+    <color name="accent_red">#94d6ff</color>
+    <color name="background_red_dark">#310e0f</color>
+    <color name="navbar_darker_red">#1a0606</color>
+
+    <color name="transp_primary_red">#2dff676a</color>
+
+    <color name="light_red">#ecd5d5</color>
+    <color name="lighter_red">#eadbdb</color>
+    <color name="calendar_element_red">#18000000</color>
+
+    <!-- GreenTheme-->
+    <color name="primary_green">#386e35</color>
+    <color name="primaryDark_green">#2d5629</color>
+    <color name="accent_green">#efff94</color>
+    <color name="background_green_dark">#10310e</color>
+    <color name="navbar_darker_green">#071a06</color>
+
+    <color name="transp_primary_green">#2d76ff67</color>
+
+    <color name="light_green">#d6ecd5</color>
+    <color name="lighter_green">#dceadb</color>
+    <color name="calendar_element_green">#18000000</color>
+
+    <!-- purpleTheme-->
+    <color name="primary_purple">#58356e</color>
+    <color name="primaryDark_purple">#442956</color>
+    <color name="accent_purple">#fffb94</color>
+    <color name="background_purple_dark">#210e31</color>
+    <color name="navbar_darker_purple">#11061a</color>
+
+    <color name="transp_primary_purple">#2dc067ff</color>
+
+    <color name="light_purple">#e2d5ec</color>
+    <color name="lighter_purple">#e4dbea</color>
+    <color name="calendar_element_purple">#18000000</color>
+
+    <!-- NTNU Theme-->
+    <color name="primary_ntnu">#c2c2c2</color>
+    <color name="primaryDark_ntnu">#9e9e9e</color>
+    <color name="accent_ntnu">#00509e</color>
+    <color name="background_ntnu_dark">#bfbfbf</color>
+    <color name="navbar_darker_ntnu">#000000</color>
+
+    <color name="transp_primary_ntnu">#2dbababa</color>
+
+    <color name="light_ntnu">#c9c9c9</color>
+    <color name="lighter_ntnu">#afafaf</color>
+    <color name="calendar_element_ntnu">#18000000</color>
+
+
+
 
 
 </resources>

@@ -20,8 +20,8 @@ import android.widget.TextView;
 
 import com.pensive.android.romplanuib.ArrayAdapters.RoomAdapter;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
-import com.pensive.android.romplanuib.models.UIBbuilding;
-import com.pensive.android.romplanuib.models.UIBroom;
+import com.pensive.android.romplanuib.models.Building;
+import com.pensive.android.romplanuib.models.Room;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.FontController;
 import com.squareup.picasso.Picasso;
@@ -39,8 +39,8 @@ import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
  */
 public class BuildingActivity extends AppCompatActivity {
 
-    UIBbuilding building;
-    List<UIBroom> errorList = new ArrayList<>();
+    Building building;
+    List<Room> errorList = new ArrayList<>();
     FontController fc = new FontController();
     String buildingName;
     String buildingCode;
@@ -118,15 +118,15 @@ public class BuildingActivity extends AppCompatActivity {
      * Gets the building-object from the intent that was sent from the last Activity
      * @return
      */
-    private UIBbuilding getBuildingFromLastActivity() {
-        UIBbuilding extraBuilding;
+    private Building getBuildingFromLastActivity() {
+        Building extraBuilding;
 
 
         Bundle extra = getIntent().getExtras();
         if( extra != null){
-            extraBuilding = (UIBbuilding)getIntent().getSerializableExtra("building");
+            extraBuilding = (Building)getIntent().getSerializableExtra("building");
         } else {
-            extraBuilding = new UIBbuilding("Error building", "Error building","Error building",  errorList);
+            extraBuilding = new Building("Error building", "Error building","Error building",  errorList);
         }
         return extraBuilding;
     }

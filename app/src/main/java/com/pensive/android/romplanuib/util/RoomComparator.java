@@ -1,19 +1,20 @@
 package com.pensive.android.romplanuib.util;
 
-import com.pensive.android.romplanuib.models.UIBroom;
+import com.pensive.android.romplanuib.models.Room;
+
 import java.util.Comparator;
 
 /**
- * Comparator for comparing {@link UIBroom}s
+ * Comparator for comparing {@link Room}s
  *
  * @author Fredrik Heimsæter
  * @version 1.0
  */
 
-public class UiBRoomComparator implements Comparator<UIBroom>{
+public class RoomComparator implements Comparator<Room>{
 
     /**
-     * Compares two {@link UIBroom}s by their name lexicographically
+     * Compares two {@link Room}s by their name lexicographically
      * @param room1 the first UiBroom to be compared
      * @param room2 the second UiBroom to be compared
      * @return the value 0 if room1 equals room2,
@@ -21,7 +22,7 @@ public class UiBRoomComparator implements Comparator<UIBroom>{
      *         and a value greater than 0 if room1 is greater than room2
      */
     @Override
-    public int compare(UIBroom room1, UIBroom room2) {
+    public int compare(Room room1, Room room2) {
         return room1.getName().compareTo(room2.getName());
     }
 }

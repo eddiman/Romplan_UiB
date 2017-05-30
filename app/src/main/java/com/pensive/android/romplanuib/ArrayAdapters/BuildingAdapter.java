@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.pensive.android.romplanuib.BuildingActivity;
 import com.pensive.android.romplanuib.R;
-import com.pensive.android.romplanuib.models.UIBbuilding;
+import com.pensive.android.romplanuib.models.Building;
 import com.pensive.android.romplanuib.util.FontController;
 
 import java.util.List;
@@ -20,18 +20,18 @@ import java.util.List;
  * @author Edvard Bjørgen
  * @version 1.0
  */
-public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
+public class BuildingAdapter extends ArrayAdapter<Building> {
 
 
     LayoutInflater inflater;
     Context context;
     int textViewResourceId;
-    List<UIBbuilding> buildings;
+    List<Building> buildings;
     FontController fc = new FontController();
     Typeface bebasFont;
 
 
-    public BuildingAdapter(Context context, int textViewResourceId, List<UIBbuilding> buildings) {
+    public BuildingAdapter(Context context, int textViewResourceId, List<Building> buildings) {
         super(context, textViewResourceId, buildings);
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -44,7 +44,7 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
     public int getCount() {
         return buildings.size();
     }
-    public UIBbuilding getItem(int position) {
+    public Building getItem(int position) {
         return buildings.get(position);
     }
     @Override
@@ -70,7 +70,7 @@ public class BuildingAdapter extends ArrayAdapter<UIBbuilding> {
             holder = (BuildingHolder)row.getTag();
         }
 
-        UIBbuilding uibBuilding = buildings.get(position);
+        Building uibBuilding = buildings.get(position);
         holder.buildCode.setTypeface(bebasFont);
         holder.buildText.setText(uibBuilding.getName());
         holder.buildCode.setText(uibBuilding.getBuildingAcronym());
