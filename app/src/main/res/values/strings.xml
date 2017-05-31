@@ -1,15 +1,22 @@
 <resources>
 
     <!--Generelt -->
-    <string name="main_title">Romplan for UiB</string>
-    <string name="splash_title">Romplan for Universitetet i Bergen</string>
-    <string name="app_title">Romplan UiB</string>
+    <string name="main_title">Romplan</string>
+    <string name="splash_title">Romplan for</string>
+    <string name="app_title">Romplan</string>
     <string name="load_data_string">Henter data…</string>
+    <string name="load_data_string_multiple_mins">Henter data, dette kan ta et par minutter…</string>
     <string name="add_elem_to_fav">\u0020er lagt til i favoritter</string>
     <string name="remove_elem_from_fav">\u0020er fjernet fra favoritter</string>
 
+    <string name="uni_bergen">Universitetet i Bergen</string>
+    <string name="uni_oslo">Universitetet i Oslo</string>
 
-    <!--TabActivity -->
+    <!--UniCampusActivity -->
+    <string name="unicampus_chosen_area">har blitt valgt</string>
+    <string name="unicampus_choose_area">Velg et område på</string>
+
+    <!--BuildingMainActivity -->
     <string name="action_search">Søk</string>
     <string name="action_settings">Innstillinger</string>
     <string name="search_buildings">Søk etter bygninger…</string>
@@ -18,9 +25,7 @@
     <string name="title_activity_settings">Innstillinger</string>
 
 
-
-
-    <!--BuildingActivity -->
+    <!--RoomsActivity -->
 
     <!--WeekCalendarActivity -->
     <string name="event_no_descript">Ingen beskrivelse</string>
@@ -31,6 +36,7 @@
 
     <!--SettingsActivity -->
     <string name="pref_title">Innstillinger</string>
+    <string name="pref_clear_cache">Velg et annet universitet</string>
     <string name="pref_about">Om</string>
     <string name="pref_about_text_1">Dataen i denne applikasjonen blir hentet fra: </string>
     <string name="pref_about_text_2">Kildekoden finnes på:</string>
@@ -39,7 +45,6 @@
     <string name="pref_language">Språk</string>
     <string name="pref_libs">Tredjepartsbiblioteker</string>
     <string name="pref_license_title">Lisenser</string>
-
 
 
     <!-- Licenses -->

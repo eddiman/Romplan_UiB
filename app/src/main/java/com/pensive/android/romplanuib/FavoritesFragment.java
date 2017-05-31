@@ -1,6 +1,8 @@
 package com.pensive.android.romplanuib;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +36,7 @@ public class FavoritesFragment extends Fragment {
     private View rootView;
     private ListView allFavoritesListView;
     private ArrayList<Unit> favorites;
+    String uniCampusCode;
 
     public FavoritesFragment() {
     }
@@ -53,9 +56,12 @@ public class FavoritesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-         rootView = inflater.inflate(R.layout.fragment_favorites, container, false);
-         allFavoritesListView = (ListView)rootView.findViewById(R.id.fav_list);
+        rootView = inflater.inflate(R.layout.fragment_favorites, container, false);
+        allFavoritesListView = (ListView)rootView.findViewById(R.id.fav_list);
+
         dataManager = new DataManager(rootView.getContext());
+        uniCampusCode = dataManager.loadCurrentUniCampusSharedPref().getCampusCode();
+        dataManager.checkIfDataHasBeenLoadedBefore(uniCampusCode);
 
         if(dataManager.getFavoriteBuildings().size()>0 || dataManager.getFavoriteRoom().size()>0) {
             List<Building> favBuilds = dataManager.getFavoriteBuildings();
@@ -75,6 +81,7 @@ public class FavoritesFragment extends Fragment {
         super.onResume();
         allFavoritesListView.setAdapter(null);
         dataManager = new DataManager(getActivity());
+        dataManager.checkIfDataHasBeenLoadedBefore(uniCampusCode);
 
         if(dataManager.getFavoriteBuildings().size()>0 || dataManager.getFavoriteRoom().size()>0) {
             List<Building> favBuilds = dataManager.getFavoriteBuildings();

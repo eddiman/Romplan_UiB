@@ -13,6 +13,14 @@
         android:entries="@array/listLanguages"
         android:entryValues="@array/listValues"/> -->
     <PreferenceCategory
+        android:title="@string/pref_title"
+        />
+    <Preference
+        android:title="@string/pref_clear_cache"
+        android:key="clear_cache"/>
+
+
+    <PreferenceCategory
         android:title="@string/pref_about"
         />
     <Preference

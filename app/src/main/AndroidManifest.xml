@@ -10,29 +10,34 @@
         android:icon="@mipmap/ic_room"
         android:label="@string/app_title"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".StartActivity">
+        android:theme="@style/BlueTheme">
+        <activity android:name=".SelectUniCampusActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BuildingActivity" />
-        <activity android:name=".WeekCalendarActivity" />
         <activity
-            android:name=".TabActivity"
+            android:name=".RoomsActivity"
+            />
+        <activity
+            android:name=".WeekCalendarActivity"
+            />
+        <activity
+            android:name=".BuildingMainActivity"
             android:label=""
-            android:theme="@style/AppTheme" />
+             />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         -->
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version"
+            />
 
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".LoadActivity"></activity>
     </application>
 
 </manifest>

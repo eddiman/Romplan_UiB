@@ -1,14 +1,7 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
-    <!-- Customize your theme here. -->
-    <!-- <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
--->
-    <style name="AppTheme.NoActionBar">
+
+    <style name="BlueTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
@@ -16,20 +9,153 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+    <!--Blue Theme-->
+    <style name="BlueTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/primary_blue</item>
         <item name="colorPrimaryDark">@color/primaryDark_blue</item>
-        <item name="colorAccent">@color/accent_yellow</item>
-
-
-        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <item name="colorAccent">@color/accent_blue</item>
         <item name="android:statusBarColor">@color/primaryDark_blue</item>
         <item name="android:colorBackground">@color/background_blue_dark</item>
         <item name="android:navigationBarColor">@color/primaryDark_blue</item>
         <item name="android:textColorSecondary">@color/secondary_text_white</item>
 
+        <item name="transpImgColor">@color/transp_primary_blue</item>
+        <item name="lightColor">@color/light_blue</item>
+        <item name="lighterColor">@color/light_blue</item>
+
+        <item name="buildingListElement">@color/primary_blue</item>
+        <item name="calElemBg">@color/calendar_element_blue</item>
 
     </style>
+    <style name="DialogBlueTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/primaryDark_blue</item>
+        <item name="dialogPrimary">@color/primary_blue</item>
+        <item name="colorAccent">@color/accent_blue</item>
+        <item name="android:textColor">@color/secondary_text_white</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+    </style>
+    <!--Blue Theme END-->
+
+
+    <!--Red Theme-->
+
+    <style name="RedTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/primary_red</item>
+        <item name="colorPrimaryDark">@color/primaryDark_red</item>
+        <item name="colorAccent">@color/accent_red</item>
+        <item name="android:statusBarColor">@color/primaryDark_red</item>
+        <item name="android:colorBackground">@color/background_red_dark</item>
+        <item name="android:navigationBarColor">@color/primaryDark_red</item>
+        <item name="android:textColorSecondary">@color/secondary_text_white</item>
+
+        <item name="buildingListElement">@color/primary_red</item>
+
+        <item name="transpImgColor">@color/transp_primary_red</item>
+
+        <item name="lightColor">@color/light_red</item>
+        <item name="lighterColor">@color/light_red</item>
+        <item name="calElemBg">@color/calendar_element_red</item>
+    </style>
+    <style name="DialogRedTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/primaryDark_red</item>
+        <item name="dialogPrimary">@color/primary_red</item>
+        <item name="colorAccent">@color/accent_red</item>
+        <item name="android:textColor">@color/secondary_text_white</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+    </style>
+
+    <!--Red Theme END-->
+
+    <!--Green Theme-->
+
+    <style name="GreenTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/primary_green</item>
+        <item name="colorPrimaryDark">@color/primaryDark_green</item>
+        <item name="colorAccent">@color/accent_green</item>
+        <item name="android:statusBarColor">@color/primaryDark_green</item>
+        <item name="android:colorBackground">@color/background_green_dark</item>
+        <item name="android:navigationBarColor">@color/primaryDark_green</item>
+        <item name="android:textColorSecondary">@color/secondary_text_white</item>
+
+        <item name="buildingListElement">@color/primary_green</item>
+
+        <item name="transpImgColor">@color/transp_primary_green</item>
+
+        <item name="lightColor">@color/light_green</item>
+        <item name="lighterColor">@color/light_green</item>
+        <item name="calElemBg">@color/calendar_element_green</item>
+    </style>
+    <style name="DialogGreenTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/primaryDark_green</item>
+        <item name="dialogPrimary">@color/primary_green</item>
+        <item name="colorAccent">@color/accent_green</item>
+        <item name="android:textColor">@color/secondary_text_white</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+    </style>
+
+    <!--Green Theme END-->
+
+    <!--Purple Theme-->
+
+    <style name="PurpleTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/primary_purple</item>
+        <item name="colorPrimaryDark">@color/primaryDark_purple</item>
+        <item name="colorAccent">@color/accent_purple</item>
+        <item name="android:statusBarColor">@color/primaryDark_purple</item>
+        <item name="android:colorBackground">@color/background_purple_dark</item>
+        <item name="android:navigationBarColor">@color/primaryDark_purple</item>
+        <item name="android:textColorSecondary">@color/secondary_text_white</item>
+
+        <item name="buildingListElement">@color/primary_purple</item>
+
+        <item name="transpImgColor">@color/transp_primary_purple</item>
+
+        <item name="lightColor">@color/light_purple</item>
+        <item name="lighterColor">@color/light_purple</item>
+        <item name="calElemBg">@color/calendar_element_purple</item>
+    </style>
+    <style name="DialogpurpleTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/primaryDark_purple</item>
+        <item name="dialogPrimary">@color/primary_purple</item>
+        <item name="colorAccent">@color/accent_blue</item>
+        <item name="android:textColor">@color/secondary_text_white</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+    </style>
+
+    <!--Purple Theme END-->
+
+    <!--NTNU Theme-->
+
+    <style name="NTNUTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">@color/primary_ntnu</item>
+        <item name="colorPrimaryDark">@color/primaryDark_ntnu</item>
+        <item name="colorAccent">@color/accent_ntnu</item>
+        <item name="android:statusBarColor">@color/primaryDark_ntnu</item>
+        <item name="android:colorBackground">@color/background_ntnu_dark</item>
+        <item name="android:navigationBarColor">@color/primaryDark_ntnu</item>
+        <item name="android:textColorSecondary">@color/secondary_text_white</item>
+
+        <item name="buildingListElement">@color/primary_ntnu</item>
+
+        <item name="transpImgColor">@color/transp_primary_ntnu</item>
+
+        <item name="lightColor">@color/light_ntnu</item>
+        <item name="lighterColor">@color/light_ntnu</item>
+        <item name="calElemBg">@color/calendar_element_ntnu</item>
+    </style>
+    <style name="DialogNTNUTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/primaryDark_ntnu</item>
+        <item name="dialogPrimary">@color/primary_ntnu</item>
+        <item name="colorAccent">@color/accent_ntnu</item>
+        <item name="android:textColor">@color/secondary_text_white</item>
+        <item name="android:fontFamily">sans-serif-thin</item>
+    </style>
+
+    <!--ntnu Theme END-->
+
+
+
+
 
     <style name="Widget.CardContent" parent="android:Widget">
         <item name="android:paddingLeft">16dp</item>
@@ -41,14 +167,7 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="BlueTheme" parent="AppTheme" />
 
-    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/primaryDark_blue</item>
-        <item name="colorAccent">@color/accent_yellow</item>
-        <item name="android:textColor">@color/secondary_text_white</item>
-        <item name="android:fontFamily">sans-serif-thin</item>
-    </style>
 
 
 

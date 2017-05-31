@@ -1,6 +1,9 @@
 package com.pensive.android.romplanuib;
 
+import android.content.Context;
 import android.graphics.Typeface;
+import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 import android.support.design.widget.AppBarLayout;
@@ -22,8 +25,10 @@ import com.pensive.android.romplanuib.ArrayAdapters.RoomAdapter;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.Building;
 import com.pensive.android.romplanuib.models.Room;
+import com.pensive.android.romplanuib.models.UniCampus;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.FontController;
+import com.pensive.android.romplanuib.util.ThemeSelector;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -37,7 +42,7 @@ import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
  * @author Edvard Bjørgen & Fredrik Heimsæter
  * @version 1.0
  */
-public class BuildingActivity extends AppCompatActivity {
+public class RoomsActivity extends AppCompatActivity {
 
     Building building;
     List<Room> errorList = new ArrayList<>();
@@ -48,15 +53,25 @@ public class BuildingActivity extends AppCompatActivity {
     DataManager dataManager;
     AppBarLayout appBar;
 
+    String uniCampusCode;
+
+    UniCampus selectedCampus;
+
 
     private CollapsingToolbarLayout collapsingToolbar;
     private FloatingActionButton fab;
     private boolean isBuildingFav;
+    ThemeSelector theme = new ThemeSelector();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
+
+        DataManager dataManager = new DataManager(this);
+        selectedCampus = dataManager.loadCurrentUniCampusSharedPref();
+
+        uniCampusCode = selectedCampus.getCampusCode();
 
         building = getBuildingFromLastActivity();
         buildingCode = building.getBuildingAcronym();
@@ -87,13 +102,13 @@ public class BuildingActivity extends AppCompatActivity {
         }
 
         loadBackdrop();
-        floatingActionButtonFavoriteListener();
+        floatingActionButtonFavoriteListener(this);
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(BuildingActivity.this, R.color.transpBlack));
+        getWindow().setStatusBarColor(ContextCompat.getColor(RoomsActivity.this, R.color.transpBlack));
 
         roomList = (ListView) findViewById(R.id.room_listView);
 
-        RoomAdapter adapter  = new RoomAdapter(BuildingActivity.this, R.layout.list_room_layout, building.getListOfRooms());
+        RoomAdapter adapter  = new RoomAdapter(RoomsActivity.this, R.layout.list_room_layout, building.getListOfRooms());
         roomList.setAdapter(adapter);
         roomList.setFastScrollEnabled(true);
         checkIfBuildIsFav();
@@ -139,16 +154,18 @@ public class BuildingActivity extends AppCompatActivity {
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
         String url = "http://rom_img.app.uib.no/byggogrombilder/"+ buildingCode +"_/"+ buildingCode +"_byggI.jpg";
 
-        //List for aa legge til flere transformations til image
+        int color = theme.getAttributeColor(this, R.attr.transpImgColor);
+        int imageResource = getResources().getIdentifier(selectedCampus.getLogoUrl(), null, getPackageName());
+
         List<Transformation> transformations = new ArrayList<>();
         transformations.add(new GrayscaleTransformation());
-        transformations.add(new ColorFilterTransformation(ContextCompat.getColor(this, R.color.transp_primary_blue)));
+        transformations.add(new ColorFilterTransformation(color));
 
         Picasso.with(getApplicationContext())
                 .load(URLEncoding.encode(url))
                 .centerCrop()
                 .fit()
-                .placeholder(R.drawable.uiblogo)
+                .placeholder(imageResource)
                 .transform(transformations)
                 .into(imageView);
 
@@ -158,7 +175,7 @@ public class BuildingActivity extends AppCompatActivity {
      * Initializes the floating action button.
      * TODO: Use it for adding and removing favorites.
      */
-    private void floatingActionButtonFavoriteListener() {
+    private void floatingActionButtonFavoriteListener(final Context context) {
         fab = (FloatingActionButton) findViewById(R.id.fabRoom);
         if(fab != null)
             fab.setOnClickListener(new View.OnClickListener() {
@@ -187,13 +204,20 @@ public class BuildingActivity extends AppCompatActivity {
                     Typeface font = Typeface.createFromAsset(getBaseContext().getAssets(), "fonts/roboto_thin.ttf");
                     tv.setTypeface(font);
 
-                    sbView.setBackgroundColor(getResources().getColor(R.color.primary_blue));
+                    int color = theme.getAttributeColor(context, R.attr.colorPrimary);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        sbView.setBackgroundColor(color);
+                    }
                     snack.show();
                 }
             });
     }
+
+
     public void updateDataManager(){
         this.dataManager = new DataManager(findViewById(R.id.room_listView).getContext());
+        dataManager.checkIfDataHasBeenLoadedBefore(uniCampusCode);
     }
 
     /**
@@ -233,7 +257,7 @@ public class BuildingActivity extends AppCompatActivity {
     }
     public void onBackPressed() {
         super.onBackPressed();
-        /*Intent intent = new Intent(BuildingActivity.this, TabActivity.class);
+        /*Intent intent = new Intent(RoomsActivity.this, BuildingMainActivity.class);
         startActivity(intent);
         finish();*/
 

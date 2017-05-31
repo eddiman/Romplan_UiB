@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="BlueTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -8,7 +8,7 @@
     </style>
 
     <!-- res/values-v21/styles.xml -->
-    <style name="AppTheme.TransToolbar" parent="AppTheme">
+    <style name="AppTheme.TransToolbar" parent="BlueTheme">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>

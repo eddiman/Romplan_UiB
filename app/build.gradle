@@ -41,5 +41,6 @@ dependencies {
     compile 'com.lapism:searchview:3.8'
     compile 'com.google.android.gms:play-services-appindexing:9.8.0'
     compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
