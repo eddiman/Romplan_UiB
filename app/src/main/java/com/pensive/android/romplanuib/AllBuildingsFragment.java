@@ -22,6 +22,7 @@ public class AllBuildingsFragment extends Fragment {
      * fragment.
      */
     DataManager dataManager;
+    String uniCampusCode;
 
 
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -49,10 +50,11 @@ public class AllBuildingsFragment extends Fragment {
         ListView favBuildListView = (ListView)rootView.findViewById(R.id.test_list);
 
         dataManager = new DataManager(rootView.getContext());
+        uniCampusCode = dataManager.loadCurrentUniCampusSharedPref().getCampusCode();
+        dataManager.checkIfDataHasBeenLoadedBefore(uniCampusCode);
+
         BuildingAdapter adapter  = new BuildingAdapter(getActivity(), R.layout.list_building_element, dataManager.getAllBuildings());
-
         favBuildListView.setAdapter(adapter);
-
         favBuildListView.setFastScrollEnabled(true);
 
         return rootView;

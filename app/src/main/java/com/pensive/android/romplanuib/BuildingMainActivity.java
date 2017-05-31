@@ -32,6 +32,7 @@ import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
 import com.pensive.android.romplanuib.models.Building;
 import com.pensive.android.romplanuib.models.Room;
+import com.pensive.android.romplanuib.models.UniCampus;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.BuildingComparator;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TabActivity extends AppCompatActivity {
+public class BuildingMainActivity extends AppCompatActivity {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -63,14 +64,28 @@ public class TabActivity extends AppCompatActivity {
     AppBarLayout appBarLayout;
     private SearchView mSearchView;
 
+    String uniCampusCode;
+
+    TextView toolbarTitle;
+    UniCampus selectedCampus;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tab);
-        dataManager = new DataManager(TabActivity.this);
+        setContentView(R.layout.activity_building_main);
+
+        dataManager = new DataManager(BuildingMainActivity.this);
+        uniCampusCode = dataManager.loadCurrentUniCampusSharedPref().getCampusCode();
+        dataManager.checkIfDataHasBeenLoadedBefore(uniCampusCode);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        selectedCampus = dataManager.loadCurrentUniCampusSharedPref();
+
+        toolbarTitle = (TextView) findViewById(R.id.toolbar_buildselect_title);
+
+        toolbarTitle.setText(getResources().getString(R.string.app_title) + " " + selectedCampus.getAcronym());
         //TODO: Create initGUI() method later
         mSearchView = (SearchView) findViewById(R.id.searchView);
 
@@ -197,7 +212,7 @@ public class TabActivity extends AppCompatActivity {
              * When an item is clicked, onItemClick is fired. Initializes the textview in the
              * item-element. Then gets the string from it and passes it on in the getData()-method.
              * If the query matches a building name, getData() returns an intent. The intent is
-             * then started, and will open BuildingActivity with the queried building.
+             * then started, and will open RoomsActivity with the queried building.
              */
             searchAdapter.addOnItemClickListener(new SearchAdapter.OnItemClickListener() {
                 @Override
@@ -225,8 +240,8 @@ public class TabActivity extends AppCompatActivity {
     protected Intent getData(String text, int position) {
         mHistoryDatabase.addItem(new SearchItem(text));
         List<Building> buildingList = dataManager.getAllBuildings();
-        int index = Collections.binarySearch(buildingList, new Building(text,"","", new ArrayList<Room>()), new BuildingComparator());
-        Intent intent = new Intent(TabActivity.this, BuildingActivity.class);
+        int index = Collections.binarySearch(buildingList, new Building("", "", text, new ArrayList<Room>()), new BuildingComparator());
+        Intent intent = new Intent(BuildingMainActivity.this, RoomsActivity.class);
         intent.putExtra("building", buildingList.get(index));
         return intent;
 
@@ -348,7 +363,7 @@ public class TabActivity extends AppCompatActivity {
             }
 
             case R.id.action_settings: {
-                Intent intent = new Intent(TabActivity.this, SettingsActivity.class);
+                Intent intent = new Intent(BuildingMainActivity.this, SettingsActivity.class);
                 startActivity(intent);
 
                 return true;

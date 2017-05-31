@@ -18,7 +18,7 @@
         android:layout_marginEnd="@dimen/card_margin"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        app:cardBackgroundColor="@color/primary_blue"
+        app:cardBackgroundColor="?attr/colorPrimary"
         android:foreground="?android:attr/selectableItemBackground"
 
         >
@@ -60,7 +60,7 @@
                     android:textSize="28sp"
                     android:fontFamily="sans-serif-thin"
                     android:gravity="center|start"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:ellipsize="end"
                     />
 

@@ -4,7 +4,7 @@
     <string name="action_search">Søk</string>
     <string name="action_settings">Innstillingar</string>
     <string name="add_elem_to_fav">\u0020er lagt til i favorittar</string>
-    <string name="app_title">Romplan UiB</string>
+    <string name="app_title">Romplan</string>
     <string name="event_added">Hendinga vert lagt til i kalendaren din.</string>
     <string name="event_cancel">Tilbake</string>
     <string name="event_no_descript">Inga beskriving</string>
@@ -14,7 +14,9 @@
     <string name="font_family_regular">sans-serif</string>
     <string name="font_family_thin">sans-serif-thin</string>
     <string name="load_data_string">Hentar data…</string>
+    <string name="load_data_string_multiple_mins">Hentar data, dette kan ta eit par minuttar...</string>
     <string name="main_title">Romplan for UiB</string>
+    <string name="pref_clear_cache">Velg eit anna universitet</string>
     <string name="pref_about">Om</string>
     <string name="pref_about_text_1">Dataa i denne applikasjonen vert henta frå:</string>
     <string name="pref_about_text_3">Kjeldekoden finnast open på GitHub:</string>
@@ -27,10 +29,17 @@
 
     <string name="remove_elem_from_fav">\u0020er fjerna frå favorittar</string>
     <string name="search_buildings">Søk etter bygningar…</string>
-    <string name="splash_title">Romplan for Universitetet i Bergen</string>
+    <string name="splash_title">Romplan for </string>
     <string name="tab_buildings">BYGNINGAR</string>
     <string name="tab_favorites">FAVORITTAR</string>
     <string name="title_activity_settings">Innstillingar</string>
     <string name="week">Veke</string>
     <string name="pref_about_text_2">Kjeldekoden finnast på:</string>
+
+    <string name="uni_bergen">Universitetet i Bergen</string>
+    <string name="uni_oslo">Universitetet i Oslo</string>
+
+    <string name="unicampus_chosen_area">har blitt valgt</string>
+    <string name="unicampus_choose_area">Velg eit område på</string>
+
 </resources>

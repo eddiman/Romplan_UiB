@@ -7,24 +7,21 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.Button;
+import android.text.SpannableStringBuilder;
+import android.view.Menu;
 import android.widget.GridView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.pensive.android.romplanuib.ArrayAdapters.BuildingAdapter;
-import com.pensive.android.romplanuib.ArrayAdapters.CampusAdapter;
-import com.pensive.android.romplanuib.models.Campus;
+import com.pensive.android.romplanuib.ArrayAdapters.UniCampusAdapter;
+import com.pensive.android.romplanuib.models.UniCampus;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectCampusActivity extends AppCompatActivity {
-    String campusCode;
+public class SelectUniCampusActivity extends AppCompatActivity {
+    String selectedCampusString;
     private Toolbar toolbar;
-    List<Campus> campusArray = new ArrayList<>();
-    GridView campusGrid;
+    List<UniCampus> uniCampusArray = new ArrayList<>();
+    GridView uniCampusGrid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +29,11 @@ public class SelectCampusActivity extends AppCompatActivity {
         setContentView(R.layout.activity_campus);
         toolbar = (Toolbar) findViewById(R.id.toolbar_campus);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("");
+
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        campusCode = sharedPreferences.getString("campus_code", null);
+        selectedCampusString = sharedPreferences.getString("current_campus", null);
         checkIfCampusSelect();
 
         generateAvailableCampus();
@@ -43,7 +43,7 @@ public class SelectCampusActivity extends AppCompatActivity {
     }
 
     private void checkIfCampusSelect() {
-        if (campusCode == null){
+        if (selectedCampusString == null){
             initGui(this);
         } else{
             Intent i = new Intent(this, LoadActivity.class);
@@ -53,22 +53,31 @@ public class SelectCampusActivity extends AppCompatActivity {
 
 
     private void generateAvailableCampus() {
-        Campus uib = new Campus(getResources().getString(R.string.uni_bergen), "uib");
-        Campus uio = new Campus(getResources().getString(R.string.uni_oslo), "uio");
-        campusArray.add(uib);
-        campusArray.add(uio);
+        UniCampus uib = new UniCampus(getResources().getString(R.string.uni_bergen), "uib","@drawable/uib_logo_2",
+                "@drawable/splash_uib_card", "UiB" );
+        UniCampus uio = new UniCampus(getResources().getString(R.string.uni_oslo), "uio","@drawable/uio_logo_2",
+                "@drawable/splash_uio_card", "UiO" );
+        uniCampusArray.add(uib);
+        uniCampusArray.add(uio);
 
     }
 
     private void initGui(final Context context) {
         toolbar.setTitle("Romplan");
-        campusGrid = (GridView) findViewById(R.id.campusList);
+        uniCampusGrid = (GridView) findViewById(R.id.campusList);
 
-        CampusAdapter adapter  = new CampusAdapter(context, R.layout.list_campus_layout, campusArray);
+        UniCampusAdapter adapter  = new UniCampusAdapter(context, R.layout.list_unicampus_layout, uniCampusArray);
 
-        campusGrid.setAdapter(adapter);
+        uniCampusGrid.setAdapter(adapter);
 
     }
+    public void onBackPressed() {
+        this.finishAffinity();
+
+
+    }
+
+
 
 
 

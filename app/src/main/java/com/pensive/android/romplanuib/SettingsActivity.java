@@ -1,29 +1,20 @@
 package com.pensive.android.romplanuib;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.res.Configuration;
+import android.content.SharedPreferences;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.alamkanak.weekview.WeekViewEvent;
 import com.pensive.android.romplanuib.util.FontController;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class SettingsActivity extends AppCompatActivity {
     FontController fc = new FontController();
@@ -59,9 +50,25 @@ public class SettingsActivity extends AppCompatActivity {
             prefVersion.setSummary(version);
             getActivity().setTitle("");
 
+            Preference clearCachePreference = findPreference("clear_cache");
+            clearCachePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
 
-            Preference preference = findPreference("third_party");
-            preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    //TODO: Implement dialog for user verification and prevent user error. For developing purposes, easier to not have, for now
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+                    sharedPreferences.edit().clear().apply();
+
+                    Intent intent = new Intent(getActivity().getBaseContext(), SelectUniCampusActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getActivity().getBaseContext().startActivity(intent);
+
+                    return false;
+                }
+            });
+
+            Preference thirdPartyPreference = findPreference("third_party");
+            thirdPartyPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
 
@@ -83,7 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         private void createLibDialog() {
 
-            final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.DialogTheme)
+            final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.DialogBlueTheme)
                     .setView(R.layout.dialog_third_party_libs)
                     .create();
             dialog.setCancelable(true);
@@ -91,4 +98,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         }
     }
+
+
 }

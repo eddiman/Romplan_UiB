@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.pensive.android.romplanuib.BuildingActivity;
+import com.pensive.android.romplanuib.RoomsActivity;
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.models.Building;
 import com.pensive.android.romplanuib.util.FontController;
@@ -81,7 +81,7 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
             public void onClick(View arg0) {
                 //Toast.makeText(context, getItem(position).getListOfRooms().get(0).getCode(), Toast.LENGTH_SHORT).show();
 
-                Intent i = new Intent(context, BuildingActivity.class);
+                Intent i = new Intent(context, RoomsActivity.class);
                 i.putExtra("building", getItem(position));
                 context.startActivity(i);
 

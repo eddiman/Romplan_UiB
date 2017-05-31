@@ -19,7 +19,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardBackgroundColor="@color/primary_blue"
+        app:cardBackgroundColor="?attr/colorPrimary"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +41,7 @@
                     android:text="QQ"
                     android:textSize="38sp"
                     android:gravity="center_horizontal"
-                    android:textColor="@color/accent_yellow"
+                    android:textColor="?attr/colorAccent"
 
                     />
 

@@ -13,6 +13,8 @@ import com.pensive.android.romplanuib.WeekCalendarActivity;
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.io.util.URLEncoding;
 import com.pensive.android.romplanuib.models.Room;
+import com.pensive.android.romplanuib.models.UniCampus;
+import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.Randomized;
 import com.squareup.picasso.Picasso;
 
@@ -34,6 +36,7 @@ public class RoomAdapter extends ArrayAdapter<Room> {
     List<Room> rooms;
     String buildingCode;
     Randomized randomized = new Randomized();
+    UniCampus selectedCampus;
 
     public RoomAdapter(Context context, int textViewResourceId, List<Room> buildings) {
         super(context, textViewResourceId, buildings);
@@ -61,6 +64,8 @@ public class RoomAdapter extends ArrayAdapter<Room> {
         View row = convertView;
         RoomHolder holder = null;
         buildingCode = rooms.get(position).getBuildingAcronym();
+        DataManager dataManager = new DataManager(context);
+        selectedCampus = dataManager.loadCurrentUniCampusSharedPref();
 
         if (row == null) {
             holder = new RoomHolder();
@@ -80,12 +85,14 @@ public class RoomAdapter extends ArrayAdapter<Room> {
 
 
         //http://rom_img.app.uib.no/byggogrombilder/GR_/GR_110/GR_110I.jpg
+        int imageResource = context.getResources().getIdentifier(selectedCampus.getLogoUrl(), null, context.getPackageName());
+
         String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/"+ buildingCode + "_" + rooms.get(position).getAreaID() + "/"+ buildingCode + "_" + rooms.get(position).getAreaID() + "I.jpg";
         Picasso.with(context)
                 .load(URLEncoding.encode(url))
                 .centerCrop()
                 .fit()
-                .placeholder(R.drawable.uiblogo)
+                .placeholder(imageResource)
                 .transform(new GrayscaleTransformation())
                 .into(holder.roomImage);
 

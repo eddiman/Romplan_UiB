@@ -4,38 +4,55 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/dialog_area_chooser_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_check"
+        app:layout_anchor="@+id/viewA"
+        app:layout_anchorGravity="bottom|right|end"/>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
             android:id="@+id/viewA"
-            >
-        <TextView
-            android:text="Tittel"
-            android:fontFamily="sans-serif-thin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/dialog_area_chooser_title"
-            android:textSize="32sp"
-            android:textColor="@color/secondary_text_white"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            />
+            <TextView
+                android:id="@+id/dialog_area_chooser_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-thin"
+                android:text="Tittel"
+                android:textColor="@color/secondary_text_white"
+                android:textSize="32sp"
+
+                />
+
+            <RadioGroup
+                android:id="@+id/dialog_area_chooser_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+            </RadioGroup>
 
 
 
-            </LinearLayout>
-
+        </LinearLayout>
 
 
         <LinearLayout
@@ -44,22 +61,11 @@
             android:background="?attr/dialogPrimary"
             android:orientation="vertical"
             android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-            >
+            android:paddingStart="16dp">
 
 
         </LinearLayout>
 
     </LinearLayout>
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/dialog_area_chooser_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_margin="16dp"
-        android:clickable="true"
-        android:src="@drawable/ic_event"
-        app:layout_anchor="@id/viewA"
-        app:layout_anchorGravity="bottom|right|end"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <attr name="colorTest" format="reference"/>
+    <attr name="transpImgColor" format="reference"/>
+
+    <attr name="lightColor" format="reference"/>
+    <attr name="lighterColor" format="reference"/>
+    <attr name="calElemBg" format="reference"/>
+    <attr name="buildingListElement" format="reference"/>
+
+    <attr name="dialogPrimary" format="reference"/>
+    <attr name="dialogAccent" format="reference"/>
+
 
 </resources>
