@@ -209,6 +209,7 @@ public class DataManager {
                 int size = roomJson.getAsJsonObject().get("size").getAsInt();
 
 
+
                 if (uniCampusCode.equals("uib")){
                     doc = Jsoup.connect(apiUrls.getApiUrl(uniCampusCode) + api.getApiKey(uniCampusCode) + "/ws/room/2.0/?id=" + id).ignoreContentType(true).get();}
                 else {
