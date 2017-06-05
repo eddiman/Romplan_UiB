@@ -135,9 +135,11 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             currentSemester = "F";
         }
         updateDataManager();
-        if (selectedCampus.getCampusCode() == "uib") {
+        if (selectedCampus.getCampusCode().equals("uib")) {
+            System.out.println("Oh yes");
             jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
         }else{
+            System.out.println("Fuck");
             jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, weekNumber, year);
         }
         jsoupTask.execute();
@@ -494,7 +496,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         //increments a week number and corrects week numbers if it exceeds 52, and sets it to be next year
         weekDayChanged.add(Calendar.DAY_OF_YEAR, 7);
         currentWeekNumber = weekDayChanged.get(Calendar.WEEK_OF_YEAR);
-        if(selectedCampus.getCampusCode() == "uib") {
+        if(selectedCampus.getCampusCode().equals("uib")) {
             String goToSemester;
             if (weekDayChanged.get(Calendar.MONTH) < Calendar.JULY) {
                 goToSemester = "S";
@@ -528,7 +530,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         weekDayChanged.add(Calendar.DAY_OF_YEAR, -7);
         currentWeekNumber = weekDayChanged.get(Calendar.WEEK_OF_YEAR);
-        if(selectedCampus.getCampusCode() == "uib") {
+        if(selectedCampus.getCampusCode().equals("uib")) {
             String goToSemester;
             if (weekDayChanged.get(Calendar.MONTH) < Calendar.JULY) {
                 goToSemester = "S";
@@ -774,7 +776,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             try {
 
                 List<CalActivity> listOfCal = new ArrayList<>();
-                if (selectedCampus.getCampusCode() == "uib") {
+                if (selectedCampus.getCampusCode().equals("uib")) {
                     listOfCal = dataManager.fetchCalendarActivities(room.getRoomID(), semesterStart, semesterEnd);
                 }else{
                     listOfCal = dataManager.fethcCalendarActivities(selectedCampus.getCampusCode(), room.getAreaID(), room.getBuildingID(), room.getRoomID(), weekNumber, year);
