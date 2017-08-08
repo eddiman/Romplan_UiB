@@ -26,6 +26,8 @@
         <item name="buildingListElement">@color/primary_blue</item>
         <item name="calElemBg">@color/calendar_element_blue</item>
 
+        <item name="android:fastScrollTextColor">@color/background_blue_dark</item>
+
     </style>
     <style name="DialogBlueTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">@color/primaryDark_blue</item>

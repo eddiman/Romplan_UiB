@@ -11,13 +11,21 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.FontController;
+
+import java.util.ResourceBundle;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class SettingsActivity extends AppCompatActivity {
     FontController fc = new FontController();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +42,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
+
+
     }
 
     ///////////////////////////////////////////INNER FRAGMENT/////////////////////////////////////////////////////////////////
-    public static class MyPreferenceFragment extends PreferenceFragment
-    {
+    public static class MyPreferenceFragment extends PreferenceFragment {
+
+
         @Override
         public void onCreate(final Bundle savedInstanceState)
         {
@@ -55,13 +66,10 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
 
-                    //TODO: Implement dialog for user verification and prevent user error. For developing purposes, easier to not have, for now
-                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
-                    sharedPreferences.edit().clear().apply();
+                    createChangeUniDialog();
 
-                    Intent intent = new Intent(getActivity().getBaseContext(), SelectUniCampusActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    getActivity().getBaseContext().startActivity(intent);
+                    //TODO: Implement dialog for user verification and prevent user error. For developing purposes, easier to not have, for now
+
 
                     return false;
                 }
@@ -95,6 +103,52 @@ public class SettingsActivity extends AppCompatActivity {
                     .create();
             dialog.setCancelable(true);
             dialog.show();
+
+        }
+        private void createChangeUniDialog() {
+
+            final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.DialogBlueTheme)
+                    .setView(R.layout.dialog_change_uni)
+                    .create();
+
+            LayoutInflater li = LayoutInflater.from(getActivity().getBaseContext());
+            View view = li.inflate(R.layout.dialog_change_uni, null);
+            dialog.setView(view);
+
+            TextView text = (TextView) view.findViewById(R.id.change_uni_text);
+            Button changeUniBtn = (Button) view.findViewById(R.id.change_uni_button);
+            Button changeBackUniBtn = (Button) view.findViewById(R.id.change_uni_back_button);
+
+            String partOne = getResources().getString(R.string.pref_change_uni);
+            String partTwo = getResources().getString(R.string.pref_change_uni_1);
+
+            text.setText(partOne + " " +  partTwo);
+
+            changeUniBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    deleteDataAndChangeUni();
+                }
+            });
+            changeBackUniBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.cancel();
+                }
+            });
+
+
+            dialog.setCancelable(true);
+            dialog.show();
+
+        }
+        private void deleteDataAndChangeUni(){
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
+            sharedPreferences.edit().clear().apply();
+
+            Intent intent = new Intent(getActivity().getBaseContext(), SelectUniCampusActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getActivity().getBaseContext().startActivity(intent);
 
         }
     }

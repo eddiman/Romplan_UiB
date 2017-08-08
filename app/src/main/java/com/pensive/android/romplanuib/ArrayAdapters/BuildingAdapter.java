@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.pensive.android.romplanuib.RoomsActivity;
@@ -14,21 +15,27 @@ import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.models.Building;
 import com.pensive.android.romplanuib.util.FontController;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Edvard Bjørgen
  * @version 1.0
  */
-public class BuildingAdapter extends ArrayAdapter<Building> {
+public class BuildingAdapter extends ArrayAdapter<Building> implements SectionIndexer {
 
-
+    HashMap<String, Integer> mapIndex;
     LayoutInflater inflater;
     Context context;
     int textViewResourceId;
     List<Building> buildings;
     FontController fc = new FontController();
     Typeface bebasFont;
+    String[] sections;
 
 
     public BuildingAdapter(Context context, int textViewResourceId, List<Building> buildings) {
@@ -38,6 +45,29 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
         this.textViewResourceId = textViewResourceId;
         this.buildings = buildings;
         this.bebasFont = fc.getTypeface(getContext(), "bebas_neue.ttf");
+
+
+        mapIndex = new LinkedHashMap<String, Integer>();
+
+        for (int x = 0; x < buildings.size(); x++) {
+            String building = buildings.get(x).getBuildingAcronym();
+            String ch = building.substring(0, 1);
+            ch = ch.toUpperCase();
+
+            // HashMap will prevent duplicates
+            mapIndex.put(ch, x);
+        }
+
+        Set<String> sectionLetters = mapIndex.keySet();
+
+        // create a list from the set to sort
+        ArrayList<String> sectionList = new ArrayList<String>(sectionLetters);
+
+        Collections.sort(sectionList);
+
+        sections = new String[sectionList.size()];
+
+        sectionList.toArray(sections);
 
     }
 
@@ -89,6 +119,21 @@ public class BuildingAdapter extends ArrayAdapter<Building> {
             });
 
         return row;
+    }
+
+    @Override
+    public Object[] getSections() {
+        return sections;
+    }
+
+    @Override
+    public int getPositionForSection(int sectionIndex) {
+        return mapIndex.get(sections[sectionIndex]);
+    }
+
+    @Override
+    public int getSectionForPosition(int position) {
+        return 0;
     }
 
     private class BuildingHolder

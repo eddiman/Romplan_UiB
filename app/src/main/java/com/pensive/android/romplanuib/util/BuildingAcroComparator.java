@@ -11,7 +11,7 @@ import java.util.Comparator;
  * @version 1.0
  */
 
-public class BuildingComparator implements Comparator<Building> {
+public class BuildingAcroComparator implements Comparator<Building> {
 
     /**
      * Compares two {@link Building}s by their name lexicographically
@@ -24,7 +24,6 @@ public class BuildingComparator implements Comparator<Building> {
      */
     @Override
     public int compare(Building building1, Building building2) {
-        return building1.getName().compareTo(building2.getName());
+        return building1.getBuildingAcronym().compareTo(building2.getBuildingAcronym());
     }
-
 }

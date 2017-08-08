@@ -12,6 +12,7 @@
     <color name="transpWhite">#8fffffff</color>
     <color name="transpBlack">#23000000</color>
     <color name="transpBlack2">#86000000</color>
+    <color name="transpBlack3">#ba000000</color>
     <color name="transparent">#00ffffff</color>
     <color name="secondary_text_white">#e5e5e5</color>
 

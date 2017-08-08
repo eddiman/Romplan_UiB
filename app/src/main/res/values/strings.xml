@@ -45,6 +45,10 @@
     <string name="pref_language">Språk</string>
     <string name="pref_libs">Tredjepartsbiblioteker</string>
     <string name="pref_license_title">Lisenser</string>
+    <string name="pref_change_uni">Er du sikker på at du vil endre universitet? </string>
+    <string name="pref_change_uni_1"> All data vil slettes og du må laste det inn på nytt igjen. </string>
+    <string name="pref_change_uni_2">Gå videre</string>
+    <string name="pref_change_uni_3">Tilbake</string>
 
 
     <!-- Licenses -->

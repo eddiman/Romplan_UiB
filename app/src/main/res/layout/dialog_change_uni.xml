@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:padding="16dp"
+        android:id="@+id/parent_layout"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/change_uni_text"
+            android:text="ASDASD"
+            android:textSize="23sp"
+            android:fontFamily = "sans-serif-thin"
+
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="@string/pref_change_uni_2"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/change_uni_button"
+            android:textColor="@color/accent_blue"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="@string/pref_change_uni_3"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/change_uni_back_button"
+
+            />
+
+
+    </RelativeLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

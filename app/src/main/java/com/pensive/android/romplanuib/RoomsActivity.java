@@ -174,6 +174,7 @@ public class RoomsActivity extends AppCompatActivity {
     /**
      * Initializes the floating action button.
      * TODO: Use it for adding and removing favorites.
+     * TODO: Use it for adding and removing favorites.
      */
     private void floatingActionButtonFavoriteListener(final Context context) {
         fab = (FloatingActionButton) findViewById(R.id.fabRoom);

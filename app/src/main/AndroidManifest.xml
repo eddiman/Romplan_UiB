@@ -11,12 +11,17 @@
         android:label="@string/app_title"
         android:supportsRtl="true"
         android:theme="@style/BlueTheme">
-        <activity android:name=".SelectUniCampusActivity">
+
+        <activity
+            android:name=".SelectUniCampusActivity"
+            android:label=""
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".RoomsActivity"
             />
@@ -26,7 +31,7 @@
         <activity
             android:name=".BuildingMainActivity"
             android:label=""
-             />
+            />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -37,7 +42,7 @@
             />
 
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".LoadActivity"></activity>
+        <activity android:name=".LoadActivity"/>
     </application>
 
 </manifest>

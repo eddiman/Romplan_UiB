@@ -79,7 +79,7 @@ public class DataManager {
             ArrayList<Building> downloadedBuildings = new ArrayList<>();
             downloadedBuildings.addAll(downloadBuildingsInArea(areaCode));
 
-            Collections.sort(downloadedBuildings,new BuildingComparator());
+            Collections.sort(downloadedBuildings,new BuildingAcroComparator());
             this.allBuildings = downloadedBuildings;
 
         }catch (DownloadException downloadException){
@@ -100,7 +100,7 @@ public class DataManager {
                 downloadedBuildings.addAll(downloadBuildingsInArea(ac));
 
             }
-            Collections.sort(downloadedBuildings,new BuildingComparator());
+            Collections.sort(downloadedBuildings,new BuildingAcroComparator());
             this.allBuildings = downloadedBuildings;
 
         }catch (DownloadException downloadException){
@@ -163,6 +163,7 @@ public class DataManager {
                 String name = buildingJson.getAsJsonObject().get("name").getAsString();
                 List<Room> roomsInBuilding = downloadRoomsInBuilding(areaID, id);
                 Building building = new Building(areaID, id, name, roomsInBuilding);
+
                 if(roomsInBuilding.size()>0) {
                     building.setBuildingAcronym(roomsInBuilding.get(0).getBuildingAcronym());
                 }else{
@@ -271,7 +272,7 @@ public class DataManager {
         }
         return calActivities;
     }
-    public List<CalActivity> fethcCalendarActivities(String university, String areaID, String buildingID, String roomID, int weekNumber, int year){
+    public List<CalActivity> fetchCalendarActivities(String university, String areaID, String buildingID, String roomID, int weekNumber, int year){
         uniCampusCode = loadCurrentUniCampusSharedPref().getCampusCode();
         List<CalActivity> calActivities = new ArrayList<>();
         Document doc = null;

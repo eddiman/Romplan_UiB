@@ -58,12 +58,14 @@ public class SelectUniCampusActivity extends AppCompatActivity {
         UniCampus uio = new UniCampus(getResources().getString(R.string.uni_oslo), "uio","@drawable/uio_logo_2",
                 "@drawable/splash_uio_card", "UiO" );
         uniCampusArray.add(uib);
-        uniCampusArray.add(uio);
+
+        //TODO: Fjernet for production-ready apk
+//        uniCampusArray.add(uio);
 
     }
 
     private void initGui(final Context context) {
-        toolbar.setTitle("Romplan");
+        toolbar.setTitle("");
         uniCampusGrid = (GridView) findViewById(R.id.campusList);
 
         UniCampusAdapter adapter  = new UniCampusAdapter(context, R.layout.list_unicampus_layout, uniCampusArray);

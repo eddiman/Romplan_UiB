@@ -779,7 +779,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                 if (selectedCampus.getCampusCode().equals("uib")) {
                     listOfCal = dataManager.fetchCalendarActivities(room.getRoomID(), semesterStart, semesterEnd);
                 }else{
-                    listOfCal = dataManager.fethcCalendarActivities(selectedCampus.getCampusCode(), room.getAreaID(), room.getBuildingID(), room.getRoomID(), weekNumber, year);
+                    listOfCal = dataManager.fetchCalendarActivities(selectedCampus.getCampusCode(), room.getAreaID(), room.getBuildingID(), room.getRoomID(), weekNumber, year);
                 }
                 for (int i = 0; i < listOfCal.size(); i++) {
 
