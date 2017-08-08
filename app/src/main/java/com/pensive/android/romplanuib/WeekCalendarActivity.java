@@ -124,6 +124,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
+        int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         if(weekDayChanged.get(Calendar.YEAR)<Calendar.JULY){
             semesterStart = year + "-01-01";
             semesterEnd = year + "-06-30";
@@ -134,7 +135,13 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             currentSemester = "F";
         }
         updateDataManager();
-        jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
+        if (selectedCampus.getCampusCode().equals("uib")) {
+            System.out.println("Oh yes");
+            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
+        }else{
+            System.out.println("Fuck");
+            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, weekNumber, year);
+        }
         jsoupTask.execute();
 
         initGUI();
@@ -487,33 +494,27 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      */
     private void goToNextWeek() {
         //increments a week number and corrects week numbers if it exceeds 52, and sets it to be next year
-        currentWeekNumber++;
         weekDayChanged.add(Calendar.DAY_OF_YEAR, 7);
-        String goToSemester;
-        if(weekDayChanged.get(Calendar.MONTH) < Calendar.JULY){
-            goToSemester = "S";
+        currentWeekNumber = weekDayChanged.get(Calendar.WEEK_OF_YEAR);
+        if(selectedCampus.getCampusCode().equals("uib")) {
+            String goToSemester;
+            if (weekDayChanged.get(Calendar.MONTH) < Calendar.JULY) {
+                goToSemester = "S";
+            } else {
+                goToSemester = "F";
+            }
+            if (goToSemester != currentSemester) {
+                updateSemester();
+                currentSemester = goToSemester;
+                emptyEventList();
+                jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
+                jsoupTask.execute();
+            }
         }else {
-            goToSemester = "F";
-        }
-        if(goToSemester != currentSemester){
-            updateSemester();
-            currentSemester = goToSemester;
             emptyEventList();
-            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
+            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, currentWeekNumber, weekDayChanged.get(Calendar.YEAR));
             jsoupTask.execute();
         }
-
-
-
-        //TODO: Clean this up later, hehe
-        if(currentWeekNumber > 52){
-            currentWeekNumber = 1;
-            //sets it to be next year, cannot set definite year, limitaion of the rom.app.uib.no
-            //TODO: Possible workaround exists: everything in current year is  between 1 and 52, if exceeds 52 it goes to the following year e.g. week 60 in 2016 is actually week 7 in 2017
-            //And week -2 is week 50 in 2015 and so forth
-            nextYear = 1;
-        }
-
 
         //Adds -7 days to weekDayChanged, goes to last week
         mWeekView.goToDate(weekDayChanged);
@@ -528,25 +529,27 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     private void goToLastWeek() {
 
         weekDayChanged.add(Calendar.DAY_OF_YEAR, -7);
-        String goToSemester;
-        if(weekDayChanged.get(Calendar.MONTH)<Calendar.JULY){
-            goToSemester = "S";
+        currentWeekNumber = weekDayChanged.get(Calendar.WEEK_OF_YEAR);
+        if(selectedCampus.getCampusCode().equals("uib")) {
+            String goToSemester;
+            if (weekDayChanged.get(Calendar.MONTH) < Calendar.JULY) {
+                goToSemester = "S";
+            } else {
+                goToSemester = "F";
+            }
+            if (goToSemester != currentSemester) {
+                updateSemester();
+                currentSemester = goToSemester;
+                emptyEventList();
+                jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
+                jsoupTask.execute();
+            }
         }else {
-            goToSemester = "F";
-        }
-        if(goToSemester != currentSemester){
-            updateSemester();
-            currentSemester = goToSemester;
             emptyEventList();
-            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
+            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, currentWeekNumber, weekDayChanged.get(Calendar.YEAR));
             jsoupTask.execute();
         }
-        //see comments in goToNextWeek()
-        currentWeekNumber--;
-        if(currentWeekNumber < 1){
-            currentWeekNumber = 52;
-            nextYear = 0;
-        }
+
 
         //Adds -7 days to weekDayChanged, goes to last week
         mWeekView.goToDate(weekDayChanged);
@@ -730,6 +733,8 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         boolean timeoutError;
         String semesterStart;
         String semesterEnd;
+        int weekNumber;
+        int year;
 
 
 
@@ -739,7 +744,16 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             this.room = room;
             this.semesterStart = semesterStart;
             this.semesterEnd = semesterEnd;
-            System.out.println("JSOUPCalendarConstrutor");
+
+            asyncDialog = new ProgressDialog(context, R.style.DialogGreenTheme);
+
+        }
+        JsoupTask(Context context, Room room, int weekNumber, int year) {
+            super();
+            this.context = context;
+            this.room = room;
+            this.weekNumber = weekNumber;
+            this.year = year;
 
             asyncDialog = new ProgressDialog(context, R.style.DialogGreenTheme);
 
@@ -761,8 +775,12 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
             try {
 
-                List<CalActivity> listOfCal = dataManager.fetchCalendarActivities(room.getRoomID(), semesterStart, semesterEnd);
-
+                List<CalActivity> listOfCal = new ArrayList<>();
+                if (selectedCampus.getCampusCode().equals("uib")) {
+                    listOfCal = dataManager.fetchCalendarActivities(room.getRoomID(), semesterStart, semesterEnd);
+                }else{
+                    listOfCal = dataManager.fethcCalendarActivities(selectedCampus.getCampusCode(), room.getAreaID(), room.getBuildingID(), room.getRoomID(), weekNumber, year);
+                }
                 for (int i = 0; i < listOfCal.size(); i++) {
 
                     WeekViewEvent event = new WeekViewEvent(i, listOfCal.get(i).getCourseID() + " " + listOfCal.get(i).getTeachingMethodName() + " - " + listOfCal.get(i).getSummary(), listOfCal.get(i).getBeginTime(), listOfCal.get(i).getEndTime());

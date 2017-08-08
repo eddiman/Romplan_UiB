@@ -1,7 +1,11 @@
 package com.pensive.android.romplanuib.util;
 
 /**
+<<<<<<< HEAD
  * @author Edvard P. BjÃ¸rgen
+=======
+ * @author Edvard P. Bjørgen
+>>>>>>> 173552467a0732234dcc0b4e658cc4ed8b00cd99
  * @version 1.0
  */
 

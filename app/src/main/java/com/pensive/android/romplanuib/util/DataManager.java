@@ -226,7 +226,7 @@ public class DataManager {
                     try {
                         imageURL = json.get("roomimg_url").getAsString();
                     }catch (UnsupportedOperationException e){
-                        imageURL = "defaultImage";//Todo fix
+                        imageURL = "http://tp.freheims.com/img.jpg";//Todo fix
                     }
 
 
@@ -265,6 +265,28 @@ public class DataManager {
                 String summary = event.getAsJsonObject().get("summary").getAsString();
                 CalActivity calActivity = new CalActivity(courseID, weekNumber, teachingMethod, teachingMethodName, teachingTitle, beginTime, endTime, summary);
                 calActivities.add(calActivity);
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return calActivities;
+    }
+    public List<CalActivity> fethcCalendarActivities(String university, String areaID, String buildingID, String roomID, int weekNumber, int year){
+        uniCampusCode = loadCurrentUniCampusSharedPref().getCampusCode();
+        List<CalActivity> calActivities = new ArrayList<>();
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(apiUrls.getApiUrl(uniCampusCode) + "/schedule/" + uniCampusCode + "/" + areaID + "/" + buildingID + "/" + roomID + "/" + weekNumber + "/" + year).ignoreContentType(true).get();
+            JsonParser jsonParser = new JsonParser();
+            JsonObject json = jsonParser.parse(doc.body().text()).getAsJsonObject();
+            for(JsonElement event: json.getAsJsonArray("events")){
+                String teachingMethodName = event.getAsJsonObject().get("teaching-method-name").getAsString();
+                String beginTime = event.getAsJsonObject().get("dtstart").getAsString();
+                String endTime = event.getAsJsonObject().get("dtend").getAsString();
+                String summary = event.getAsJsonObject().get("summary").getAsString();
+                CalActivity calActivity = new CalActivity(teachingMethodName, weekNumber, null, teachingMethodName, null, beginTime, endTime, summary);
+                calActivities.add(calActivity);
+                System.out.println(calActivities);
             }
         }catch (IOException e){
             e.printStackTrace();
