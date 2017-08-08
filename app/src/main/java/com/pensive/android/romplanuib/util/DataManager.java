@@ -10,7 +10,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.MalformedJsonException;
 import com.pensive.android.romplanuib.Exceptions.DownloadException;
 import com.pensive.android.romplanuib.models.Building;
 import com.pensive.android.romplanuib.models.CalActivity;

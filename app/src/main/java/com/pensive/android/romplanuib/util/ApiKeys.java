@@ -1,13 +1,21 @@
 package com.pensive.android.romplanuib.util;
 
 /**
- * @author Edvard Pires Bjørgen
+ * @author Edvard P. BjÃ¸rgen
+ * @version 1.0
  */
 
 public class ApiKeys {
 
-    public String getUibApiKey(){
-        return "Add your API-key here";
+    public String getApiKey(String campusCode){
+        switch (campusCode){
+            case "uib":
+                return "KEY6ytu6esu9";
+            case "uio":
+                return "";
+            default:
+                return "";
+        }
 
     }
 }
