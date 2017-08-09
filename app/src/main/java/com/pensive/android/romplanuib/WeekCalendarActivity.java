@@ -571,6 +571,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         if (collapsingToolbar != null) {
             collapsingToolbar.setCollapsedTitleTypeface(fc.getTypeface(this, "fonts/roboto_thin.ttf"));
+            collapsingToolbar.setCollapsedTitleTypeface(fc.getTypeface(this, "fonts/roboto_thin.ttf"));
             collapsingToolbar.setExpandedTitleTypeface(fc.getTypeface(this, "fonts/roboto_thin.ttf"));
         }
 
@@ -745,7 +746,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             this.semesterStart = semesterStart;
             this.semesterEnd = semesterEnd;
 
-            asyncDialog = new ProgressDialog(context, R.style.DialogGreenTheme);
+            asyncDialog = new ProgressDialog(context, R.style.DialogBlueTheme);
 
         }
         JsoupTask(Context context, Room room, int weekNumber, int year) {

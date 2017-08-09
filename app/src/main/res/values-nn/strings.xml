@@ -5,6 +5,7 @@
     <string name="action_settings">Innstillingar</string>
     <string name="add_elem_to_fav">\u0020er lagt til i favorittar</string>
     <string name="app_title">Romplan</string>
+    <string name="app_title_uib">Romplan for UiB</string>
     <string name="event_added">Hendinga vert lagt til i kalendaren din.</string>
     <string name="event_cancel">Tilbake</string>
     <string name="event_no_descript">Inga beskriving</string>
@@ -35,6 +36,10 @@
     <string name="title_activity_settings">Innstillingar</string>
     <string name="week">Veke</string>
     <string name="pref_about_text_2">Kjeldekoden finnast på:</string>
+    <string name="pref_change_uni">Er du sikker på at du vil endre universit? </string>
+    <string name="pref_change_uni_1"> All data vil slettast og du må lasta det inn på nytt igjen. </string>
+    <string name="pref_change_uni_2">Gå vidare</string>
+    <string name="pref_change_uni_3">Tilbake</string>
 
     <string name="uni_bergen">Universitetet i Bergen</string>
     <string name="uni_oslo">Universitetet i Oslo</string>

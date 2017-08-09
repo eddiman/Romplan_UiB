@@ -26,6 +26,7 @@
             android:fontFamily="sans-serif-light"
             android:textSize="24sp"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:visibility="invisible"
             />
 
     </android.support.v7.widget.Toolbar>

@@ -5,6 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="add_elem_to_fav">\\u0020is added to favorites</string>
     <string name="app_title">Romplan</string>
+    <string name="app_title_uib">Romplan for UiB</string>
     <string name="event_added">The event will be added to your calendar.</string>
     <string name="event_cancel">Back</string>
     <string name="event_no_descript">No description</string>
@@ -34,6 +35,11 @@
     <string name="font_family_regular">sans-serif</string>
     <string name="font_family_thin">sans-serif-thin</string>
     <string name="splash_title">Room schedule for </string>
+
+    <string name="pref_change_uni">Are you sure you want to change university?</string>
+    <string name="pref_change_uni_1"> The data will be deleted and you will have to reload it again.</string>
+    <string name="pref_change_uni_2">Gå videre</string>
+    <string name="pref_change_uni_3">Tilbake</string>
 
     <string name="uni_bergen">the University of Bergen</string>
     <string name="uni_oslo">the University of Oslo</string>

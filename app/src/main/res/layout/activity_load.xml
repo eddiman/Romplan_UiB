@@ -40,8 +40,23 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerHorizontal="true"
+        android:id="@+id/progressBar_load"
         android:layout_alignParentBottom="true"
 
         android:layout_marginBottom="24dp"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/load_data_string_multiple_mins"
+        android:layout_marginTop="-22dp"
+        android:layout_below="@id/progressBar_load"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif-light"
+        android:textStyle="italic"
+        android:textSize="12sp"
+
+
+        />
+
 </RelativeLayout>

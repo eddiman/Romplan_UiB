@@ -4,6 +4,7 @@
     <string name="main_title">Romplan</string>
     <string name="splash_title">Romplan for</string>
     <string name="app_title">Romplan</string>
+    <string name="app_title_uib">Romplan for UiB</string>
     <string name="load_data_string">Henter data…</string>
     <string name="load_data_string_multiple_mins">Henter data, dette kan ta et par minutter…</string>
     <string name="add_elem_to_fav">\u0020er lagt til i favoritter</string>
@@ -11,6 +12,7 @@
 
     <string name="uni_bergen">Universitetet i Bergen</string>
     <string name="uni_oslo">Universitetet i Oslo</string>
+
 
     <!--UniCampusActivity -->
     <string name="unicampus_chosen_area">har blitt valgt</string>
