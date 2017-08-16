@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -11,6 +12,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.pensive.android.romplanuib.Exceptions.DownloadException;
+import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.models.Building;
 import com.pensive.android.romplanuib.models.CalActivity;
 import com.pensive.android.romplanuib.models.Room;
@@ -277,7 +279,7 @@ public class DataManager {
         List<CalActivity> calActivities = new ArrayList<>();
         Document doc = null;
         try {
-            doc = Jsoup.connect(apiUrls.getApiUrl(uniCampusCode) + "/schedule/" + uniCampusCode + "/" + areaID + "/" + buildingID + "/" + roomID + "/" + weekNumber + "/" + year).ignoreContentType(true).get();
+            doc = Jsoup.connect(apiUrls.getApiUrl(uniCampusCode) + "/schedule/" + uniCampusCode + "/" + areaID + "/" + buildingID + "/" + roomID + "/" + weekNumber + "/" + year).timeout(10*1000).ignoreContentType(true).get();
             JsonParser jsonParser = new JsonParser();
             JsonObject json = jsonParser.parse(doc.body().text()).getAsJsonObject();
             for(JsonElement event: json.getAsJsonArray("events")){
@@ -289,7 +291,9 @@ public class DataManager {
                 calActivities.add(calActivity);
                 System.out.println(calActivities);
             }
-        }catch (IOException e){
+        } catch (java.net.SocketTimeoutException e){
+            Toast.makeText(context, context.getResources().getString(R.string.something_wrong), Toast.LENGTH_SHORT).show();
+        } catch (IOException e){
             e.printStackTrace();
         }
         return calActivities;

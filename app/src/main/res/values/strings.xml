@@ -35,6 +35,7 @@
     <string name="event_added">Hendelsen vil bli lagt til i kalenderen din.</string>
     <string name="week">Uke</string>
     <string name="building">Bygning</string>
+    <string name="something_wrong">Noe gikk galt, prøv å laste inn rommet på nytt.</string>
 
     <!--SettingsActivity -->
     <string name="pref_title">Innstillinger</string>

@@ -27,6 +27,8 @@
     <string name="pref_title">Innstillingar</string>
     <string name="pref_version">Versjon</string>
     <string name="building">Bygning</string>
+    <string name="something_wrong">Noe gjekk galt, prøv å laste inn rommet på nytt.</string>
+
 
     <string name="remove_elem_from_fav">\u0020er fjerna frå favorittar</string>
     <string name="search_buildings">Søk etter bygningar…</string>
