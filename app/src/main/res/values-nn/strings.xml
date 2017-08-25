@@ -6,6 +6,7 @@
     <string name="add_elem_to_fav">\u0020er lagt til i favorittar</string>
     <string name="app_title">Romplan</string>
     <string name="app_title_uib">Romplan for UiB</string>
+    <string name="app_title_uib_beta">Romplan for UiB (Beta)</string>
     <string name="event_added">Hendinga vert lagt til i kalendaren din.</string>
     <string name="event_cancel">Tilbake</string>
     <string name="event_no_descript">Inga beskriving</string>
@@ -28,6 +29,8 @@
     <string name="pref_version">Versjon</string>
     <string name="building">Bygning</string>
     <string name="something_wrong">Noe gjekk galt, prøv å laste inn rommet på nytt.</string>
+    <string name="mazemap">Innendørskart</string>
+    <string name="mazemap_goto_url">Vis i nettlesar</string>
 
 
     <string name="remove_elem_from_fav">\u0020er fjerna frå favorittar</string>

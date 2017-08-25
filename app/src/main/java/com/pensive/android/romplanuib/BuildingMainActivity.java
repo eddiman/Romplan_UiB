@@ -33,6 +33,7 @@ import com.lapism.searchview.SearchView;
 import com.pensive.android.romplanuib.models.Building;
 import com.pensive.android.romplanuib.models.Room;
 import com.pensive.android.romplanuib.models.UniCampus;
+import com.pensive.android.romplanuib.util.BuildingAcroComparator;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.BuildingComparator;
@@ -240,6 +241,8 @@ public class BuildingMainActivity extends AppCompatActivity {
     protected Intent getData(String text, int position) {
         mHistoryDatabase.addItem(new SearchItem(text));
         List<Building> buildingList = dataManager.getAllBuildings();
+        //listen er sortert etter akronymer, må derfor sortere de etter navn igjen
+        Collections.sort(buildingList, new BuildingComparator());
         int index = Collections.binarySearch(buildingList, new Building("", "", text, new ArrayList<Room>()), new BuildingComparator());
         Intent intent = new Intent(BuildingMainActivity.this, RoomsActivity.class);
         intent.putExtra("building", buildingList.get(index));

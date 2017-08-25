@@ -5,6 +5,7 @@
     <string name="splash_title">Romplan for</string>
     <string name="app_title">Romplan</string>
     <string name="app_title_uib">Romplan for UiB</string>
+    <string name="app_title_uib_beta">Romplan for UiB (Beta)</string>
     <string name="load_data_string">Henter data…</string>
     <string name="load_data_string_multiple_mins">Henter data, dette kan ta et par minutter…</string>
     <string name="add_elem_to_fav">\u0020er lagt til i favoritter</string>
@@ -36,6 +37,8 @@
     <string name="week">Uke</string>
     <string name="building">Bygning</string>
     <string name="something_wrong">Noe gikk galt, prøv å laste inn rommet på nytt.</string>
+    <string name="mazemap">Innendørskart</string>
+    <string name="mazemap_goto_url">Vis i nettleser</string>
 
     <!--SettingsActivity -->
     <string name="pref_title">Innstillinger</string>

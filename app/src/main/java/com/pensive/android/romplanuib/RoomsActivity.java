@@ -151,8 +151,20 @@ public class RoomsActivity extends AppCompatActivity {
      * Transformations objects are for applying colors to the image.
      */
     private void loadBackdrop() {
+        String url;
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        String url = "http://rom_img.app.uib.no/byggogrombilder/"+ buildingCode +"_/"+ buildingCode +"_byggI.jpg";
+
+        switch (uniCampusCode){
+            case "uib":
+                 url = "http://rom_img.app.uib.no/byggogrombilder/"+ building.getBuildingID()+"/" + "bygg-" + building.getBuildingID() + "-1" + ".jpg";
+
+                break;
+
+            default:
+                url = "http://google.no";
+                break;
+
+        }
 
         int color = theme.getAttributeColor(this, R.attr.transpImgColor);
         int imageResource = getResources().getIdentifier(selectedCampus.getLogoUrl(), null, getPackageName());

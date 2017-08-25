@@ -3,6 +3,7 @@ package com.pensive.android.romplanuib.models;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * @author Edvard Bjørgen
@@ -40,7 +41,8 @@ public class CalActivity implements CalActivityInterface {
      */
     private Calendar parseCalendarDate(String timeDateString) {
 
-        SimpleDateFormat dateformater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+        SimpleDateFormat dateformater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX", Locale.US);
+
 
         try {
             Date date = dateformater.parse(timeDateString);

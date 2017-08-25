@@ -1,6 +1,7 @@
 package com.pensive.android.romplanuib;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -22,10 +23,14 @@ import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,9 +53,11 @@ import com.pensive.android.romplanuib.util.DateFormatter;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.Randomized;
 import com.pensive.android.romplanuib.util.ThemeSelector;
+import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -73,7 +80,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     private Room room;
     List<WeekViewEvent> events = new ArrayList<>();
     TextView weekNumber;
-    String buildingCode;
     private ImageView roomImage;
     FontController fc = new FontController();
     private CollapsingToolbarLayout collapsingToolbar;
@@ -86,6 +92,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     DateFormatter df;
     String loadDataString;
     private TextView buildingNameText;
+    private Button goToMazeMap;
     Boolean isRoomfav;
     List<Room> favRooms;
 
@@ -103,6 +110,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     ThemeSelector theme = new ThemeSelector();
     String uniCampusCode;
     UniCampus selectedCampus;
+    private WebView mazeMapWebView;
 
 
     @Override
@@ -157,6 +165,8 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         mWeekView = (WeekView) findViewById(R.id.weekView);
         weekNumber = (TextView) findViewById(R.id.week_text);
         buildingNameText = (TextView) findViewById(R.id.building_name_text);
+        goToMazeMap = (Button) findViewById(R.id.goto_mazemap);
+        mazeMapWebView = (WebView) findViewById(R.id.mazemap_webview);
 
         mWeekView.goToDate(weekDayChanged);
         mWeekView.goToHour(7);
@@ -171,14 +181,87 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         checkIfRoomIsFav();
 
+
+        initIndoorMap();
+
+
         setRoomImage();
         setCollapsingTitles();
         setBuildingTextView();
         setWeekButtons();
+        setGoToMazeMap();
+
         updateWeekTextView();
 
 
+
     }
+
+    private void initIndoorMap() {
+
+        switch (uniCampusCode){
+            case "uib":
+                initFoldingCellMazeMap();
+                initMazeMap();
+                break;
+
+            default:
+                break;
+
+        }
+    }
+
+    private void initFoldingCellMazeMap() {
+        final FoldingCell fc = (FoldingCell) findViewById(R.id.folding_cell);
+
+        // attach click listener to folding cell
+        fc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fc.toggle(false);
+            }
+        });
+    }
+
+    private void initMazeMap() {
+
+        mazeMapWebView.getSettings().setJavaScriptEnabled(true);
+
+        // Add a WebViewClient
+        mazeMapWebView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+
+                // Inject CSS when page is done loading
+                injectCSS();
+                super.onPageFinished(view, url);
+            }
+        });
+        mazeMapWebView.loadUrl(room.getMazeMapUrl() + "&zoom=17");
+    }
+
+
+    private void injectCSS() {
+        try {
+            InputStream inputStream = getAssets().open("mazemap.css");
+            byte[] buffer = new byte[inputStream.available()];
+            inputStream.read(buffer);
+            inputStream.close();
+            String encoded = Base64.encodeToString(buffer, Base64.NO_WRAP);
+            mazeMapWebView.loadUrl("javascript:(function() {" +
+                    "var parent = document.getElementsByTagName('head').item(0);" +
+                    "var style = document.createElement('style');" +
+                    "style.type = 'text/css';" +
+                    // Tell the browser to BASE64-decode the string into your script !!!
+                    "style.innerHTML = window.atob('" + encoded + "');" +
+                    "parent.appendChild(style)" +
+                    "})()");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void checkIfRoomIsFav() {
 
@@ -475,6 +558,27 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     }
 
+    private void setGoToMazeMap() {
+
+        goToMazeMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String mazeUrl = room.getMazeMapUrl();
+                Intent intent=new Intent(Intent.ACTION_VIEW,Uri.parse(mazeUrl));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setPackage("com.android.chrome");
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException ex) {
+                    // Chrome browser presumably not installed so allow user to choose instead
+                    intent.setPackage(null);
+                    startActivity(intent);
+                }
+
+            }
+        });
+    }
+
     /**
      * Empties the event list completely
      */
@@ -600,20 +704,21 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     private void setRoomImage() {
 
-        int color = theme.getAttributeColor(this, R.attr.colorPrimary);
+        int color = theme.getAttributeColor(this, R.attr.transpImgColor);
 
-
+        String url = room.getImageURL();
         List<Transformation> transformations = new ArrayList<>();
         transformations.add(new GrayscaleTransformation());
         transformations.add(new ColorFilterTransformation(color));
         int imageResource = getResources().getIdentifier(selectedCampus.getLogoUrl(), null, getPackageName());
-        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/" + buildingCode + "_" + room.getAreaID() + "/" + buildingCode + "_" + room.getAreaID() + "I.jpg";
+
+
         Picasso.with(WeekCalendarActivity.this)
-                .load(URLEncoding.encode(url))
+                .load(url)
+                .transform(transformations)
                 .centerCrop()
                 .fit()
                 .placeholder(imageResource)
-                .transform(transformations)
                 .into(roomImage);
     }
 
@@ -625,7 +730,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      * @return Calender with first weekDayChanged of week
      */
     private Calendar getFirstDayOfWeek() {
-    // Get calendar set to current date and time
+        // Get calendar set to current date and time
         Calendar c = Calendar.getInstance();
 
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -649,7 +754,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             currentWeekNumber = Integer.parseInt(weekNumberString);
 
         } else {
-            extraBuilding = new Room("Error:Room", "Error building", "Error", "Error", "Error", 0);
+            extraBuilding = new Room("Error:Room", "Error building", "Error", "Error", "Error", 0, "Error", "Error");
         }
         return extraBuilding;
     }

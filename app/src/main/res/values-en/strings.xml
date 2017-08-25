@@ -6,6 +6,7 @@
     <string name="add_elem_to_fav">\\u0020is added to favorites</string>
     <string name="app_title">Romplan</string>
     <string name="app_title_uib">Romplan for UiB</string>
+    <string name="app_title_uib_beta">Romplan for UiB (Beta)</string>
     <string name="event_added">The event will be added to your calendar.</string>
     <string name="event_cancel">Back</string>
     <string name="event_no_descript">No description</string>
@@ -48,5 +49,9 @@
 
     <string name="unicampus_chosen_area">has been chosen</string>
     <string name="unicampus_choose_area">Choose an area in</string>
+    <string name="mazemap">Indoor map</string>
+    <string name="mazemap_goto_url">Show in browser</string>
+
+
 
 </resources>

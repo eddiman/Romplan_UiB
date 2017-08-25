@@ -86,8 +86,9 @@ public class RoomAdapter extends ArrayAdapter<Room> {
 
         //http://rom_img.app.uib.no/byggogrombilder/GR_/GR_110/GR_110I.jpg
         int imageResource = context.getResources().getIdentifier(selectedCampus.getLogoUrl(), null, context.getPackageName());
+        Room room = rooms.get(position);
 
-        String url = "http://rom_img.app.uib.no/byggogrombilder/" + buildingCode + "_/"+ buildingCode + "_" + rooms.get(position).getAreaID() + "/"+ buildingCode + "_" + rooms.get(position).getAreaID() + "I.jpg";
+        String url = room.getImageURL();
         Picasso.with(context)
                 .load(URLEncoding.encode(url))
                 .centerCrop()
@@ -97,7 +98,6 @@ public class RoomAdapter extends ArrayAdapter<Room> {
                 .into(holder.roomImage);
 
 
-        Room room = rooms.get(position);
         holder.roomText.setText(room.getName());
 
 
