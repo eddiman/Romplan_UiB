@@ -46,6 +46,17 @@
     <string name="pref_change_uni_2">Gå vidare</string>
     <string name="pref_change_uni_3">Tilbake</string>
 
+    <string name="pref_about_us">Om utviklerane</string>
+    <string name="pref_about_us_text_1">Me er to studentar som studerar </string>
+    <string name="pref_about_us_text_info_science_url"><a href="http://www.uib.no/studieprogram/BASV-INFO" target="_top">Informasjonsvitskap</a></string>
+
+    <string name="pref_about_us_text_2">på UiB som har utvikla denne appen på fritiden.</string>
+    <string name="pref_about_us_text_3">Utviklerene</string>
+    <string name="pref_about_us_text_4">Edvard Pires Bjørgen</string>
+    <string name="pref_about_us_text_5">Fredrik Heimsæter</string>
+    <string name="pref_about_us_text_6">Denne appen er ikkje utvikla eller offisielt frå UiB.</string>
+
+
     <string name="uni_bergen">Universitetet i Bergen</string>
     <string name="uni_oslo">Universitetet i Oslo</string>
 

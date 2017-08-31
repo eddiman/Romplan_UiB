@@ -2,385 +2,367 @@
 
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        android:orientation="vertical">
+
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp"
-                >
+                android:padding="16dp">
+
                 <TextView
-                    android:text="@string/pref_libs"
-                    android:fontFamily="sans-serif-thin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/dialog_third_party_title"
-                    android:textSize="26sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="@string/pref_libs"
                     android:textColor="@color/secondary_text_white"
-                    />
+                    android:textSize="26sp" />
+
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    >
+                    android:orientation="vertical">
+
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-thin"
                         android:text="Android Week View"
+                        android:textColor="@color/secondary_text_white"
+                        android:textSize="18sp" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textColor="@color/secondary_text_white"
+                        android:autoLink="web"
                         android:fontFamily="sans-serif-thin"
-                        />
-                    <TextView
                         android:text="github.com/alamkanak/Android-Week-View"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
                         android:textColor="@color/secondary_text_white"
-                        android:fontFamily="sans-serif-thin"
-                        android:autoLink="web"
-                        />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
+
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    >
+                    android:orientation="vertical">
+
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-thin"
                         android:text="Google GSON"
+                        android:textColor="@color/secondary_text_white"
+                        android:textSize="18sp" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textColor="@color/secondary_text_white"
+                        android:autoLink="web"
                         android:fontFamily="sans-serif-thin"
-                        />
-                    <TextView
                         android:text="github.com/google/gson"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
                         android:textColor="@color/secondary_text_white"
-                        android:fontFamily="sans-serif-thin"
-                        android:autoLink="web"
-                        />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    >
+                    android:orientation="vertical">
+
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-thin"
                         android:text="Picasso"
+                        android:textColor="@color/secondary_text_white"
+                        android:textSize="18sp" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textColor="@color/secondary_text_white"
+                        android:autoLink="web"
                         android:fontFamily="sans-serif-thin"
-                        />
-                    <TextView
                         android:text="square.github.io/picasso/"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
                         android:textColor="@color/secondary_text_white"
-                        android:fontFamily="sans-serif-thin"
-                        android:autoLink="web"
-                        />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    >
+                    android:orientation="vertical">
+
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-thin"
                         android:text="Picasso Tranformation"
+                        android:textColor="@color/secondary_text_white"
+                        android:textSize="18sp" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textColor="@color/secondary_text_white"
+                        android:autoLink="web"
                         android:fontFamily="sans-serif-thin"
-                        />
-                    <TextView
                         android:text="github.com/wasabeef/picasso-transformations"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
                         android:textColor="@color/secondary_text_white"
-                        android:fontFamily="sans-serif-thin"
-                        android:autoLink="web"
-                        />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    >
+                    android:orientation="vertical">
+
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-thin"
                         android:text="RoundedImageView"
+                        android:textColor="@color/secondary_text_white"
+                        android:textSize="18sp" />
+
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:textColor="@color/secondary_text_white"
+                        android:autoLink="web"
                         android:fontFamily="sans-serif-thin"
-                        />
-                    <TextView
                         android:text="github.com/vinc3m1/RoundedImageView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
                         android:textColor="@color/secondary_text_white"
-                        android:fontFamily="sans-serif-thin"
-                        android:autoLink="web"
-                        />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    >
+                    android:orientation="vertical">
+
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-thin"
                         android:text="SearchView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
                         android:textColor="@color/secondary_text_white"
-                        android:fontFamily="sans-serif-thin"
-                        />
+                        android:textSize="18sp" />
+
                     <TextView
-                        android:text="github.com/lapism/SearchView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text_white"
-                        android:fontFamily="sans-serif-thin"
                         android:autoLink="web"
-                        />
+                        android:fontFamily="sans-serif-thin"
+                        android:text="github.com/lapism/SearchView"
+                        android:textColor="@color/secondary_text_white"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
-                    >
+                    android:orientation="vertical">
+
                     <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-thin"
                         android:text="Romsjekkeren UiB"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
                         android:textColor="@color/secondary_text_white"
-                        android:fontFamily="sans-serif-thin"
-                        />
+                        android:textSize="18sp" />
+
                     <TextView
-                        android:text="github.com/gauteremen/romsjekkerenUiB"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:textColor="@color/secondary_text_white"
-                        android:fontFamily="sans-serif-thin"
                         android:autoLink="web"
+                        android:fontFamily="sans-serif-thin"
+                        android:text="github.com/gauteremen/romsjekkerenUiB"
+                        android:textColor="@color/secondary_text_white"
+                        android:textSize="12sp"
 
                         />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="@color/transpWhite"
                         android:layout_marginBottom="16dp"
                         android:layout_marginTop="16dp"
-                        />
+                        android:background="@color/transpWhite" />
 
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/about_1"
-                    android:fontFamily="sans-serif-thin"
-                    android:textSize="12sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
                     android:text="@string/pref_about_text_1"
+                    android:textSize="12sp"
 
                     />
+
                 <TextView
                     android:id="@+id/about_url"
-                    android:textSize="16sp"
-                    android:fontFamily="sans-serif-light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="rom.app.uib.no/rominfo/"
-                    android:autoLink="web"
-
                     android:layout_marginBottom="8dp"
-
-                     />
-
-                <TextView
-                    android:fontFamily="sans-serif-thin"
-                    android:textSize="12sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/pref_about_text_3"
-                    />
-                <TextView
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="16sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="github.com/eddiman/Romplan_UiB"
                     android:autoLink="web"
-                    android:layout_marginBottom="16dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="rom.app.uib.no/rominfo/"
+
+                    android:textSize="16sp"
+
                     />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="@string/pref_about_text_3"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:autoLink="web"
+                    android:fontFamily="sans-serif-light"
+                    android:text="github.com/eddiman/Romplan_UiB"
+                    android:textSize="16sp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/transpWhite"
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="16dp"
-                    />
+                    android:background="@color/transpWhite" />
+
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="sans-serif-thin"
                     android:text="@string/pref_license_title"
-                    android:fontFamily="sans-serif-thin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="26sp"
                     android:textColor="@color/secondary_text_white"
-                    android:layout_marginBottom="16dp"
-                    />
+                    android:textSize="26sp" />
 
 
                 <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
                     android:text="Android Week View"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
                     android:textColor="@color/secondary_text_white"
-                    android:fontFamily="sans-serif-thin"
-                    android:id="@+id/textView" />
+                    android:textSize="18sp" />
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="serif-monospace"
                     android:text="@string/pref_license_androidweekview"
+                    android:textColor="@color/secondary_text_white"
+                    android:textSize="12sp" />
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="@color/secondary_text_white"
-                    android:fontFamily="serif-monospace"
-                    android:layout_marginBottom="16dp"
-                    />
-                <TextView
+                    android:fontFamily="sans-serif-thin"
                     android:text="Google GSON"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
                     android:textColor="@color/secondary_text_white"
-                    android:fontFamily="sans-serif-thin"
-                    />
+                    android:textSize="18sp" />
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="serif-monospace"
                     android:text="@string/pref_license_gson"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:textColor="@color/secondary_text_white"
-                    android:fontFamily="serif-monospace"
-                    android:layout_marginBottom="16dp"
-                    />
+                    android:textSize="12sp" />
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
                     android:text="Picasso"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
                     android:textColor="@color/secondary_text_white"
-                    android:fontFamily="sans-serif-thin"
-                    />
+                    android:textSize="18sp" />
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="serif-monospace"
                     android:text="@string/pref_license_picasso"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:textColor="@color/secondary_text_white"
-                    android:fontFamily="serif-monospace"
-                    android:layout_marginBottom="16dp"
-                    />
+                    android:textSize="12sp" />
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-thin"
                     android:text="Picasso Transformations"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="18sp"
                     android:textColor="@color/secondary_text_white"
-                    android:fontFamily="sans-serif-thin"
-                    />
+                    android:textSize="18sp" />
 
                 <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="serif-monospace"
                     android:text="@string/pref_license_picassotrans"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
                     android:textColor="@color/secondary_text_white"
-                    android:fontFamily="serif-monospace"
-                    android:layout_marginBottom="16dp"
-                    />
+                    android:textSize="12sp" />
 
                 <TextView
-                    android:text="Rounded ImageView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:textColor="@color/secondary_text_white"
                     android:fontFamily="sans-serif-thin"
-                    />
+                    android:text="Rounded ImageView"
+                    android:textColor="@color/secondary_text_white"
+                    android:textSize="18sp" />
 
                 <TextView
-                    android:text="@string/pref_license_rounded"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="@color/secondary_text_white"
-                    android:fontFamily="serif-monospace"
                     android:layout_marginBottom="16dp"
-                    />
-
-
-
+                    android:fontFamily="serif-monospace"
+                    android:text="@string/pref_license_rounded"
+                    android:textColor="@color/secondary_text_white"
+                    android:textSize="12sp" />
 
 
             </LinearLayout>

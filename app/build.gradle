@@ -9,7 +9,7 @@ android {
         applicationId "com.pensive.android.romplanuib"
         minSdkVersion 21
         targetSdkVersion 24
-        versionCode 8
+        versionCode 10
         versionName "1.2"
         multiDexEnabled true
     }

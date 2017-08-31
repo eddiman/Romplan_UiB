@@ -39,10 +39,9 @@ public class CalActivity implements CalActivityInterface {
      *            String containing the date for the activity in a yyyy-MM-dd'T'HH:mm:ssZ format
      * @return A Calendar object with the time and date input, or null if either parameter is invalid
      */
-    private Calendar parseCalendarDate(String timeDateString) {
+        private Calendar parseCalendarDate(String timeDateString) {
 
-        SimpleDateFormat dateformater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX", Locale.US);
-
+        SimpleDateFormat dateformater = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
 
         try {
             Date date = dateformater.parse(timeDateString);

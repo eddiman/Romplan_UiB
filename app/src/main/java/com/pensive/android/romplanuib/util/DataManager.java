@@ -11,6 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.MalformedJsonException;
 import com.pensive.android.romplanuib.Exceptions.DownloadException;
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.models.Building;
@@ -289,11 +290,11 @@ public class DataManager {
         uniCampusCode = loadCurrentUniCampusSharedPref().getCampusCode();
         List<CalActivity> calActivities = new ArrayList<>();
         Document doc = null;
+        String summary = "";
         try {
             doc = Jsoup.connect(apiUrls.getApiUrl(uniCampusCode) + api.getApiKey(uniCampusCode) + "/ws/1.4/room.php?id=" + roomID + "&fromdate=" + fromDate + "&todate=" + toDate + "&lang=nn").ignoreContentType(true).get();
             JsonParser jsonParser = new JsonParser();
             JsonObject json = jsonParser.parse(doc.body().text()).getAsJsonObject();
-
             for(JsonElement event: json.getAsJsonArray("events")){
                 String courseID = event.getAsJsonObject().get("courseid").getAsString();
                 int weekNumber = event.getAsJsonObject().get("weeknr").getAsInt();
@@ -302,11 +303,16 @@ public class DataManager {
                 String teachingTitle = event.getAsJsonObject().get("teaching-title").getAsString();
                 String beginTime = event.getAsJsonObject().get("dtstart").getAsString();
                 String endTime = event.getAsJsonObject().get("dtend").getAsString();
-                String summary = event.getAsJsonObject().get("summary").getAsString();
+
+                summary = event.getAsJsonObject().get("summary").getAsString();
+
                 CalActivity calActivity = new CalActivity(courseID, weekNumber, teachingMethod, teachingMethodName, teachingTitle, beginTime, endTime, summary);
                 calActivities.add(calActivity);
             }
-        }catch (IOException e){
+        }catch ( MalformedJsonException ex){
+            Toast.makeText(context, "UIB sin feil", Toast.LENGTH_SHORT).show();
+        }
+        catch (IOException e){
             e.printStackTrace();
         }
         return calActivities;
@@ -390,7 +396,7 @@ public class DataManager {
     public List<Room> loadFavoriteRooms(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("favRoomsSharedPrefKey",null);
+        String json = sharedPreferences.getString(favRoomsSharedPrefKey,null);
         Type type = new TypeToken<List<Room>>(){}.getType();
         List<Room> favorites = gson.fromJson(json,type);
         if (favorites == null){

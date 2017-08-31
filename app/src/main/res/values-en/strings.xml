@@ -52,6 +52,16 @@
     <string name="mazemap">Indoor map</string>
     <string name="mazemap_goto_url">Show in browser</string>
 
+    <string name="pref_about_us">About the developers</string>
+
+    <string name="pref_about_us_text_1">We are two students studying </string>
+    <string name="pref_about_us_text_info_science_url"><a href="http://www.uib.no/studieprogram/BASV-INFO" target="_top">Information Science</a></string>
+
+    <string name="pref_about_us_text_2">at the University of Bergen.</string>
+    <string name="pref_about_us_text_3">Developers</string>
+    <string name="pref_about_us_text_4">Edvard Pires Bjørgen</string>
+    <string name="pref_about_us_text_5">Fredrik Heimsæter</string>
+    <string name="pref_about_us_text_6">This app is not officially associated with the University of Bergen.</string>
 
 
 </resources>
