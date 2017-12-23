@@ -907,7 +907,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         protected void onPostExecute(List<WeekViewEvent> activitiesOfRoom) {
             if(timeoutError){
-                Toast.makeText(context, "Tilkoblingen tok for lang tid, prøv igjen", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.error_timeout, Toast.LENGTH_SHORT).show();
             }
 
             mWeekView.notifyDatasetChanged();

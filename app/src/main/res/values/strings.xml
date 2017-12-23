@@ -62,8 +62,8 @@
 
     <string name="pref_about_us_text_2">på UiB som har utviklet denne appen på fritiden.</string>
     <string name="pref_about_us_text_3">Utviklerene</string>
-    <string name="pref_about_us_text_4">Edvard Pires Bjørgen</string>
-    <string name="pref_about_us_text_5">Fredrik Heimsæter</string>
+    <string name="pref_about_us_text_4" translatable="false">Edvard Pires Bjørgen</string>
+    <string name="pref_about_us_text_5" translatable="false">Fredrik V. Heimsæter</string>
     <string name="pref_about_us_text_6">Denne appen er ikke utviklet eller offisielt fra UiB.</string>
 
 
@@ -145,6 +145,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
     </string>
+    <string name="all_buildings">Alle bygninger</string>
+    <string name="favorites">Favoritter</string>
+    <string name="error_timeout">Tilkoblingen tok for lang tid, prøv igjen</string>
 
 
 </resources>
