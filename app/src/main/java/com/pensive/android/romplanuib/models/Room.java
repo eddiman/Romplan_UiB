@@ -13,14 +13,21 @@ public class Room extends Unit implements Serializable{
     private String roomID;
     private String roomType;
     private int roomSize;
+    private String fsRoomId;
+    private String mazeMapUrl;
 
 
-    public Room(String areaID, String buildingID, String roomID, String name, String roomType, int roomSize) {
+    public Room(String areaID, String buildingID, String roomID, String name, String roomType, int roomSize, String fsRoomId, String mazeMapUrl) {
+
         super(areaID, buildingID, name);
         this.roomID = roomID;
         this.roomType = roomType;
         this.roomSize = roomSize;
+        this.fsRoomId = fsRoomId;
+        this.mazeMapUrl = mazeMapUrl;
     }
+
+
 
     public String getRoomID() {
         return roomID;
@@ -45,6 +52,14 @@ public class Room extends Unit implements Serializable{
 
     public void setRoomSize(int roomSize) {
         this.roomSize = roomSize;
+    }
+
+    public String getFsRoomId() {
+        return fsRoomId;
+    }
+
+    public String getMazeMapUrl() {
+        return mazeMapUrl;
     }
 
     @Override

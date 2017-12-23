@@ -130,6 +130,7 @@ class JsoupTask extends AsyncTask<Void, Void, List<Building>>{
     private String uniCampusCode;
     private Context context;
     private ProgressDialog asyncDialog;
+    private TextView percentage;
     private SpannableString loadSpanString;
     private String areaCode;
 
@@ -140,8 +141,6 @@ class JsoupTask extends AsyncTask<Void, Void, List<Building>>{
         this.uniCampusCode = uniCampusCode;
         this.areaCode = areaCode;
         asyncDialog = new ProgressDialog(context, R.style.DialogRedTheme);
-
-
         loadSpanString = new SpannableString(loadDataString);
 
     }
@@ -152,9 +151,7 @@ class JsoupTask extends AsyncTask<Void, Void, List<Building>>{
     @Override
     protected void onPreExecute() {
         // Add a span for the custom font font
-        loadSpanString.setSpan(new TypefaceSpan("roboto_thin.ttf"), 0, loadSpanString.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
-        asyncDialog.setTitle(loadSpanString);
         asyncDialog.setCancelable(false);
         //asyncDialog.show();
 
@@ -171,9 +168,13 @@ class JsoupTask extends AsyncTask<Void, Void, List<Building>>{
     protected List<Building> doInBackground(Void... param) {
 
         DataManager dataManager = new DataManager(context);
+
+
         dataManager.checkIfDataHasBeenLoadedBefore(uniCampusCode);
 
         List <Building> buildings= dataManager.getAllBuildings();
+
+
 
         return buildings;
     }

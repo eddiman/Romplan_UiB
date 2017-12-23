@@ -6,6 +6,7 @@
     <string name="add_elem_to_fav">\u0020er lagt til i favorittar</string>
     <string name="app_title">Romplan</string>
     <string name="app_title_uib">Romplan for UiB</string>
+    <string name="app_title_uib_beta">Romplan for UiB (Beta)</string>
     <string name="event_added">Hendinga vert lagt til i kalendaren din.</string>
     <string name="event_cancel">Tilbake</string>
     <string name="event_no_descript">Inga beskriving</string>
@@ -28,6 +29,8 @@
     <string name="pref_version">Versjon</string>
     <string name="building">Bygning</string>
     <string name="something_wrong">Noe gjekk galt, prøv å laste inn rommet på nytt.</string>
+    <string name="mazemap">Innendørskart</string>
+    <string name="mazemap_goto_url">Vis i nettlesar</string>
 
 
     <string name="remove_elem_from_fav">\u0020er fjerna frå favorittar</string>
@@ -42,6 +45,17 @@
     <string name="pref_change_uni_1"> All data vil slettast og du må lasta det inn på nytt igjen. </string>
     <string name="pref_change_uni_2">Gå vidare</string>
     <string name="pref_change_uni_3">Tilbake</string>
+
+    <string name="pref_about_us">Om utviklerane</string>
+    <string name="pref_about_us_text_1">Me er to studentar som studerar </string>
+    <string name="pref_about_us_text_info_science_url"><a href="http://www.uib.no/studieprogram/BASV-INFO" target="_top">Informasjonsvitskap</a></string>
+
+    <string name="pref_about_us_text_2">på UiB som har utvikla denne appen på fritiden.</string>
+    <string name="pref_about_us_text_3">Utviklerene</string>
+    <string name="pref_about_us_text_4">Edvard Pires Bjørgen</string>
+    <string name="pref_about_us_text_5">Fredrik Heimsæter</string>
+    <string name="pref_about_us_text_6">Denne appen er ikkje utvikla eller offisielt frå UiB.</string>
+
 
     <string name="uni_bergen">Universitetet i Bergen</string>
     <string name="uni_oslo">Universitetet i Oslo</string>

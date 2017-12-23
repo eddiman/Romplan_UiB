@@ -58,7 +58,7 @@ public class SelectUniCampusActivity extends AppCompatActivity {
         UniCampus uio = new UniCampus(getResources().getString(R.string.uni_oslo), "uio","@drawable/uio_logo_2",
                 "@drawable/splash_uio_card", "UiO" );
         uniCampusArray.add(uib);
-        uniCampusArray.add(uio);
+        //uniCampusArray.add(uio);
 
     }
 

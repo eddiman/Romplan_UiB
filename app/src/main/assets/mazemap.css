@@ -1,0 +1,31 @@
+.maze-header{
+ display: none !important;
+}
+
+#responsive-card-container{
+ display: none !important;
+}
+
+#sidebar-wrapper {
+   display: none !important;
+}
+
+
+.mazemap-control-zlevel-bar  {
+   display: none !important;
+
+}
+
+.mapboxgl-ctrl-bottom-left{
+   display: none !important;
+
+}
+.mapboxgl-ctrl-top-left{
+    display: block !important;
+}
+
+.mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-in{
+    position: absolute !important;
+    top: 0;
+    left: 0;
+}

@@ -85,6 +85,16 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+            Preference aboutPreference = findPreference("about");
+            aboutPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    createAboutDialog();
+                    return false;
+                }
+            });
+
             Preference backPref = findPreference("key_back");
             backPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -94,6 +104,16 @@ public class SettingsActivity extends AppCompatActivity {
                     return false;
                 }
             });
+        }
+
+        private void createAboutDialog() {
+
+            final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.DialogBlueTheme)
+                    .setView(R.layout.dialog_about)
+                    .create();
+            dialog.setCancelable(true);
+            dialog.show();
+
         }
 
         private void createLibDialog() {

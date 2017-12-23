@@ -11,6 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.MalformedJsonException;
 import com.pensive.android.romplanuib.Exceptions.DownloadException;
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.models.Building;
@@ -41,6 +42,17 @@ public class DataManager {
     private String uniCampusCode;
     private ApiUrls apiUrls = new ApiUrls();
     private Context context;
+    private int counter = 0;
+
+
+    //Strings of the key-values where that data is stored
+
+    private String errorSharedPrefKey = "error_v3";
+    private String allBuildingsSharedPrefKey = "all_buildings_v3";
+    private String favBuildingsSharedPrefKey = "favorite_buildings_v3";
+    private String favRoomsSharedPrefKey = "favorite_rooms_v3";
+
+
 
     /**
      * If the data is already stored it loads it.
@@ -208,6 +220,8 @@ public class DataManager {
                 String name = roomJson.getAsJsonObject().get("name").getAsString();
                 String type = roomJson.getAsJsonObject().get("typeid").getAsString();
 
+
+
                 int size = roomJson.getAsJsonObject().get("size").getAsInt();
 
 
@@ -225,15 +239,35 @@ public class DataManager {
                 try{
                     json = jsonParser.parse(doc.body().text()).getAsJsonObject().get("data").getAsJsonObject();
                     String buildingAcronym = json.get("buildingacronym").getAsString();
+                    String  fsRoomId = "";
+                    //Kun room id, andre id er konkatenert sammen med building Id
+
                     String imageURL;
                     try {
-                        imageURL = json.get("roomimg_url").getAsString();
+                        //imageURL = json.get("roomimg_url").getAsString();
+                        switch (uniCampusCode){
+                            case "uib":
+                                fsRoomId = json.get("roomid").getAsString();
+                                imageURL = "http://rom_img.app.uib.no/byggogrombilder/" + buildingID + "/" + fsRoomId + "/" + "bygg-" + buildingID + "-rom-" + fsRoomId + "-1.jpg";
+                                break;
+                            default:
+                                imageURL = json.get("roomimg_url").getAsString();
+                                break;
+                        }
+
                     }catch (UnsupportedOperationException e){
                         imageURL = "http://tp.freheims.com/img.jpg";//Todo fix
                     }
 
+                    String mazeMapUrl = "http://use.mazemap.com/?v=1&campuses=uib&sharepoitype=identifier&sharepoi=" + buildingID +  ":" + fsRoomId ;
 
-                    Room room = new Room(areaID, buildingID, id, name, type, size);
+                    Room room = new Room(areaID, buildingID, id, name, type, size, fsRoomId, mazeMapUrl);
+
+                    counter++;
+                    System.out.println("There are " + roomCounter() + " rooms");
+
+
+
                     room.setBuildingAcronym(buildingAcronym);
                     room.setImageURL(imageURL);
                     roomsInBuilding.add(room);}
@@ -248,15 +282,19 @@ public class DataManager {
         return roomsInBuilding;
     }
 
+    public int roomCounter() {
+        return counter;
+    }
+
     public List<CalActivity> fetchCalendarActivities(String roomID, String fromDate, String toDate){
         uniCampusCode = loadCurrentUniCampusSharedPref().getCampusCode();
         List<CalActivity> calActivities = new ArrayList<>();
         Document doc = null;
+        String summary = "";
         try {
             doc = Jsoup.connect(apiUrls.getApiUrl(uniCampusCode) + api.getApiKey(uniCampusCode) + "/ws/1.4/room.php?id=" + roomID + "&fromdate=" + fromDate + "&todate=" + toDate + "&lang=nn").ignoreContentType(true).get();
             JsonParser jsonParser = new JsonParser();
             JsonObject json = jsonParser.parse(doc.body().text()).getAsJsonObject();
-
             for(JsonElement event: json.getAsJsonArray("events")){
                 String courseID = event.getAsJsonObject().get("courseid").getAsString();
                 int weekNumber = event.getAsJsonObject().get("weeknr").getAsInt();
@@ -265,11 +303,16 @@ public class DataManager {
                 String teachingTitle = event.getAsJsonObject().get("teaching-title").getAsString();
                 String beginTime = event.getAsJsonObject().get("dtstart").getAsString();
                 String endTime = event.getAsJsonObject().get("dtend").getAsString();
-                String summary = event.getAsJsonObject().get("summary").getAsString();
+
+                summary = event.getAsJsonObject().get("summary").getAsString();
+
                 CalActivity calActivity = new CalActivity(courseID, weekNumber, teachingMethod, teachingMethodName, teachingTitle, beginTime, endTime, summary);
                 calActivities.add(calActivity);
             }
-        }catch (IOException e){
+        }catch ( MalformedJsonException ex){
+            Toast.makeText(context, "UIB sin feil", Toast.LENGTH_SHORT).show();
+        }
+        catch (IOException e){
             e.printStackTrace();
         }
         return calActivities;
@@ -313,11 +356,13 @@ public class DataManager {
         String allBuildingsString = gson.toJson(allBuildings);
         String favoriteBuildingsString = gson.toJson(favoriteBuildings);
         String favoriteRoomsString = gson.toJson(favoriteRoom);
-        editor.putString("error_v2", error);
-        editor.putString("all_buildings_v2",allBuildingsString);
-        editor.putString("favorite_buildings_v2",favoriteBuildingsString);
-        editor.putString("favorite_rooms_v2",favoriteRoomsString);
+        editor.putString(errorSharedPrefKey, error);
+        editor.putString(allBuildingsSharedPrefKey,allBuildingsString);
+        editor.putString(favBuildingsSharedPrefKey, favoriteBuildingsString);
+        editor.putString(favRoomsSharedPrefKey, favoriteRoomsString);
         editor.apply();
+
+
     }
 
 
@@ -329,27 +374,29 @@ public class DataManager {
     public List<Building> loadBuildingData(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("all_buildings_v2", null);
+        String json = sharedPreferences.getString(allBuildingsSharedPrefKey, null);
         Type type = new TypeToken<List<Building>>(){}.getType();
         List<Building> buildings = gson.fromJson(json,type);
+
         return buildings;
     }
 
     public List<Building> loadFavoriteBuildings(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("favorite_buildings_v2",null);
+        String json = sharedPreferences.getString(favBuildingsSharedPrefKey,null);
         Type type = new TypeToken<List<Building>>(){}.getType();
         List<Building> favorites = gson.fromJson(json,type);
         if (favorites==null){
             favorites = new ArrayList<>();
+
         }
         return favorites;
     }
     public List<Room> loadFavoriteRooms(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("favorite_rooms_v2",null);
+        String json = sharedPreferences.getString(favRoomsSharedPrefKey,null);
         Type type = new TypeToken<List<Room>>(){}.getType();
         List<Room> favorites = gson.fromJson(json,type);
         if (favorites == null){
@@ -384,8 +431,9 @@ public class DataManager {
      */
     private boolean checkError(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String error = sharedPreferences.getString("error_v2", null);
+        String error = sharedPreferences.getString(errorSharedPrefKey, null);
         return error != null && !error.equals("none");
+
     }
 
     public void addFavoriteBuilding(Building newFavoriteBuilding, Context context) {
