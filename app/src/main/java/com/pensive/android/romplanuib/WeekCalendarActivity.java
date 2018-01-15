@@ -133,7 +133,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
-        if(weekDayChanged.get(Calendar.YEAR)<Calendar.JULY){
+        if(weekDayChanged.get(Calendar.MONTH)<Calendar.JULY){
             semesterStart = year + "-01-01";
             semesterEnd = year + "-06-30";
             currentSemester = "S";
@@ -665,7 +665,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         int year = weekDayChanged.get(Calendar.YEAR);
         semesterStart = year + "-01-01";
         semesterEnd = year + "-06-30";
-        if(weekDayChanged.get(Calendar.YEAR)>Calendar.JUNE){
+        if(weekDayChanged.get(Calendar.MONTH)>Calendar.JUNE){
             semesterStart = year + "-07-01";
             semesterEnd = year + "-12-31";
         }
