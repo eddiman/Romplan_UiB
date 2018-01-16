@@ -176,7 +176,7 @@ public class BuildingMainActivity extends AppCompatActivity {
  * Listens to clicks on the Voice icon
  */
             //TODO: Implement the rest of voice search, maybe not necessary though.
-            mSearchView.setVoiceText("Set permission on Android 6.0+ !");
+            mSearchView.setVoiceText(getString(R.string.set_permission));
             mSearchView.setOnVoiceClickListener(new SearchView.OnVoiceClickListener() {
                 @Override
                 public void onVoiceClick() {
@@ -429,9 +429,9 @@ public class BuildingMainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Alle bygninger";
+                    return getString(R.string.all_buildings);
                 case 1:
-                    return "Favoritter";
+                    return getString(R.string.favorites);
             }
             return null;
         }
