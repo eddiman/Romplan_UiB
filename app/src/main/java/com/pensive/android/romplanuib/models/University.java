@@ -1,5 +1,8 @@
 package com.pensive.android.romplanuib.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Class for making a university campus object
  *
@@ -7,12 +10,14 @@ package com.pensive.android.romplanuib.models;
  * @version 2.0
  *
  */
-public class UniCampus {
+public class University {
     private String name;
     private String campusCode;
     private String logoUrl;
     private String bgUrl;
     private String acronym;
+    private List<Area> areas;
+
 
     /**
      *
@@ -22,7 +27,7 @@ public class UniCampus {
      * @param bgUrl url of splash screen in loading
      * @param acronym actual acronym NB: NOT to be confused with campusCode, this is for use only in GUI
      */
-    public UniCampus(String name, String campusCode, String logoUrl, String bgUrl, String acronym) {
+    public University(String name, String campusCode, String logoUrl, String bgUrl, String acronym) {
         this.name = name;
         this.campusCode = campusCode;
         this.logoUrl = logoUrl;
@@ -50,5 +55,21 @@ public class UniCampus {
 
     public String getAcronym() {
         return acronym;
+    }
+
+    public List<Area> getAreas() {
+        return areas;
+    }
+
+    public void setAreas(List<Area> areas) {
+        this.areas = areas;
+    }
+
+    public List<Building> getAllBuildings(){
+        ArrayList<Building> buildings = new ArrayList<>();
+        for(Area area : areas){
+            buildings.addAll(area.getBuildings());
+        }
+        return buildings;
     }
 }

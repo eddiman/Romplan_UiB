@@ -1,4 +1,4 @@
-package com.pensive.android.romplanuib.io.util;
+package com.pensive.android.romplanuib.util.comparators;
 
 import com.pensive.android.romplanuib.models.CalActivity;
 

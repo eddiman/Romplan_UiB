@@ -6,10 +6,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.TypefaceSpan;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 
 /**
  * Various methods for setting the fonts

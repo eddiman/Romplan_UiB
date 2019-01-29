@@ -1,5 +1,7 @@
 package com.pensive.android.romplanuib.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -10,29 +12,24 @@ import java.io.Serializable;
  *
  */
 public class Room extends Unit implements Serializable{
+    @SerializedName("id")
     private String roomID;
+    @SerializedName("typeid")
     private String roomType;
+    @SerializedName("size")
     private int roomSize;
-    private String fsRoomId;
+    @SerializedName("building")
+    private String buildingID;
     private String mazeMapUrl;
 
-
-    public Room(String areaID, String buildingID, String roomID, String name, String roomType, int roomSize, String fsRoomId, String mazeMapUrl) {
-
-        super(areaID, buildingID, name);
-        this.roomID = roomID;
-        this.roomType = roomType;
-        this.roomSize = roomSize;
-        this.fsRoomId = fsRoomId;
-        this.mazeMapUrl = mazeMapUrl;
+    public Room(String universityID, String areaID, String name) {
+        super(universityID, areaID, name);
     }
-
 
 
     public String getRoomID() {
         return roomID;
     }
-
 
     public void setRoomID(String roomID) {
         this.roomID = roomID;
@@ -54,25 +51,27 @@ public class Room extends Unit implements Serializable{
         this.roomSize = roomSize;
     }
 
-    public String getFsRoomId() {
-        return fsRoomId;
+    public String getBuildingID() {
+        return buildingID;
     }
 
     public String getMazeMapUrl() {
         return mazeMapUrl;
     }
 
+
     @Override
     public String toString() {
         return "Room{" +
-                "areaID='" + this.getAreaID() + '\'' +
-                ", buildingID='" + this.getBuildingID() + '\'' +
-                ", name='" + this.getName() + '\'' +
-                "roomID='" + roomID + '\'' +
+                "universityID='" + this.getUniversityID() + '\'' +
+                ", areaID='" + this.getAreaID() + '\'' +
+                ", buildingID='" + buildingID + '\'' +
+                ", roomID='" + roomID + '\'' +
                 ", roomType='" + roomType + '\'' +
-                ", roomSize=" + roomSize + '\'' +
-                ", buildingAcronym=" + this.getBuildingAcronym() + '\'' +
-                ", imageURL=" + this.getImageURL() +
+                ", name='" + this.getName() + '\'' +
+                ", roomSize=" + roomSize +
+                ", buildingID='" + buildingID + '\'' +
+                ", mazeMapUrl='" + mazeMapUrl + '\'' +
                 '}';
     }
 

@@ -57,5 +57,8 @@
     <string name="all_buildings">Alle bygningar</string>
     <string name="favorites">Favorittar</string>
     <string name="error_timeout">Tilkoplinga tok for lang tid, prøv igjen</string>
+    <string name="uni_tromso">UiT Noregs arktiske universitet</string>
+    <string name="ntnu">Norges teknisk-naturvitenskapelige universitet</string>
+    <string name="oslomet">OsloMet – storbyuniversitetet</string>
 
 </resources>

@@ -1,7 +1,5 @@
 package com.pensive.android.romplanuib.util;
 
-import android.graphics.Color;
-
 import com.pensive.android.romplanuib.R;
 
 import java.util.Random;

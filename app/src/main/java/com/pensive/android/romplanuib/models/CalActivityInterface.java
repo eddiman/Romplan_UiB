@@ -1,7 +1,5 @@
 package com.pensive.android.romplanuib.models;
 
-import org.jsoup.nodes.Node;
-
 import java.util.Calendar;
 
 /**
@@ -11,26 +9,26 @@ import java.util.Calendar;
 public interface CalActivityInterface {
 
 
-    public String getCourseID();
-    public int getWeekNumber();
-    public String getTeachingMethod();
-    public String getTeachingMethodName();
-    public String getTeachingTitle();
-    public String getSummary();
+    String getCourseID();
+    int getWeekNumber();
+    String getTeachingMethod();
+    String getTeachingMethodName();
+    String getTeachingTitle();
+    String getSummary();
 
     /**
      * Gets the begin date and time of the Activity saved as a Calendar object
      *
      * @return Calendar the begin time and date
      */
-    public Calendar getBeginTime();
+    Calendar getBeginTime();
 
     /**
      * Gets the end time and date of the activity as a Calendar object
      *
      * @return Calendar the end time and date
      */
-    public Calendar getEndTime();
+    Calendar getEndTime();
 
     /**
      * Returns the description of the Activity

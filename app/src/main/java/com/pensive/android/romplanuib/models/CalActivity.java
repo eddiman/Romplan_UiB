@@ -1,5 +1,7 @@
 package com.pensive.android.romplanuib.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,28 +12,39 @@ import java.util.Locale;
  * @version 1.0
  */
 public class CalActivity implements CalActivityInterface {
-
+    @SerializedName("semesterid")
+    private String semesterID;
+    @SerializedName("courseid")
     private String courseID;
+    @SerializedName("actid")
+    private String activityID;
+    @SerializedName("weeknr")
     private int weekNumber;
+    @SerializedName("teaching-method")
     private String teachingMethod;
+    @SerializedName("teaching-method-name")
     private String teachingMethodName;
+    @SerializedName("teaching-title")
     private String teachingTitle;
-    private Calendar beginTime;
-    private Calendar endTime;
+    @SerializedName("dtstart")
+    private String beginTime;
+    @SerializedName("dtend")
+    private String endTime;
+    @SerializedName("summary")
     private String summary;
 
-    public CalActivity(String courseID, int weekNumber, String teachingMethod, String teachingMethodName, String teachingTitle, String beginTime, String endTime, String summary) {
+    public CalActivity(String semesterID, String courseID, String activityID, int weekNumber, String teachingMethod, String teachingMethodName, String teachingTitle, String beginTime, String endTime, String summary) {
+        this.semesterID = semesterID;
         this.courseID = courseID;
+        this.activityID = activityID;
         this.weekNumber = weekNumber;
         this.teachingMethod = teachingMethod;
         this.teachingMethodName = teachingMethodName;
         this.teachingTitle = teachingTitle;
-        this.beginTime = parseCalendarDate(beginTime);
-        this.endTime = parseCalendarDate(endTime);
+        this.beginTime = beginTime;
+        this.endTime = endTime;
         this.summary = summary;
     }
-
-
 
     /**
      *
@@ -110,7 +123,7 @@ public class CalActivity implements CalActivityInterface {
      */
     @Override
     public Calendar getBeginTime() {
-        return beginTime;
+        return parseCalendarDate(beginTime);
     }
 
     /**
@@ -118,7 +131,7 @@ public class CalActivity implements CalActivityInterface {
      */
     @Override
     public Calendar getEndTime() {
-        return endTime;
+        return parseCalendarDate(endTime);
     }
 
 

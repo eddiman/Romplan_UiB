@@ -13,6 +13,9 @@
 
     <string name="uni_bergen">Universitetet i Bergen</string>
     <string name="uni_oslo">Universitetet i Oslo</string>
+    <string name="uni_tromso">UiT Norges arktiske universitet</string>
+    <string name="ntnu">Norges teknisk-naturvitenskapelige universitet</string>
+    <string name="oslomet">OsloMet – storbyuniversitetet</string>
 
 
     <!--UniCampusActivity -->

@@ -58,6 +58,9 @@
     <string name="all_buildings">All buildings</string>
     <string name="favorites">Favorites</string>
     <string name="error_timeout">Connection took too long time, please try again</string>
+    <string name="oslomet">OsloMet – Oslo Metropolitan University</string>
+    <string name="ntnu">Norwegian University of Science and Technology</string>
+    <string name="uni_tromso">UiT The Arctic University of Norway</string>
 
 
 </resources>

@@ -1,5 +1,7 @@
 package com.pensive.android.romplanuib.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -10,15 +12,17 @@ import java.io.Serializable;
  */
 
 public abstract class Unit implements Serializable{
+    @SerializedName("university")
+    private String universityID;
+    @SerializedName("area")
     private String areaID;
-    private String buildingID;
-    private String buildingAcronym;
+    @SerializedName("name")
     private String name;
     private String imageURL;
 
-    public Unit(String areaID, String buildingID, String name) {
+    public Unit(String universityID, String areaID, String name) {
+        this.universityID = universityID;
         this.areaID = areaID;
-        this.buildingID = buildingID;
         this.name = name;
     }
 
@@ -30,12 +34,8 @@ public abstract class Unit implements Serializable{
         this.areaID = areaID;
     }
 
-    public String getBuildingID() {
-        return buildingID;
-    }
-
-    public void setBuildingID(String buildingID) {
-        this.buildingID = buildingID;
+    public String getUniversityID() {
+        return universityID;
     }
 
     public String getName() {
@@ -46,14 +46,6 @@ public abstract class Unit implements Serializable{
         this.name = name;
     }
 
-    public String getBuildingAcronym() {
-        return buildingAcronym;
-    }
-
-    public void setBuildingAcronym(String buildingAcronym) {
-        this.buildingAcronym = buildingAcronym;
-    }
-
     public String getImageURL() {
         return imageURL;
     }
@@ -62,12 +54,17 @@ public abstract class Unit implements Serializable{
         this.imageURL = imageURL;
     }
 
+    public String getBuildingAcronym(){
+        return "XXX";//TODO implement properly
+    }
+
     @Override
     public String toString() {
         return "Unit{" +
-                "areaID='" + areaID + '\'' +
-                ", buildingID='" + buildingID + '\'' +
+                "universityID='" + universityID + '\'' +
+                ", areaID='" + areaID + '\'' +
                 ", name='" + name + '\'' +
+                ", imageURL='" + imageURL + '\'' +
                 '}';
     }
 }

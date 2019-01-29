@@ -1,7 +1,5 @@
 package com.pensive.android.romplanuib.util;
 
-import com.alamkanak.weekview.WeekViewEvent;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;

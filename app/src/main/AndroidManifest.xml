@@ -13,7 +13,7 @@
         android:theme="@style/BlueTheme">
 
         <activity
-            android:name=".SelectUniCampusActivity"
+            android:name=".SelectUniversityActivity"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

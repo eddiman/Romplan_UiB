@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.pensive.android.romplanuib.ArrayAdapters.BuildingAdapter;
+import com.google.gson.reflect.TypeToken;
+import com.pensive.android.romplanuib.arrayAdapters.BuildingAdapter;
+import com.pensive.android.romplanuib.models.University;
 import com.pensive.android.romplanuib.util.DataManager;
 
 /**
@@ -49,11 +51,11 @@ public class AllBuildingsFragment extends Fragment {
 
         ListView favBuildListView = (ListView)rootView.findViewById(R.id.test_list);
 
-        dataManager = new DataManager(rootView.getContext());
-        uniCampusCode = dataManager.loadCurrentUniCampusSharedPref().getCampusCode();
-        dataManager.checkIfDataHasBeenLoadedBefore(uniCampusCode);
+        dataManager = new DataManager();
+        University university = dataManager.getSavedObjectFromSharedPref(getContext(), "university", new TypeToken<University>(){}.getType());
+        uniCampusCode = university.getCampusCode();
 
-        BuildingAdapter adapter  = new BuildingAdapter(getActivity(), R.layout.list_building_element, dataManager.getAllBuildings());
+        BuildingAdapter adapter  = new BuildingAdapter(getActivity(), R.layout.list_building_element, university.getAllBuildings());
         favBuildListView.setAdapter(adapter);
         favBuildListView.setFastScrollEnabled(true);
 

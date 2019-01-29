@@ -1,4 +1,4 @@
-package com.pensive.android.romplanuib.ArrayAdapters;
+package com.pensive.android.romplanuib.arrayAdapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,12 +26,12 @@ import java.util.List;
 public class FavoriteAdapter extends ArrayAdapter<Unit> {
 
 
-    LayoutInflater inflater;
-    Context context;
-    int textViewResourceId;
-    List<Unit> units;
-    FontController fc = new FontController();
-    Typeface bebasFont;
+    private LayoutInflater inflater;
+    private Context context;
+    private int textViewResourceId;
+    private List<Unit> units;
+    private FontController fc = new FontController();
+    private Typeface bebasFont;
 
 
     public FavoriteAdapter(Context context, int textViewResourceId, List<Unit> units) {

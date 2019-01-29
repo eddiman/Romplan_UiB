@@ -1,4 +1,4 @@
-package com.pensive.android.romplanuib.io.util;
+package com.pensive.android.romplanuib.util.io;
 
 /**
  * Class for encoding url's.

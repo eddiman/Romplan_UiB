@@ -1,4 +1,4 @@
-package com.pensive.android.romplanuib.ArrayAdapters;
+package com.pensive.android.romplanuib.arrayAdapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -28,14 +28,14 @@ import java.util.Set;
  */
 public class BuildingAdapter extends ArrayAdapter<Building> implements SectionIndexer {
 
-    HashMap<String, Integer> mapIndex;
-    LayoutInflater inflater;
-    Context context;
-    int textViewResourceId;
-    List<Building> buildings;
-    FontController fc = new FontController();
-    Typeface bebasFont;
-    String[] sections;
+    private HashMap<String, Integer> mapIndex;
+    private LayoutInflater inflater;
+    private Context context;
+    private int textViewResourceId;
+    private List<Building> buildings;
+    private FontController fc = new FontController();
+    private Typeface bebasFont;
+    private String[] sections;
 
 
     public BuildingAdapter(Context context, int textViewResourceId, List<Building> buildings) {

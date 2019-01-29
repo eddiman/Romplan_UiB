@@ -26,17 +26,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
 import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchHistoryTable;
 import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
 import com.pensive.android.romplanuib.models.Building;
-import com.pensive.android.romplanuib.models.Room;
-import com.pensive.android.romplanuib.models.UniCampus;
-import com.pensive.android.romplanuib.util.BuildingAcroComparator;
+import com.pensive.android.romplanuib.models.University;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.FontController;
-import com.pensive.android.romplanuib.util.BuildingComparator;
+import com.pensive.android.romplanuib.util.comparators.BuildingComparator;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class BuildingMainActivity extends AppCompatActivity {
     String uniCampusCode;
 
     TextView toolbarTitle;
-    UniCampus selectedCampus;
+    University selectedUniversity;
 
 
     @Override
@@ -76,17 +77,19 @@ public class BuildingMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_building_main);
 
-        dataManager = new DataManager(BuildingMainActivity.this);
-        uniCampusCode = dataManager.loadCurrentUniCampusSharedPref().getCampusCode();
-        dataManager.checkIfDataHasBeenLoadedBefore(uniCampusCode);
+        dataManager = new DataManager();
 
+        if (dataManager.checkIfSharedPreferenceKeyExists(this, "university")) {
+            selectedUniversity = dataManager.getSavedObjectFromSharedPref(this, "university", new TypeToken<University>(){}.getType());
+        } else{
+            //TODO show loding dialog
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        selectedCampus = dataManager.loadCurrentUniCampusSharedPref();
 
         toolbarTitle = (TextView) findViewById(R.id.toolbar_buildselect_title);
 
-        toolbarTitle.setText(getResources().getString(R.string.app_title) + " " + selectedCampus.getAcronym());
+        toolbarTitle.setText(getResources().getString(R.string.app_title) + " " + selectedUniversity.getAcronym());
         //TODO: Create initGUI() method later
         mSearchView = (SearchView) findViewById(R.id.searchView);
 
@@ -176,7 +179,7 @@ public class BuildingMainActivity extends AppCompatActivity {
  * Listens to clicks on the Voice icon
  */
             //TODO: Implement the rest of voice search, maybe not necessary though.
-            mSearchView.setVoiceText(getString(R.string.set_permission));
+            //mSearchView.setVoiceText(getString(R.string.set_permission));
             mSearchView.setOnVoiceClickListener(new SearchView.OnVoiceClickListener() {
                 @Override
                 public void onVoiceClick() {
@@ -240,10 +243,10 @@ public class BuildingMainActivity extends AppCompatActivity {
     @CallSuper
     protected Intent getData(String text, int position) {
         mHistoryDatabase.addItem(new SearchItem(text));
-        List<Building> buildingList = dataManager.getAllBuildings();
+        List<Building> buildingList = selectedUniversity.getAllBuildings();
         //listen er sortert etter akronymer, må derfor sortere de etter navn igjen
         Collections.sort(buildingList, new BuildingComparator());
-        int index = Collections.binarySearch(buildingList, new Building("", "", text, new ArrayList<Room>()), new BuildingComparator());
+        int index = Collections.binarySearch(buildingList, new Building("", "", text), new BuildingComparator());
         Intent intent = new Intent(BuildingMainActivity.this, RoomsActivity.class);
         intent.putExtra("building", buildingList.get(index));
         return intent;
@@ -257,7 +260,7 @@ public class BuildingMainActivity extends AppCompatActivity {
      */
     private List<SearchItem> getSearchItemList(){
         List<SearchItem> suggestionsList = new ArrayList<>();
-        List<Building> allBuildings = dataManager.getAllBuildings();
+        List<Building> allBuildings = selectedUniversity.getAllBuildings();
 
         for (Building build : allBuildings) {
             suggestionsList.add(new SearchItem(build.getName()));

@@ -1,4 +1,4 @@
-package com.pensive.android.romplanuib.Exceptions;
+package com.pensive.android.romplanuib.exceptions;
 
 /**
  * @author Fredrik Heimsæter

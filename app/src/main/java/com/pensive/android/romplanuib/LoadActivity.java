@@ -1,31 +1,29 @@
 package com.pensive.android.romplanuib;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.TypefaceSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.pensive.android.romplanuib.models.UniCampus;
+import com.google.gson.reflect.TypeToken;
+import com.pensive.android.romplanuib.models.Area;
+import com.pensive.android.romplanuib.models.University;
 import com.pensive.android.romplanuib.util.DataManager;
-import com.pensive.android.romplanuib.models.Building;
-import com.squareup.picasso.Picasso;
+import com.pensive.android.romplanuib.util.io.ApiClient;
+import com.pensive.android.romplanuib.util.io.ApiInterface;
+
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * @author Edvard P. B.
@@ -36,11 +34,10 @@ public class LoadActivity extends AppCompatActivity {
     TextView splashTitle;
     ImageView splashLogo;
     ImageView splashImage;
-    UniCampus selectedCampus;
+    University selectedUniversity;
     String uniCampusCode;
-
-    String areaCode;
-
+    ApiInterface apiService;
+    DataManager dataManager;
 
     Context context;
 
@@ -49,14 +46,14 @@ public class LoadActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
         context = LoadActivity.this;
-        DataManager dataManager = new DataManager(context);
-        selectedCampus = dataManager.loadCurrentUniCampusSharedPref();
-        uniCampusCode = selectedCampus.getCampusCode();
-        areaCode = dataManager.getSelectedAreaCode(this);
+        dataManager = new DataManager();
+        apiService = ApiClient.getClient().create(ApiInterface.class);
+        selectedUniversity = dataManager.getSavedObjectFromSharedPref(context, "university", new TypeToken<University>(){}.getType());
+        uniCampusCode = selectedUniversity.getCampusCode();//
 
         hideSystemUI();
-        populateList();
         initGui();
+        downloadUniversity();
     }
 
     private void initGui() {
@@ -65,9 +62,9 @@ public class LoadActivity extends AppCompatActivity {
         splashTitle = (TextView) findViewById(R.id.splash_title);
         splashLogo = (ImageView) findViewById(R.id.splash_logo);
 
-        //Uri bgUri = Uri.parse("android.resource://com.pensive.android.romplanuib/drawable/splash_" + selectedCampus);
+        //Uri bgUri = Uri.parse("android.resource://com.pensive.android.romplanuib/drawable/splash_" + selectedUniversity);
         String bgUri = "@drawable/splash_" + uniCampusCode;
-        String logoUri = selectedCampus.getLogoUrl();
+        String logoUri = selectedUniversity.getLogoUrl();
 
         int bgRes = getResources().getIdentifier(bgUri, null, getPackageName());
 
@@ -87,11 +84,38 @@ public class LoadActivity extends AppCompatActivity {
             case "uio":
                 splashTitle.append(getResources().getText(R.string.uni_oslo));
                 break;
-
-
-
+            case "uit":
+                splashTitle.append(getResources().getText(R.string.uni_oslo));
+                break;
+            case "ntnu":
+                splashTitle.append(getResources().getText(R.string.uni_oslo));
+                break;
+            case "oslomet":
+                splashTitle.append(getResources().getText(R.string.uni_oslo));
+                break;
         }
 
+    }
+    private void downloadUniversity(){
+        Call<List<Area>> call = apiService.getUniversity(selectedUniversity.getCampusCode());
+        call.enqueue(new Callback<List<Area>>() {
+            @Override
+            public void onResponse(Call<List<Area>> call, Response<List<Area>> response) {
+                if(response.code() == 200){
+                    selectedUniversity.setAreas(response.body());
+                    dataManager.storeObjectInSharedPref(context, "university", selectedUniversity);
+
+                    Intent i = new Intent(context, BuildingMainActivity.class);
+                    context.startActivity(i);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Area>> call, Throwable t) {
+                //TODO implement error handling
+
+            }
+        });
 
     }
 
@@ -115,84 +139,4 @@ public class LoadActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
-
-    /**
-     * Executes the inner class JsoupTask
-     */
-    private void populateList() {
-        JsoupTask jsoupTask = new JsoupTask(context, getResources().getString(R.string.load_data_string), uniCampusCode, areaCode);
-        jsoupTask.execute();
-    }
-
-}
-
-class JsoupTask extends AsyncTask<Void, Void, List<Building>>{
-    private String uniCampusCode;
-    private Context context;
-    private ProgressDialog asyncDialog;
-    private TextView percentage;
-    private SpannableString loadSpanString;
-    private String areaCode;
-
-
-    public JsoupTask(Context context, String loadDataString, String uniCampusCode, String areaCode){
-        super();
-        this.context = context;
-        this.uniCampusCode = uniCampusCode;
-        this.areaCode = areaCode;
-        asyncDialog = new ProgressDialog(context, R.style.DialogRedTheme);
-        loadSpanString = new SpannableString(loadDataString);
-
-    }
-
-    /**
-     * Starts the progress dialog
-     */
-    @Override
-    protected void onPreExecute() {
-        // Add a span for the custom font font
-
-        asyncDialog.setCancelable(false);
-        //asyncDialog.show();
-
-        super.onPreExecute();
-    }
-
-    /**
-     * Background process for scraping and downloading the data from romplan app. Also stores the data
-     * in SharedPreferences
-     * @param param standard for doInBavkground
-     * @return the list of allbuildings
-     */
-    @Override
-    protected List<Building> doInBackground(Void... param) {
-
-        DataManager dataManager = new DataManager(context);
-
-
-        dataManager.checkIfDataHasBeenLoadedBefore(uniCampusCode);
-
-        List <Building> buildings= dataManager.getAllBuildings();
-
-
-
-        return buildings;
-    }
-
-    /**
-     * dismisses the dialog and starts the BuildingMainActivity
-     * @param buildings a list of the buildings, again standard param for onPostExecute
-     */
-    protected void onPostExecute(List<Building> buildings){
-
-        asyncDialog.dismiss();
-
-        Intent i = new Intent(context, BuildingMainActivity.class);
-        context.startActivity(i);
-
-    }
-
-
-
-
 }

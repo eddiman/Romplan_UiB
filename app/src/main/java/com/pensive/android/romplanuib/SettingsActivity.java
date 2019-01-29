@@ -1,7 +1,5 @@
 package com.pensive.android.romplanuib;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.Preference;
@@ -16,12 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.FontController;
-
-import java.util.ResourceBundle;
-
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class SettingsActivity extends AppCompatActivity {
     FontController fc = new FontController();
@@ -166,7 +159,7 @@ public class SettingsActivity extends AppCompatActivity {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
             sharedPreferences.edit().clear().apply();
 
-            Intent intent = new Intent(getActivity().getBaseContext(), SelectUniCampusActivity.class);
+            Intent intent = new Intent(getActivity().getBaseContext(), SelectUniversityActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             getActivity().getBaseContext().startActivity(intent);
 
