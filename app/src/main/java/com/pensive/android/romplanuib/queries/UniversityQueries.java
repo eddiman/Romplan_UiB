@@ -19,11 +19,10 @@ import retrofit2.Response;
 
 public class UniversityQueries {
     ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-    DataManager dataManager = new DataManager();
+    DataManager dataManager;
 
     public void getUniversity(final Context context, final University university) {
-
-        final DataManager dataManager = new DataManager();
+        dataManager = new DataManager();
         Call<List<Area>> call = apiService.getUniversity(university.getCampusCode());
         call.enqueue(new Callback<List<Area>>() {
             @Override

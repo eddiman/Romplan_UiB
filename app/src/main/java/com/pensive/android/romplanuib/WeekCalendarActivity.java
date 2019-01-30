@@ -48,6 +48,8 @@ import com.google.gson.reflect.TypeToken;
 import com.pensive.android.romplanuib.models.CalActivity;
 import com.pensive.android.romplanuib.models.Room;
 import com.pensive.android.romplanuib.models.University;
+import com.pensive.android.romplanuib.models.messages.CalendarActivityListEvent;
+import com.pensive.android.romplanuib.queries.EventQueries;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.DateFormatter;
 import com.pensive.android.romplanuib.util.FavoriteHandler;
@@ -59,6 +61,10 @@ import com.pensive.android.romplanuib.util.io.ApiInterface;
 import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -83,7 +89,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
 
     WeekView mWeekView;
-    JsoupTask jsoupTask;
     private Room room;
     List<WeekViewEvent> events = new ArrayList<>();
     TextView weekNumber;
@@ -103,7 +108,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     Boolean isRoomfav;
     List<Room> favRooms;
 
-
+    EventQueries eventQueries;
     FavoriteHandler favoriteHandler;
     DataManager dataManager;
     Calendar weekDayChanged;
@@ -129,32 +134,33 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         weekDayChanged = getFirstDayOfWeek();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         appBar = (AppBarLayout) findViewById(R.id.cal_appbar);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         loadDataString = getResources().getString(R.string.load_data_string);
         DataManager dataManager = new DataManager();
-        selectedUniversity = dataManager.getSavedObjectFromSharedPref(this, "university", new TypeToken<University>(){}.getType());
+        eventQueries = new EventQueries();
+        selectedUniversity = dataManager.getSavedObjectFromSharedPref(this, "university", new TypeToken<University>() {
+        }.getType());
         uniCampusCode = selectedUniversity.getCampusCode();
 
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
-        if(weekDayChanged.get(Calendar.MONTH)<Calendar.JULY){
+        if (weekDayChanged.get(Calendar.MONTH) < Calendar.JULY) {
             semesterStart = year + "-01-01";
             semesterEnd = year + "-06-30";
             currentSemester = "S";
-        }else{
+        } else {
             semesterStart = year + "-07-01";
             semesterEnd = year + "-12-31";
             currentSemester = "F";
         }
-        jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, weekNumber, year);
+        eventQueries.getEvents(this, room, weekNumber, year);
         favoriteHandler = new FavoriteHandler();
         isRoomfav = favoriteHandler.isRoomInFavorites(this, room);
-        jsoupTask.execute();
 
         initGUI();
 
@@ -183,9 +189,9 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         floatingActionButtonFavoriteListener(this);
         getWindow().setStatusBarColor(ContextCompat.getColor(WeekCalendarActivity.this, R.color.transpBlack));
 
-        if (isRoomfav){
+        if (isRoomfav) {
             fab.setImageResource(R.drawable.ic_star_full);
-        }else{
+        } else {
             fab.setImageResource(R.drawable.ic_star_empty);
         }
 
@@ -202,13 +208,12 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         updateWeekTextView();
 
 
-
     }
 
     private void initIndoorMap() {
 
         //TODO: Reenable mazemap
-        switch (uniCampusCode){
+        switch (uniCampusCode) {
             case "uib":
                 //initFoldingCellMazeMap();
                 //initMazeMap();
@@ -286,7 +291,9 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     }
 
 
-    /**1w
+    /**
+     * 1w
+     *
      * @param weight Set AppBar height to 0.2->0.5 weight of screen height
      */
     protected void setAppBarLayoutHeightOfScreenWeight(@FloatRange(from = 0.2F, to = 0.5F) float weight) {
@@ -302,7 +309,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      */
     private void initCal() {
 
-        if(mWeekView != null) {
+        if (mWeekView != null) {
             mWeekView.setMonthChangeListener(this);
             mWeekView.setOnEventClickListener(new WeekView.EventClickListener() {
                 @Override
@@ -370,7 +377,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             eventTitle.setText(eventData[0]);
 
             //If the eventData contains 2 or more, set the description to be the second element in eventData
-            if(eventData.length >= 2) {
+            if (eventData.length >= 2) {
                 eventDescription.setText(eventData[1]);
             }
 
@@ -392,7 +399,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     /**
      * Initializes the floating action button. For adding event to personal user's calendar
-     *
      */
 
     private void floatingActionButtonCalendarListener(final Context context, WeekViewEvent event, final String[] eventData, AlertDialog dialog) {
@@ -404,7 +410,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         //Checks whether eventData contains description, then sets the FINAL string to the temporary description.
         String tempDescription;
-        if(eventData.length >= 2) {
+        if (eventData.length >= 2) {
             tempDescription = eventData[1];
         } else {
             tempDescription = getString(R.string.event_no_descript);
@@ -414,7 +420,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
 
         FloatingActionButton fab = (FloatingActionButton) dialog.findViewById(R.id.fabCal);
-        if(fab != null)
+        if (fab != null)
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -452,9 +458,10 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                                     .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, eventEndInMillis)
                                     .putExtra(CalendarContract.Events.TITLE, eventTitleCal)
                                     .putExtra(CalendarContract.Events.DESCRIPTION, eventDesc)
-                                    .putExtra(CalendarContract.Events.EVENT_LOCATION, location + ", Bergen")
+                                    .putExtra(CalendarContract.Events.EVENT_LOCATION, location + ", Bergen")//TODO, this cannot be Bergen for everything
                                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
-                            startActivity(intent);}
+                            startActivity(intent);
+                        }
                     }.start();
                 }
             });
@@ -466,20 +473,20 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     private void floatingActionButtonFavoriteListener(final Context context) {
 
         fab = (FloatingActionButton) findViewById(R.id.fabWeekCal);
-        if(fab != null)
+        if (fab != null)
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     Snackbar snack;
-                    if(!isRoomfav) {
+                    if (!isRoomfav) {
                         fab.setImageResource(R.drawable.ic_star_full);
                         favoriteHandler.addRoomToFavorites(getApplicationContext(), room);
                         snack = Snackbar.make(view, room.getName() + getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
                         isRoomfav = true;
 
-                    }else{
+                    } else {
                         fab.setImageResource(R.drawable.ic_star_empty);
                         favoriteHandler.removeRoomFromFavorites(getApplicationContext(), room);
                         snack = Snackbar.make(view, room.getName() + getString(R.string.remove_elem_from_fav), Snackbar.LENGTH_LONG)
@@ -532,7 +539,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         });
 
 
-
         lastWeekButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -550,7 +556,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             @Override
             public void onClick(View v) {
                 String mazeUrl = room.getMazeMapUrl();
-                Intent intent=new Intent(Intent.ACTION_VIEW,Uri.parse(mazeUrl));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mazeUrl));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.setPackage("com.android.chrome");
                 try {
@@ -573,7 +579,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     }
 
     /**
-     Updates the week text view
+     * Updates the week text view
      */
     private void updateWeekTextView() {
         weekNumber.setText(getString(R.string.week) + " " + currentWeekNumber);
@@ -587,8 +593,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         weekDayChanged.add(Calendar.DAY_OF_YEAR, 7);
         currentWeekNumber = weekDayChanged.get(Calendar.WEEK_OF_YEAR);
         emptyEventList();
-        jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, currentWeekNumber, weekDayChanged.get(Calendar.YEAR));
-        jsoupTask.execute();
+        eventQueries.getEvents(this, room, currentWeekNumber, weekDayChanged.get(Calendar.YEAR));
 
         //Adds -7 days to weekDayChanged, goes to last week
         mWeekView.goToDate(weekDayChanged);
@@ -604,9 +609,8 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         weekDayChanged.add(Calendar.DAY_OF_YEAR, -7);
         currentWeekNumber = weekDayChanged.get(Calendar.WEEK_OF_YEAR);
+        eventQueries.getEvents(this, room, currentWeekNumber, weekDayChanged.get(Calendar.YEAR));
         emptyEventList();
-        jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, currentWeekNumber, weekDayChanged.get(Calendar.YEAR));
-        jsoupTask.execute();
 
 
         //Adds -7 days to weekDayChanged, goes to last week
@@ -615,11 +619,11 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     }
 
-    private void updateSemester(){
+    private void updateSemester() {
         int year = weekDayChanged.get(Calendar.YEAR);
         semesterStart = year + "-01-01";
         semesterEnd = year + "-06-30";
-        if(weekDayChanged.get(Calendar.MONTH)>Calendar.JUNE){
+        if (weekDayChanged.get(Calendar.MONTH) > Calendar.JUNE) {
             semesterStart = year + "-07-01";
             semesterEnd = year + "-12-31";
         }
@@ -677,7 +681,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     }
 
 
-
     /**
      * Returns the first weekDayChanged of the week
      *
@@ -693,6 +696,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     /**
      * Puts together the EXTRA data that was sent with the last activity
+     *
      * @return a Room with the room in question
      */
     private Room getDataFromLastActivity() {
@@ -716,7 +720,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     /**
      * Adds a list of events to the calender
      *
-     * @param newYear year the calendar will show
+     * @param newYear  year the calendar will show
      * @param newMonth the month the calendar wil show
      * @return the events that matches with the parameters
      */
@@ -731,6 +735,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         return matchedEvents;
     }
+
     private boolean eventMatches(WeekViewEvent event, int year, int month) {
         return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) == month - 1) ||
                 (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
@@ -739,6 +744,20 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     public void onBackPressed() {
         super.onBackPressed();
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void OnCalendarActivityListEvent(CalendarActivityListEvent calendarActivityListEvent) {
+        Randomized rnd = new Randomized();
+        List<CalActivity> calendarActivityList = calendarActivityListEvent.getListOfCalendarActivities();
+        for (int i = 0; i < calendarActivityList.size(); i++) {
+
+            WeekViewEvent event = new WeekViewEvent(i, calendarActivityList.get(i).getCourseID() + " " + calendarActivityList.get(i).getTeachingMethodName() + " - " + calendarActivityList.get(i).getSummary(), calendarActivityList.get(i).getBeginTime(), calendarActivityList.get(i).getEndTime());
+
+            event.setColor(rnd.getRandomColorFilter());
+            events.add(event);
+            mWeekView.notifyDatasetChanged();
+        }
     }
 
     /**
@@ -759,6 +778,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     @Override
     public void onStart() {
+        EventBus.getDefault().register(this);
         super.onStart();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -769,6 +789,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     @Override
     public void onStop() {
+        EventBus.getDefault().unregister(this);
         super.onStop();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -776,115 +797,4 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
-
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * AsyncTask for downloading the eventdata
-     */
-    class JsoupTask extends AsyncTask<Void, Void, List<WeekViewEvent>> {
-        ProgressDialog asyncDialog;
-        Room room;
-        Randomized rnd = new Randomized();
-        Context context;
-        boolean timeoutError;
-        String semesterStart;
-        String semesterEnd;
-        int weekNumber;
-        int year;
-
-
-
-        JsoupTask(Context context, Room room, String semesterStart, String semesterEnd) {
-            super();
-            this.context = context;
-            this.room = room;
-            this.semesterStart = semesterStart;
-            this.semesterEnd = semesterEnd;
-
-            asyncDialog = new ProgressDialog(context, R.style.DialogBlueTheme);
-
-        }
-        JsoupTask(Context context, Room room, int weekNumber, int year) {
-            super();
-            this.context = context;
-            this.room = room;
-            this.weekNumber = weekNumber;
-            this.year = year;
-
-            asyncDialog = new ProgressDialog(context, R.style.DialogGreenTheme);
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-
-            asyncDialog.setTitle("");
-            asyncDialog.setCancelable(false);
-            asyncDialog.show();
-            System.out.println("JSOUPCalendarPREEXCUTE");
-            super.onPreExecute();
-        }
-
-        @Override
-        protected List<WeekViewEvent> doInBackground(Void... param) {
-
-            try {
-                System.err.println("Hent events");
-
-                ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-                Call<List<CalActivity>> call = apiService.getWeekScheduleForRoom(uniCampusCode, room.getAreaID(), room.getBuildingID(), room.getRoomID(), weekNumber, year);
-                call.enqueue(new Callback<List<CalActivity>>() {
-                    @Override
-                    public void onResponse(Call<List<CalActivity>> call, Response<List<CalActivity>> response) {
-                        System.err.println("Response code: " + response.code());
-                        if (response.code()==200){
-                            List<CalActivity> listOfActivities = response.body();
-
-                            for (int i = 0; i < listOfActivities.size(); i++) {
-
-                                WeekViewEvent event = new WeekViewEvent(i, listOfActivities.get(i).getCourseID() + " " + listOfActivities.get(i).getTeachingMethodName() + " - " + listOfActivities.get(i).getSummary(), listOfActivities.get(i).getBeginTime(), listOfActivities.get(i).getEndTime());
-
-                                event.setColor(rnd.getRandomColorFilter());
-                                events.add(event);
-                            }
-
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<CalActivity>> call, Throwable t) {
-                        System.err.println("Couldnot fetch events");
-                        t.printStackTrace();
-
-                    }
-                });
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                timeoutError = true;
-
-            }
-            return events;
-
-        }
-
-        protected void onPostExecute(List<WeekViewEvent> activitiesOfRoom) {
-            if(timeoutError){
-                Toast.makeText(context, R.string.error_timeout, Toast.LENGTH_SHORT).show();
-            }
-
-            mWeekView.notifyDatasetChanged();
-
-            asyncDialog.dismiss();
-
-        }
-
-
-    }
-
-
-
 }
