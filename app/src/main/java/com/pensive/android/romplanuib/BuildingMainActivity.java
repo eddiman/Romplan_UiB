@@ -44,6 +44,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Fredrik Heimsæter & Edvard Bjørgen
+ * @version 2.0
+ */
 public class BuildingMainActivity extends AppCompatActivity {
 
     /**
@@ -66,8 +70,6 @@ public class BuildingMainActivity extends AppCompatActivity {
     AppBarLayout appBarLayout;
     private SearchView mSearchView;
 
-    String uniCampusCode;
-
     TextView toolbarTitle;
     University selectedUniversity;
 
@@ -79,11 +81,8 @@ public class BuildingMainActivity extends AppCompatActivity {
 
         dataManager = new DataManager();
 
-        if (dataManager.checkIfSharedPreferenceKeyExists(this, "university")) {
-            selectedUniversity = dataManager.getSavedObjectFromSharedPref(this, "university", new TypeToken<University>(){}.getType());
-        } else{
-            //TODO show loding dialog
-        }
+        selectedUniversity = dataManager.getSavedObjectFromSharedPref(this, "university", new TypeToken<University>(){}.getType());
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

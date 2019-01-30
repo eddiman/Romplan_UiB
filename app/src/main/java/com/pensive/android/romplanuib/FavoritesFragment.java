@@ -22,7 +22,7 @@ import java.util.List;
  * A fragment containing views for the favorites.
  *
  * @author Edvard Bjørgen & Fredrik Heimsæter
- * @version 1.0
+ * @version 2.0
  */
 public class FavoritesFragment extends Fragment {
 

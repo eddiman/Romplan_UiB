@@ -41,7 +41,7 @@ import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 
 /**
  * @author Edvard Bjørgen & Fredrik Heimsæter
- * @version 1.0
+ * @version 2.0
  */
 public class RoomsActivity extends AppCompatActivity {
 
@@ -60,7 +60,7 @@ public class RoomsActivity extends AppCompatActivity {
 
 
     private CollapsingToolbarLayout collapsingToolbar;
-    private FloatingActionButton fab;
+    private FloatingActionButton btnFavoriteBuilding;
     private boolean isBuildingFav;
     ThemeSelector theme = new ThemeSelector();
 
@@ -71,7 +71,7 @@ public class RoomsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
 
-        DataManager dataManager = new DataManager();
+        dataManager = new DataManager();
         favoriteHandler = new FavoriteHandler();
         selectedUniversity = dataManager.getSavedObjectFromSharedPref(this, "university", new TypeToken<University>(){}.getType());
 
@@ -116,9 +116,9 @@ public class RoomsActivity extends AppCompatActivity {
         roomList.setAdapter(adapter);
         roomList.setFastScrollEnabled(true);
         if(isBuildingFav){
-            fab.setImageResource(R.drawable.ic_star_full);
+            btnFavoriteBuilding.setImageResource(R.drawable.ic_star_full);
         }else{
-            fab.setImageResource(R.drawable.ic_star_empty);
+            btnFavoriteBuilding.setImageResource(R.drawable.ic_star_empty);
         }
         setAppBarLayoutHeightOfScreenDivide(2);
 
@@ -180,13 +180,11 @@ public class RoomsActivity extends AppCompatActivity {
 
     /**
      * Initializes the floating action button.
-     * TODO: Use it for adding and removing favorites.
-     * TODO: Use it for adding and removing favorites.
      */
     private void floatingActionButtonFavoriteListener(final Context context) {
-        fab = (FloatingActionButton) findViewById(R.id.fabRoom);
-        if(fab != null)
-            fab.setOnClickListener(new View.OnClickListener() {
+        btnFavoriteBuilding = (FloatingActionButton) findViewById(R.id.btnFavoriteBuilding);
+        if(btnFavoriteBuilding != null)
+            btnFavoriteBuilding.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Snackbar snack;
@@ -194,13 +192,13 @@ public class RoomsActivity extends AppCompatActivity {
                         favoriteHandler.addBuildingToFavorites(getApplicationContext(), building);
                         snack = Snackbar.make(view, building.getName() + getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
-                        fab.setImageResource(R.drawable.ic_star_full);
+                        btnFavoriteBuilding.setImageResource(R.drawable.ic_star_full);
                         isBuildingFav = true;
                     }else{
                         favoriteHandler.removeBuildingFromFavorites(getApplicationContext(), building);
                         snack = Snackbar.make(view, building.getName() + getString(R.string.remove_elem_from_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
-                        fab.setImageResource(R.drawable.ic_star_empty);
+                        btnFavoriteBuilding.setImageResource(R.drawable.ic_star_empty);
                         isBuildingFav = false;
 
                     }

@@ -16,9 +16,12 @@ import android.widget.TextView;
 
 import com.pensive.android.romplanuib.util.FontController;
 
+/**
+ * @author Edvard Bjørgen
+ * @version 1.0
+ */
 public class SettingsActivity extends AppCompatActivity {
     FontController fc = new FontController();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +36,6 @@ public class SettingsActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-
-
-
     }
 
     ///////////////////////////////////////////INNER FRAGMENT/////////////////////////////////////////////////////////////////
@@ -165,6 +164,4 @@ public class SettingsActivity extends AppCompatActivity {
 
         }
     }
-
-
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.GridView;
 
+import com.google.gson.reflect.TypeToken;
 import com.pensive.android.romplanuib.arrayAdapters.UniversityAdapter;
 import com.pensive.android.romplanuib.models.University;
 import com.pensive.android.romplanuib.util.DataManager;
@@ -14,6 +15,10 @@ import com.pensive.android.romplanuib.util.DataManager;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Fredrik Heimsæter & Edvard Bjørgen
+ * @version 2.0
+ */
 public class SelectUniversityActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private DataManager dataManager;
@@ -28,8 +33,9 @@ public class SelectUniversityActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar_campus);
         setSupportActionBar(toolbar);
         toolbar.setTitle("");
+        University university = dataManager.getSavedObjectFromSharedPref(this, "university", new TypeToken<University>(){}.getType());
 
-        if (dataManager.checkIfSharedPreferenceKeyExists(this, "university")){
+        if (university != null && university.getAllBuildings() != null){
             Intent i = new Intent(this, BuildingMainActivity.class);
             this.startActivity(i);
         } else {

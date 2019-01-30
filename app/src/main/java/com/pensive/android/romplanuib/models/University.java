@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * Class for making a university campus object
  *
- * @author Edvard Pires Bjørgen
- * @version 2.0
+ * @author Edvard Pires Bjørgen & Fredrik Heimsæter
+ * @version 3.0
  *
  */
 public class University {

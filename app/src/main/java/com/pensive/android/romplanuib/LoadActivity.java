@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.reflect.TypeToken;
 import com.pensive.android.romplanuib.models.Area;
@@ -26,7 +27,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * @author Edvard P. B.
+ * @author Edvard Bjørgen & Fredrik Heimsæter
+ *
+ * @version 2.0
  *
  * "Splashscreen"-class to load all buildings and rooms
  */
@@ -49,7 +52,7 @@ public class LoadActivity extends AppCompatActivity {
         dataManager = new DataManager();
         apiService = ApiClient.getClient().create(ApiInterface.class);
         selectedUniversity = dataManager.getSavedObjectFromSharedPref(context, "university", new TypeToken<University>(){}.getType());
-        uniCampusCode = selectedUniversity.getCampusCode();//
+        uniCampusCode = selectedUniversity.getCampusCode();
 
         hideSystemUI();
         initGui();
@@ -112,7 +115,8 @@ public class LoadActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<Area>> call, Throwable t) {
-                //TODO implement error handling
+                Toast.makeText(context, R.string.something_wrong, Toast.LENGTH_LONG);
+                t.printStackTrace();
 
             }
         });

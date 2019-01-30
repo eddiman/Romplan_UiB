@@ -17,6 +17,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * @author Fredrik Heimsæter
+ * @version 1.0
+ */
 public class EventQueries {
     ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     DataManager dataManager;

@@ -1,7 +1,9 @@
 package com.pensive.android.romplanuib.queries;
 
 import android.content.Context;
+import android.widget.Toast;
 
+import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.models.Area;
 import com.pensive.android.romplanuib.models.University;
 import com.pensive.android.romplanuib.models.messages.UniversityEvent;
@@ -17,6 +19,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * @author Fredrik Heimsæter
+ * @version 1.0
+ */
 public class UniversityQueries {
     ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
     DataManager dataManager;
@@ -37,7 +43,7 @@ public class UniversityQueries {
 
             @Override
             public void onFailure(Call<List<Area>> call, Throwable t) {
-                //TODO implement error handling
+                Toast.makeText(context, R.string.something_wrong, Toast.LENGTH_LONG);
 
             }
         });

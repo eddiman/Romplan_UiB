@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Class for making a room object
  *
  * @author Gaute Gjerløw Remen, Fredrik Heimsæter
- * @version 2.0
+ * @version 3.0
  *
  */
 public class Room extends Unit implements Serializable{

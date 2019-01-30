@@ -4,6 +4,10 @@ import com.pensive.android.romplanuib.models.CalActivity;
 
 import java.util.List;
 
+/**
+ * @author Fredrik Heimsæter
+ * @version 1.0
+ */
 public class CalendarActivityListEvent {
     private final List<CalActivity> listOfCalendarActivities;
 

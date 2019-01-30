@@ -1,6 +1,5 @@
 package com.pensive.android.romplanuib;
 
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +7,6 @@ import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.CalendarContract;
@@ -34,7 +32,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.MonthLoader;
@@ -56,8 +53,6 @@ import com.pensive.android.romplanuib.util.FavoriteHandler;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.Randomized;
 import com.pensive.android.romplanuib.util.ThemeSelector;
-import com.pensive.android.romplanuib.util.io.ApiClient;
-import com.pensive.android.romplanuib.util.io.ApiInterface;
 import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
@@ -75,15 +70,12 @@ import java.util.Locale;
 
 import jp.wasabeef.picasso.transformations.ColorFilterTransformation;
 import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Activity containing calendar week view
  *
- * @author Edvard Bjørgen
- * @version 1.0
+ * @author Edvard Bjørgen & Fredrik Heimsæter
+ * @version 2.0
  */
 public class WeekCalendarActivity extends AppCompatActivity implements MonthLoader.MonthChangeListener {
 
@@ -106,7 +98,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     private TextView buildingNameText;
     private Button goToMazeMap;
     Boolean isRoomfav;
-    List<Room> favRooms;
 
     EventQueries eventQueries;
     FavoriteHandler favoriteHandler;
@@ -117,7 +108,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private FloatingActionButton fab;
+    private FloatingActionButton btnFavoriteRoom;
 
     ThemeSelector theme = new ThemeSelector();
     String uniCampusCode;
@@ -140,10 +131,9 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         appBar = (AppBarLayout) findViewById(R.id.cal_appbar);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         loadDataString = getResources().getString(R.string.load_data_string);
-        DataManager dataManager = new DataManager();
+        dataManager = new DataManager();
         eventQueries = new EventQueries();
-        selectedUniversity = dataManager.getSavedObjectFromSharedPref(this, "university", new TypeToken<University>() {
-        }.getType());
+        selectedUniversity = dataManager.getSavedObjectFromSharedPref(this, "university", new TypeToken<University>() {}.getType());
         uniCampusCode = selectedUniversity.getCampusCode();
 
 
@@ -190,9 +180,9 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         getWindow().setStatusBarColor(ContextCompat.getColor(WeekCalendarActivity.this, R.color.transpBlack));
 
         if (isRoomfav) {
-            fab.setImageResource(R.drawable.ic_star_full);
+            btnFavoriteRoom.setImageResource(R.drawable.ic_star_full);
         } else {
-            fab.setImageResource(R.drawable.ic_star_empty);
+            btnFavoriteRoom.setImageResource(R.drawable.ic_star_empty);
         }
 
 
@@ -405,7 +395,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         final String eventTitleCal = eventData[0];
         final long eventStartInMillis = event.getStartTime().getTimeInMillis();
         final long eventEndInMillis = event.getEndTime().getTimeInMillis();
-        final String location = room.getBuildingAcronym();//TODO should be buildingname, not acronym
+        final String location = room.getName();
 
 
         //Checks whether eventData contains description, then sets the FINAL string to the temporary description.
@@ -458,7 +448,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                                     .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, eventEndInMillis)
                                     .putExtra(CalendarContract.Events.TITLE, eventTitleCal)
                                     .putExtra(CalendarContract.Events.DESCRIPTION, eventDesc)
-                                    .putExtra(CalendarContract.Events.EVENT_LOCATION, location + ", Bergen")//TODO, this cannot be Bergen for everything
+                                    .putExtra(CalendarContract.Events.EVENT_LOCATION, location)
                                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
                             startActivity(intent);
                         }
@@ -472,22 +462,22 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      */
     private void floatingActionButtonFavoriteListener(final Context context) {
 
-        fab = (FloatingActionButton) findViewById(R.id.fabWeekCal);
-        if (fab != null)
-            fab.setOnClickListener(new View.OnClickListener() {
+        btnFavoriteRoom = (FloatingActionButton) findViewById(R.id.btnFavoriteRoom);
+        if (btnFavoriteRoom != null)
+            btnFavoriteRoom.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     Snackbar snack;
                     if (!isRoomfav) {
-                        fab.setImageResource(R.drawable.ic_star_full);
+                        btnFavoriteRoom.setImageResource(R.drawable.ic_star_full);
                         favoriteHandler.addRoomToFavorites(getApplicationContext(), room);
                         snack = Snackbar.make(view, room.getName() + getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
                         isRoomfav = true;
 
                     } else {
-                        fab.setImageResource(R.drawable.ic_star_empty);
+                        btnFavoriteRoom.setImageResource(R.drawable.ic_star_empty);
                         favoriteHandler.removeRoomFromFavorites(getApplicationContext(), room);
                         snack = Snackbar.make(view, room.getName() + getString(R.string.remove_elem_from_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
@@ -518,7 +508,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     }
 
     private void setBuildingTextView() {
-        String currBuildingName = room.getBuildingAcronym();//TODO buildingname?
+        String currBuildingName = room.getName();
         buildingNameText.setText(getString(R.string.building) + ": " + currBuildingName);
 
     }
@@ -644,7 +634,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (collapsingToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
                     //Collapsed, after scrolling down
-                    collapsingToolbar.setTitle(room.getName() + " - " + room.getBuildingAcronym());//TODO should be buildingname, not acronym
+                    collapsingToolbar.setTitle(room.getName() + " - " + room.getName());
                 } else {
                     //Expanded, normal state
                     collapsingToolbar.setTitle(room.getName());

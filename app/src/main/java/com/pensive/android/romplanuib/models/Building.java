@@ -9,7 +9,7 @@ import java.util.List;
  * Class for making a building object
  *
  * @author Gaute Gjerløw Remen & Fredrik Heimsæter
- * @version 2.0
+ * @version 3.0
  *
  */
 public class Building extends Unit implements Serializable{

@@ -8,8 +8,8 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * @author Edvard Bjørgen
- * @version 1.0
+ * @author Edvard Bjørgen & Fredrik Heimsæter
+ * @version 2.0
  */
 public class CalActivity implements CalActivityInterface {
     @SerializedName("semesterid")

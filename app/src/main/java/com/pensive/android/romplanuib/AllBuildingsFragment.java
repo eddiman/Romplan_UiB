@@ -15,8 +15,8 @@ import com.pensive.android.romplanuib.util.DataManager;
 /**
  * A placeholder fragment containing a simple view.
  *
- * @author Edvard Bjørgen
- * @version 1.0
+ * @author Edvard Bjørgen & Fredrik Heimsæter
+ * @version 2.0
  */
 public class AllBuildingsFragment extends Fragment {
     /**

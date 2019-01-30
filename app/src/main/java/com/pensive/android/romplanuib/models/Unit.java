@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Superclass for Units (Buildings and rooms)
  *
  * @author Fredrik Heimsæter
- * @version 2.0
+ * @version 3.0
  */
 
 public abstract class Unit implements Serializable{
