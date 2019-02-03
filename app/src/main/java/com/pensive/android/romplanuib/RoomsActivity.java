@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.reflect.TypeToken;
 import com.pensive.android.romplanuib.arrayAdapters.RoomAdapter;
 import com.pensive.android.romplanuib.util.FavoriteHandler;
@@ -45,6 +46,7 @@ import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
  */
 public class RoomsActivity extends AppCompatActivity {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     Building building;
     List<Room> errorList = new ArrayList<>();
     FontController fc = new FontController();
@@ -69,6 +71,7 @@ public class RoomsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         dataManager = new DataManager();
         favoriteHandler = new FavoriteHandler();
@@ -79,6 +82,12 @@ public class RoomsActivity extends AppCompatActivity {
         building = getBuildingFromLastActivity();
         buildingName = building.getName();
         isBuildingFav = favoriteHandler.isBuildingInFavorites(this, building);
+        Bundle params = new Bundle();
+        params.putString("university_code", building.getUniversityID());
+        params.putString("area_code", building.getAreaID());
+        params.putString("building_code", building.getBuildingID());
+        params.putString("building_name", building.getName());
+        mFirebaseAnalytics.logEvent("open_building", params);
 
         initGUI();
 
@@ -186,19 +195,25 @@ public class RoomsActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Snackbar snack;
+                    Bundle params = new Bundle();
+                    params.putString("university_code", building.getUniversityID());
+                    params.putString("area_code", building.getAreaID());
+                    params.putString("building_code", building.getBuildingID());
+                    params.putString("building_name", building.getName());
                     if(!isBuildingFav) {
                         favoriteHandler.addBuildingToFavorites(getApplicationContext(), building);
                         snack = Snackbar.make(view, building.getName() + getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
                         btnFavoriteBuilding.setImageResource(R.drawable.ic_star_full);
                         isBuildingFav = true;
+                        mFirebaseAnalytics.logEvent("add_building_to_favorites", params);
                     }else{
                         favoriteHandler.removeBuildingFromFavorites(getApplicationContext(), building);
                         snack = Snackbar.make(view, building.getName() + getString(R.string.remove_elem_from_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
                         btnFavoriteBuilding.setImageResource(R.drawable.ic_star_empty);
                         isBuildingFav = false;
-
+                        mFirebaseAnalytics.logEvent("remove_building_from_favorites", params);
                     }
                     View sbView = snack.getView();
 

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pensive.android.romplanuib.util.FontController;
 
 /**
@@ -21,6 +22,7 @@ import com.pensive.android.romplanuib.util.FontController;
  * @version 1.0
  */
 public class SettingsActivity extends AppCompatActivity {
+    private FirebaseAnalytics mFirebaseAnalytics;
     FontController fc = new FontController();
 
     @Override
@@ -30,6 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
         Toolbar toolbar = (Toolbar) findViewById(R.id.settings_toolbar);
         setSupportActionBar(toolbar);

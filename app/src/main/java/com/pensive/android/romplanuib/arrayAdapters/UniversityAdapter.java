@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pensive.android.romplanuib.LoadActivity;
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.models.University;
@@ -33,6 +35,7 @@ import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 public class UniversityAdapter extends ArrayAdapter<University> {
 
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     private LayoutInflater inflater;
     private Context context;
     private int textViewResourceId;
@@ -45,6 +48,7 @@ public class UniversityAdapter extends ArrayAdapter<University> {
     public UniversityAdapter(Context context, int textViewResourceId, List<University> campuses) {
         super(context, textViewResourceId, campuses);
         this.context = context;
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
         inflater = LayoutInflater.from(context);
         this.textViewResourceId = textViewResourceId;
         this.campuses = campuses;
@@ -112,6 +116,10 @@ public class UniversityAdapter extends ArrayAdapter<University> {
         row.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View arg0) {
+                Bundle params = new Bundle();
+                params.putString("university_code", university.getCampusCode());
+                params.putString("university_name", university.getName());
+                mFirebaseAnalytics.logEvent("select_university", params);
                 dataManager.storeObjectInSharedPref(context, "university", university);
                 Intent i = new Intent(context, LoadActivity.class);
                 context.startActivity(i);

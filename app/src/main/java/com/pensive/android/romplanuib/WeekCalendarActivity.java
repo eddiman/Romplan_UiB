@@ -40,6 +40,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.reflect.TypeToken;
 import com.pensive.android.romplanuib.models.CalActivity;
 import com.pensive.android.romplanuib.models.Room;
@@ -79,6 +80,7 @@ import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 public class WeekCalendarActivity extends AppCompatActivity implements MonthLoader.MonthChangeListener {
 
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     WeekView mWeekView;
     private Room room;
     List<WeekViewEvent> events = new ArrayList<>();
@@ -88,9 +90,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     private CollapsingToolbarLayout collapsingToolbar;
     AppBarLayout appBar;
     int currentWeekNumber;
-    String currentSemester;
-    String semesterStart;
-    String semesterEnd;
     DateFormatter df;
     String loadDataString;
     private Button goToMazeMap;
@@ -117,6 +116,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         room = getDataFromLastActivity();
         System.out.println(room.toString());
         weekDayChanged = getFirstDayOfWeek();
@@ -139,6 +139,13 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         eventQueries.getEvents(this, room, weekNumber, year);
         favoriteHandler = new FavoriteHandler();
         isRoomfav = favoriteHandler.isRoomInFavorites(this, room);
+        Bundle params = new Bundle();
+        params.putString("university_code", room.getUniversityID());
+        params.putString("area_code", room.getAreaID());
+        params.putString("building_code", room.getBuildingID());
+        params.putString("room_code", room.getRoomID());
+        params.putString("room_name", room.getName());
+        mFirebaseAnalytics.logEvent("open_room", params);
 
         initGUI();
 
@@ -427,6 +434,17 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
                         public void onFinish() {
 
+                            Bundle params = new Bundle();
+                            params.putString("university_code", room.getUniversityID());
+                            params.putString("area_code", room.getAreaID());
+                            params.putString("building_code", room.getBuildingID());
+                            params.putString("room_code", room.getRoomID());
+                            params.putLong("event_begin_time", eventStartInMillis);
+                            params.putLong("event_end_time", eventEndInMillis);
+                            params.putString("event_title", eventTitleCal);
+                            params.putString("event_description", eventDesc);
+                            params.putString("event_location", location);
+                            mFirebaseAnalytics.logEvent("add_event_to_calendar", params);
 
                             Intent intent = new Intent(Intent.ACTION_INSERT)
                                     .setData(CalendarContract.Events.CONTENT_URI)
@@ -455,12 +473,19 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                 public void onClick(View view) {
 
                     Snackbar snack;
+                    Bundle params = new Bundle();
+                    params.putString("university_code", room.getUniversityID());
+                    params.putString("area_code", room.getAreaID());
+                    params.putString("building_code", room.getBuildingID());
+                    params.putString("room_code", room.getRoomID());
+                    params.putString("room_name", room.getName());
                     if (!isRoomfav) {
                         btnFavoriteRoom.setImageResource(R.drawable.ic_star_full);
                         favoriteHandler.addRoomToFavorites(getApplicationContext(), room);
                         snack = Snackbar.make(view, room.getName() + getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
                         isRoomfav = true;
+                        mFirebaseAnalytics.logEvent("add_room_to_favorites", params);
 
                     } else {
                         btnFavoriteRoom.setImageResource(R.drawable.ic_star_empty);
@@ -468,6 +493,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                         snack = Snackbar.make(view, room.getName() + getString(R.string.remove_elem_from_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
                         isRoomfav = false;
+                        mFirebaseAnalytics.logEvent("remove_room_from_favorites", params);
                     }
                     View sbView = snack.getView();
 

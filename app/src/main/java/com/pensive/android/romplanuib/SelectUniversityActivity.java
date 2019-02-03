@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.GridView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.reflect.TypeToken;
 import com.pensive.android.romplanuib.arrayAdapters.UniversityAdapter;
 import com.pensive.android.romplanuib.models.University;
@@ -20,6 +21,7 @@ import java.util.List;
  * @version 2.0
  */
 public class SelectUniversityActivity extends AppCompatActivity {
+    private FirebaseAnalytics mFirebaseAnalytics;
     private Toolbar toolbar;
     private DataManager dataManager;
     List<University> universityArray = new ArrayList<>();
@@ -30,6 +32,7 @@ public class SelectUniversityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         dataManager = new DataManager();
         setContentView(R.layout.activity_campus);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar_campus);
         setSupportActionBar(toolbar);
         toolbar.setTitle("");

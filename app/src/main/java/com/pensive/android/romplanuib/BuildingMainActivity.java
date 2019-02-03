@@ -26,6 +26,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.reflect.TypeToken;
 import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchHistoryTable;
@@ -72,12 +73,14 @@ public class BuildingMainActivity extends AppCompatActivity {
 
     TextView toolbarTitle;
     University selectedUniversity;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_building_main);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         dataManager = new DataManager();
 

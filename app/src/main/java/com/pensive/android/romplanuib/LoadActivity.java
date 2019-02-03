@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.reflect.TypeToken;
 import com.pensive.android.romplanuib.models.Area;
 import com.pensive.android.romplanuib.models.University;
@@ -34,6 +35,7 @@ import retrofit2.Response;
  * "Splashscreen"-class to load all buildings and rooms
  */
 public class LoadActivity extends AppCompatActivity {
+    private FirebaseAnalytics mFirebaseAnalytics;
     TextView splashTitle;
     ImageView splashLogo;
     ImageView splashImage;
@@ -48,6 +50,7 @@ public class LoadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         context = LoadActivity.this;
         dataManager = new DataManager();
         apiService = ApiClient.getClient().create(ApiInterface.class);
