@@ -72,6 +72,9 @@ public class FavoritesFragment extends Fragment {
             }else {
                 favorites = new ArrayList<Unit>();
             }
+            if (favRooms != null) {
+                favorites.addAll(favRooms);
+            }
 
             adapter = new FavoriteAdapter(getActivity(), R.layout.list_favorite_element, favorites);
             allFavoritesListView.setAdapter(adapter);
@@ -95,7 +98,9 @@ public class FavoritesFragment extends Fragment {
             }else {
                 favorites = new ArrayList<Unit>();
             }
-            favorites.addAll(favRooms);
+            if (favRooms != null) {
+                favorites.addAll(favRooms);
+            }
 
             adapter = new FavoriteAdapter(getActivity(), R.layout.list_favorite_element, favorites);
             allFavoritesListView.setAdapter(adapter);
