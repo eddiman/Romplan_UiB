@@ -17,7 +17,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -92,10 +91,8 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     String currentSemester;
     String semesterStart;
     String semesterEnd;
-    int nextYear = 0;
     DateFormatter df;
     String loadDataString;
-    private TextView buildingNameText;
     private Button goToMazeMap;
     Boolean isRoomfav;
 
@@ -139,15 +136,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
-        if (weekDayChanged.get(Calendar.MONTH) < Calendar.JULY) {
-            semesterStart = year + "-01-01";
-            semesterEnd = year + "-06-30";
-            currentSemester = "S";
-        } else {
-            semesterStart = year + "-07-01";
-            semesterEnd = year + "-12-31";
-            currentSemester = "F";
-        }
         eventQueries.getEvents(this, room, weekNumber, year);
         favoriteHandler = new FavoriteHandler();
         isRoomfav = favoriteHandler.isRoomInFavorites(this, room);
@@ -164,7 +152,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         roomImage = (ImageView) findViewById(R.id.backdrop_room);
         mWeekView = (WeekView) findViewById(R.id.weekView);
         weekNumber = (TextView) findViewById(R.id.week_text);
-        buildingNameText = (TextView) findViewById(R.id.building_name_text);
         goToMazeMap = (Button) findViewById(R.id.goto_mazemap);
         mazeMapWebView = (WebView) findViewById(R.id.mazemap_webview);
 
@@ -191,7 +178,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         setRoomImage();
         setCollapsingTitles();
-        setBuildingTextView();
         setWeekButtons();
         setGoToMazeMap();
 
@@ -507,13 +493,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         return super.onOptionsItemSelected(item);
     }
 
-    private void setBuildingTextView() {
-        String currBuildingName = room.getName();
-        buildingNameText.setText(getString(R.string.building) + ": " + currBuildingName);
-
-    }
-
-
     /**
      * Sets the listener of the next- and last week buttons
      */
@@ -609,16 +588,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     }
 
-    private void updateSemester() {
-        int year = weekDayChanged.get(Calendar.YEAR);
-        semesterStart = year + "-01-01";
-        semesterEnd = year + "-06-30";
-        if (weekDayChanged.get(Calendar.MONTH) > Calendar.JUNE) {
-            semesterStart = year + "-07-01";
-            semesterEnd = year + "-12-31";
-        }
-    }
-
     private void setCollapsingTitles() {
 
         if (collapsingToolbar != null) {
@@ -632,16 +601,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (collapsingToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
-                    //Collapsed, after scrolling down
-                    collapsingToolbar.setTitle(room.getName() + " - " + room.getName());
-                } else {
-                    //Expanded, normal state
-                    collapsingToolbar.setTitle(room.getName());
-
-                    //weekNumber.setText("Uke: " + currentWeekNumber);
-
-                }
+                collapsingToolbar.setTitle(room.getName());
             }
         };
 

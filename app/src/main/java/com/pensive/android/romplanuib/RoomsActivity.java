@@ -49,7 +49,6 @@ public class RoomsActivity extends AppCompatActivity {
     List<Room> errorList = new ArrayList<>();
     FontController fc = new FontController();
     String buildingName;
-    String buildingCode;
     ListView roomList;
     DataManager dataManager;
     AppBarLayout appBar;
@@ -78,7 +77,6 @@ public class RoomsActivity extends AppCompatActivity {
         uniCampusCode = selectedUniversity.getCampusCode();
 
         building = getBuildingFromLastActivity();
-        buildingCode = building.getBuildingAcronym();
         buildingName = building.getName();
         isBuildingFav = favoriteHandler.isBuildingInFavorites(this, building);
 

@@ -86,25 +86,6 @@
                 android:paddingEnd="16dp"
                 >
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Bygning: "
-                    android:id="@+id/building_name_text"
-                    android:textSize="24sp"
-                    android:layout_gravity="center_vertical"
-                    android:fontFamily="sans-serif-thin"
-                    android:lines="1"
-                    android:scrollHorizontally="true"
-                    android:ellipsize="end"
-                    />
-
-
-
-
-
-
-
                 <com.ramotion.foldingcell.FoldingCell
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@+id/folding_cell"

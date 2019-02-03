@@ -4,8 +4,6 @@
     <string name="action_settings">Settings</string>
     <string name="add_elem_to_fav">\\u0020is added to favorites</string>
     <string name="app_title">Romplan</string>
-    <string name="app_title_uib">Romplan for UiB</string>
-    <string name="app_title_uib_beta">Romplan for UiB (Beta)</string>
     <string name="event_added">The event will be added to your calendar.</string>
     <string name="event_cancel">Back</string>
     <string name="event_no_descript">No description</string>

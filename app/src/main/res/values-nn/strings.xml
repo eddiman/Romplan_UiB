@@ -4,8 +4,6 @@
     <string name="action_settings">Innstillingar</string>
     <string name="add_elem_to_fav">\u0020er lagt til i favorittar</string>
     <string name="app_title">Romplan</string>
-    <string name="app_title_uib">Romplan for UiB</string>
-    <string name="app_title_uib_beta">Romplan for UiB (Beta)</string>
     <string name="event_added">Hendinga vert lagt til i kalendaren din.</string>
     <string name="event_cancel">Tilbake</string>
     <string name="event_no_descript">Inga beskriving</string>
