@@ -136,7 +136,7 @@ public class RoomAdapter extends ArrayAdapter<Room> {
         Calendar c = Calendar.getInstance();
         //Normalizing the weeks, Java calculates the range of week going from 1 to 53, week definitions changes depending on local/region set on phone
         c.setFirstDayOfWeek(Calendar.MONDAY);
-        c.setMinimalDaysInFirstWeek(7);
+        //c.setMinimalDaysInFirstWeek(7);
         int week = c.get(Calendar.WEEK_OF_YEAR);
 
 
