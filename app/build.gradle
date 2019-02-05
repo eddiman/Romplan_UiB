@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
 
@@ -9,8 +9,8 @@ android {
         applicationId "com.pensive.android.romplanuib"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 10
-        versionName "1.2"
+        versionCode 11
+        versionName "2.0"
         multiDexEnabled true
     }
     buildTypes {
@@ -24,10 +24,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation'com.ramotion.foldingcell:folding-cell:1.2.1'
-    implementation'com.android.support:appcompat-v7:27.1.1'
-    implementation'com.android.support:design:27.1.1'
-    implementation'com.android.support:recyclerview-v7:27.1.1'
-    implementation'com.android.support:cardview-v7:27.1.1'
+    implementation'com.android.support:appcompat-v7:28.0.0'
+    implementation'com.android.support:design:28.0.0'
+    implementation'com.android.support:recyclerview-v7:28.0.0'
+    implementation'com.android.support:cardview-v7:28.0.0'
     implementation'org.jsoup:jsoup:1.9.2'
     implementation'com.google.code.gson:gson:2.8.2'
     implementation'com.squareup.picasso:picasso:2.71828'
@@ -37,7 +37,7 @@ dependencies {
     implementation'com.lapism:searchview:3.8'
     implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation'com.google.firebase:firebase-appindexing:17.1.0'
-    implementation'com.android.support:support-v4:27.1.1'
+    implementation'com.android.support:support-v4:28.0.0'
     implementation'com.android.support.constraint:constraint-layout:1.1.3'
     implementation'com.squareup.retrofit2:retrofit:2.5.0'
     implementation'com.squareup.retrofit2:converter-gson:2.5.0'
