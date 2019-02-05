@@ -67,6 +67,9 @@ public class University {
 
     public List<Building> getAllBuildings(){
         ArrayList<Building> buildings = new ArrayList<>();
+        if (areas == null) {
+            return null;
+        }
         for(Area area : areas){
             buildings.addAll(area.getBuildings());
         }
