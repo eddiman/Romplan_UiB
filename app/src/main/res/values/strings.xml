@@ -2,7 +2,7 @@
 
     <!--Generelt -->
     <string name="main_title">Romplan</string>
-    <string name="splash_title">Romplan for</string>
+    <string name="splash_title">"Romplan for "</string>
     <string name="app_title">Romplan</string>
     <string name="load_data_string">Henter data…</string>
     <string name="load_data_string_multiple_mins">Henter data, dette kan ta et par minutter…</string>

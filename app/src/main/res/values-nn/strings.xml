@@ -27,7 +27,7 @@
 
     <string name="remove_elem_from_fav">\u0020er fjerna frå favorittar</string>
     <string name="search_buildings">Søk etter bygningar…</string>
-    <string name="splash_title">Romplan for </string>
+    <string name="splash_title">"Romplan for "</string>
     <string name="tab_buildings">BYGNINGAR</string>
     <string name="tab_favorites">FAVORITTAR</string>
     <string name="title_activity_settings">Innstillingar</string>

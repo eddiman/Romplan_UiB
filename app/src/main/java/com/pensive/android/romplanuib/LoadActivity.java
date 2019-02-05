@@ -82,7 +82,7 @@ public class LoadActivity extends AppCompatActivity {
         Drawable splashLogoRes = ResourcesCompat.getDrawable(getResources(), logoRes, null);
         splashLogo.setImageDrawable(splashLogoRes);
 
-        splashTitle.setText(getResources().getText(R.string.splash_title) + " ");
+        splashTitle.setText(getResources().getText(R.string.splash_title));
         switch (uniCampusCode){
             case "uib":
                 splashTitle.append(getResources().getText(R.string.uni_bergen));

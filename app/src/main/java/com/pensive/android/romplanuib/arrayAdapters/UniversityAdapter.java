@@ -76,9 +76,9 @@ public class UniversityAdapter extends ArrayAdapter<University> {
             holder = new CampusHolder();
             row = inflater.inflate(textViewResourceId, parent, false);
 
-            holder.campusImage = (ImageView) row.findViewById(R.id.campus_card_image);
-            holder.campusLogo = (ImageView) row.findViewById(R.id.campus_logo);
-            holder.campusText = (TextView) row.findViewById(R.id.campus_card_string1);
+            holder.universityImage = (ImageView) row.findViewById(R.id.campus_card_image);
+            holder.universityLogo = (ImageView) row.findViewById(R.id.campus_logo);
+            holder.universityText = (TextView) row.findViewById(R.id.university_card_string);
 
             row.setTag(holder);
 
@@ -103,14 +103,14 @@ public class UniversityAdapter extends ArrayAdapter<University> {
                 .centerCrop()
                 .fit()
                 .transform(transformations)
-                .into(holder.campusImage);
+                .into(holder.universityImage);
 
         Picasso.get()
                 .load(logoResource)
                 .fit()
-                .into(holder.campusLogo);
+                .into(holder.universityLogo);
 
-        holder.campusText.setText(university.getName());
+        holder.universityText.setText(university.getName());
 
 
         row.setOnClickListener(new View.OnClickListener(){
@@ -131,9 +131,9 @@ public class UniversityAdapter extends ArrayAdapter<University> {
 
     private class CampusHolder
     {
-        TextView campusText;
-        ImageView campusImage;
-        ImageView campusLogo;
+        TextView universityText;
+        ImageView universityImage;
+        ImageView universityLogo;
 
     }
 
