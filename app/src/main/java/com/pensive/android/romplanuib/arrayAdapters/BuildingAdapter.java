@@ -50,7 +50,7 @@ public class BuildingAdapter extends ArrayAdapter<Building> implements SectionIn
         mapIndex = new LinkedHashMap<String, Integer>();
 
         for (int x = 0; x < buildings.size(); x++) {
-            String building = buildings.get(x).getBuildingAcronym();
+            String building = buildings.get(x).getBuildingID();
             String ch = building.substring(0, 1);
             ch = ch.toUpperCase();
 
@@ -92,7 +92,6 @@ public class BuildingAdapter extends ArrayAdapter<Building> implements SectionIn
             row = inflater.inflate(textViewResourceId, parent, false);
 
 
-            holder.buildCode = (TextView) row.findViewById(R.id.building_code);
             holder.buildText = (TextView) row.findViewById(R.id.building_name);
             row.setTag(holder);
         } else {
@@ -101,9 +100,7 @@ public class BuildingAdapter extends ArrayAdapter<Building> implements SectionIn
         }
 
         Building uibBuilding = buildings.get(position);
-        holder.buildCode.setTypeface(bebasFont);
         holder.buildText.setText(uibBuilding.getName());
-        holder.buildCode.setText(uibBuilding.getBuildingAcronym());
 
 
         row.setOnClickListener(new View.OnClickListener(){
@@ -139,6 +136,5 @@ public class BuildingAdapter extends ArrayAdapter<Building> implements SectionIn
     private class BuildingHolder
     {
         TextView buildText;
-        TextView buildCode;
     }
 }

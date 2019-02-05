@@ -54,9 +54,6 @@ public abstract class Unit implements Serializable{
         this.imageURL = imageURL;
     }
 
-    public String getBuildingAcronym(){
-        return "XXX";//TODO implement properly
-    }
 
     @Override
     public String toString() {

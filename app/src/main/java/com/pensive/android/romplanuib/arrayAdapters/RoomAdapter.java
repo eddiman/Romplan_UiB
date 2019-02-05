@@ -64,7 +64,6 @@ public class RoomAdapter extends ArrayAdapter<Room> {
     public View getView(final int position, View convertView, ViewGroup parent){
         View row = convertView;
         RoomHolder holder = null;
-        buildingCode = rooms.get(position).getBuildingAcronym();
         DataManager dataManager = new DataManager();
         selectedUniversity = dataManager.getSavedObjectFromSharedPref(context, "university", new TypeToken<University>(){}.getType());
 
