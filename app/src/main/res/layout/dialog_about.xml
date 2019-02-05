@@ -42,7 +42,6 @@
                 android:text="@string/pref_about_us_text_info_science_url"
                 android:layout_width="wrap_content"
                 android:id="@+id/pref_about_us_text_2"
-                android:layout_toEndOf="@+id/pref_about_us_text_1"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:layout_marginStart="2dp"
@@ -52,11 +51,12 @@
                 android:autoLink="web"
                 android:textColorLink="@color/accent_blue"
                 android:clickable="true"
+                android:layout_below="@id/pref_about_us_text_1"
                 />
             <TextView
                 android:text="@string/pref_about_us_text_2"
                 android:id="@+id/pref_about_us_text_3"
-                android:layout_below="@+id/pref_about_us_text_1"
+                android:layout_below="@+id/pref_about_us_text_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"

@@ -58,14 +58,14 @@
     <string name="pref_change_uni_3">Tilbake</string>
 
     <string name="pref_about_us">Om utviklerene</string>
-    <string name="pref_about_us_text_1">Vi er to studenter som studerer </string>
+    <string name="pref_about_us_text_1">"Appen er utviklet av to tidligere studenter i "</string>
     <string name="pref_about_us_text_info_science_url"><a href="http://www.uib.no/studieprogram/BASV-INFO" target="_top">Informasjonsvitenskap</a></string>
 
-    <string name="pref_about_us_text_2">på UiB som har utviklet denne appen på fritiden.</string>
+    <string name="pref_about_us_text_2">ved Universitetet i Bergen.</string>
     <string name="pref_about_us_text_3">Utviklerene</string>
     <string name="pref_about_us_text_4" translatable="false">Edvard Pires Bjørgen</string>
-    <string name="pref_about_us_text_5" translatable="false">Fredrik V. Heimsæter</string>
-    <string name="pref_about_us_text_6">Denne appen er ikke utviklet eller offisielt fra UiB.</string>
+    <string name="pref_about_us_text_5" translatable="false">Fredrik Vonheim Heimsæter</string>
+    <string name="pref_about_us_text_6">Denne appen er ikke utviklet eller offisielt fra noen av de omtalte universitetene.</string>
 
 
     <!-- Licenses -->
@@ -149,6 +149,22 @@ limitations under the License.
     <string name="all_buildings">Alle bygninger</string>
     <string name="favorites">Favoritter</string>
     <string name="error_timeout">Tilkoblingen tok for lang tid, prøv igjen</string>
+    <string name="android_week_view" translatable="false">Android Week View</string>
+    <string name="android_week_view_url" translatable="false">github.com/alamkanak/Android-Week-View</string>
+    <string name="google_gson" translatable="false">Google GSON</string>
+    <string name="google_gson_url" translatable="false">github.com/google/gson</string>
+    <string name="picasso" translatable="false">Picasso</string>
+    <string name="picasso_url" translatable="false">square.github.io/picasso/</string>
+    <string name="picasso_tranformation" translatable="false">Picasso Tranformation</string>
+    <string name="picasso_tranformation_url" translatable="false">github.com/wasabeef/picasso-transformations</string>
+    <string name="roundedimageview" translatable="false">RoundedImageView</string>
+    <string name="roundedimageview_url" translatable="false">github.com/vinc3m1/RoundedImageView</string>
+    <string name="searchview" translatable="false">SearchView</string>
+    <string name="searchview_url" translatable="false">github.com/lapism/SearchView</string>
+    <string name="romsjekkeren_uib" translatable="false">Romsjekkeren UiB</string>
+    <string name="romsjekkerenuib_url" translatable="false">github.com/gauteremen/romsjekkerenUiB</string>
+    <string name="tp_url" translatable="false">tp.uio.no</string>
+    <string name="github_repo_url" translatable="false">github.com/eddiman/Romplan_UiB</string>
 
 
 </resources>

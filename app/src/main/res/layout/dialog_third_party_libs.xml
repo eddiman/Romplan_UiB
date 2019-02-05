@@ -42,7 +42,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-thin"
-                        android:text="Android Week View"
+                        android:text="@string/android_week_view"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="18sp" />
 
@@ -51,7 +51,7 @@
                         android:layout_height="wrap_content"
                         android:autoLink="web"
                         android:fontFamily="sans-serif-thin"
-                        android:text="github.com/alamkanak/Android-Week-View"
+                        android:text="@string/android_week_view_url"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="12sp" />
 
@@ -68,7 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-thin"
-                        android:text="Google GSON"
+                        android:text="@string/google_gson"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="18sp" />
 
@@ -77,7 +77,7 @@
                         android:layout_height="wrap_content"
                         android:autoLink="web"
                         android:fontFamily="sans-serif-thin"
-                        android:text="github.com/google/gson"
+                        android:text="@string/google_gson_url"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="12sp" />
 
@@ -94,7 +94,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-thin"
-                        android:text="Picasso"
+                        android:text="@string/picasso"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="18sp" />
 
@@ -103,7 +103,7 @@
                         android:layout_height="wrap_content"
                         android:autoLink="web"
                         android:fontFamily="sans-serif-thin"
-                        android:text="square.github.io/picasso/"
+                        android:text="@string/picasso_url"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="12sp" />
 
@@ -120,7 +120,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-thin"
-                        android:text="Picasso Tranformation"
+                        android:text="@string/picasso_tranformation"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="18sp" />
 
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:autoLink="web"
                         android:fontFamily="sans-serif-thin"
-                        android:text="github.com/wasabeef/picasso-transformations"
+                        android:text="@string/picasso_tranformation_url"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="12sp" />
 
@@ -146,7 +146,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-thin"
-                        android:text="RoundedImageView"
+                        android:text="@string/roundedimageview"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="18sp" />
 
@@ -155,7 +155,7 @@
                         android:layout_height="wrap_content"
                         android:autoLink="web"
                         android:fontFamily="sans-serif-thin"
-                        android:text="github.com/vinc3m1/RoundedImageView"
+                        android:text="@string/roundedimageview_url"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="12sp" />
 
@@ -172,7 +172,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-thin"
-                        android:text="SearchView"
+                        android:text="@string/searchview"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="18sp" />
 
@@ -181,7 +181,7 @@
                         android:layout_height="wrap_content"
                         android:autoLink="web"
                         android:fontFamily="sans-serif-thin"
-                        android:text="github.com/lapism/SearchView"
+                        android:text="@string/searchview_url"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="12sp" />
 
@@ -198,7 +198,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-thin"
-                        android:text="Romsjekkeren UiB"
+                        android:text="@string/romsjekkeren_uib"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="18sp" />
 
@@ -207,7 +207,7 @@
                         android:layout_height="wrap_content"
                         android:autoLink="web"
                         android:fontFamily="sans-serif-thin"
-                        android:text="github.com/gauteremen/romsjekkerenUiB"
+                        android:text="@string/romsjekkerenuib_url"
                         android:textColor="@color/secondary_text_white"
                         android:textSize="12sp"
 
@@ -239,7 +239,7 @@
                     android:layout_marginBottom="8dp"
                     android:autoLink="web"
                     android:fontFamily="sans-serif-light"
-                    android:text="rom.app.uib.no/rominfo/"
+                    android:text="@string/tp_url"
 
                     android:textSize="16sp"
 
@@ -258,7 +258,7 @@
                     android:layout_marginBottom="16dp"
                     android:autoLink="web"
                     android:fontFamily="sans-serif-light"
-                    android:text="github.com/eddiman/Romplan_UiB"
+                    android:text="@string/github_repo_url"
                     android:textSize="16sp" />
 
                 <View
@@ -283,7 +283,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-thin"
-                    android:text="Android Week View"
+                    android:text="@string/android_week_view"
                     android:textColor="@color/secondary_text_white"
                     android:textSize="18sp" />
 
@@ -300,7 +300,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-thin"
-                    android:text="Google GSON"
+                    android:text="@string/google_gson"
                     android:textColor="@color/secondary_text_white"
                     android:textSize="18sp" />
 
@@ -317,7 +317,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-thin"
-                    android:text="Picasso"
+                    android:text="@string/picasso"
                     android:textColor="@color/secondary_text_white"
                     android:textSize="18sp" />
 
@@ -334,7 +334,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-thin"
-                    android:text="Picasso Transformations"
+                    android:text="@string/picasso_tranformation"
                     android:textColor="@color/secondary_text_white"
                     android:textSize="18sp" />
 
@@ -351,7 +351,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-thin"
-                    android:text="Rounded ImageView"
+                    android:text="@string/roundedimageview"
                     android:textColor="@color/secondary_text_white"
                     android:textSize="18sp" />
 
