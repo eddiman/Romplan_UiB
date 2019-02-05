@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.pensive.android.romplanuib"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 10
         versionName "1.2"
         multiDexEnabled true
