@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class ApiClient {
-    public static final String API_BASE_URL = "http://tp.freheims.xyz/api/";
+    public static final String API_BASE_URL = "https://timeplanleggar.no/api/";
 
     private static Retrofit retrofit = null;
 
