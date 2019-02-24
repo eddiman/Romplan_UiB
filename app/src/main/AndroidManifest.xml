@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pensive.android.romplanuib"
-
-    >
+    package="com.pensive.android.romplanuib">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -12,9 +10,7 @@
         android:icon="@mipmap/ic_room"
         android:label="@string/app_title"
         android:supportsRtl="true"
-        android:theme="@style/BlueTheme"
-        android:networkSecurityConfig="@xml/network_security_config"
-        >
+        android:theme="@style/BlueTheme">
 
         <activity
             android:name=".SelectUniversityActivity"

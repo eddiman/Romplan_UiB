@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.pensive.android.romplanuib"
-        minSdkVersion 24
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 11
         versionName "2.0"
