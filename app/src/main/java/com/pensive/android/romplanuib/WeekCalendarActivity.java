@@ -3,6 +3,7 @@ package com.pensive.android.romplanuib;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.Typeface;
@@ -33,8 +34,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
-import com.alamkanak.weekview.MonthLoader;
+import com.alamkanak.weekview.EventClickListener;
+import com.alamkanak.weekview.MonthChangeListener;
 import com.alamkanak.weekview.WeekView;
+import com.alamkanak.weekview.WeekViewDisplayable;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -60,6 +63,7 @@ import com.squareup.picasso.Transformation;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -77,7 +81,7 @@ import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
  * @author Edvard Bjørgen & Fredrik Heimsæter
  * @version 2.0
  */
-public class WeekCalendarActivity extends AppCompatActivity implements MonthLoader.MonthChangeListener {
+public class WeekCalendarActivity extends AppCompatActivity implements MonthChangeListener {
 
 
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -152,7 +156,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build(); //TODO: What is this?
     }
 
     private void initGUI() {
@@ -180,83 +184,12 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         }
 
 
-        initIndoorMap();
-
-
         setRoomImage();
         setCollapsingTitles();
         setWeekButtons();
-        setGoToMazeMap();
-
         updateWeekTextView();
 
 
-    }
-
-    private void initIndoorMap() {
-
-        //TODO: Reenable mazemap
-        switch (uniCampusCode) {
-            case "uib":
-                //initFoldingCellMazeMap();
-                //initMazeMap();
-                break;
-
-            default:
-                break;
-
-        }
-    }
-
-    private void initFoldingCellMazeMap() {
-        final FoldingCell fc = (FoldingCell) findViewById(R.id.folding_cell);
-
-        // attach click listener to folding cell
-        fc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fc.toggle(false);
-            }
-        });
-    }
-
-    private void initMazeMap() {
-
-        mazeMapWebView.getSettings().setJavaScriptEnabled(true);
-
-        // Add a WebViewClient
-        mazeMapWebView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-
-                // Inject CSS when page is done loading
-                injectCSS();
-                super.onPageFinished(view, url);
-            }
-        });
-        mazeMapWebView.loadUrl(room.getMazeMapUrl() + "&zoom=17");
-    }
-
-
-    private void injectCSS() {
-        try {
-            InputStream inputStream = getAssets().open("mazemap.css");
-            byte[] buffer = new byte[inputStream.available()];
-            inputStream.read(buffer);
-            inputStream.close();
-            String encoded = Base64.encodeToString(buffer, Base64.NO_WRAP);
-            mazeMapWebView.loadUrl("javascript:(function() {" +
-                    "var parent = document.getElementsByTagName('head').item(0);" +
-                    "var style = document.createElement('style');" +
-                    "style.type = 'text/css';" +
-                    // Tell the browser to BASE64-decode the string into your script !!!
-                    "style.innerHTML = window.atob('" + encoded + "');" +
-                    "parent.appendChild(style)" +
-                    "})()");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -272,7 +205,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     protected void setAppBarLayoutHeightOfScreenPercent(@IntRange(from = 20, to = 50) int percent) {
         setAppBarLayoutHeightOfScreenWeight(percent / 100F);
     }
-
 
     /**
      * 1w
@@ -294,10 +226,11 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         if (mWeekView != null) {
             mWeekView.setMonthChangeListener(this);
-            mWeekView.setOnEventClickListener(new WeekView.EventClickListener() {
+            mWeekView.setOnEventClickListener(new EventClickListener<CalActivity>() {
+
                 @Override
-                public void onEventClick(WeekViewEvent event, RectF eventRect) {
-                    createEventDialog(event);
+                public void onEventClick(CalActivity event, RectF eventRect) {
+                    createEventDialog(event.toWeekViewEvent());
 
                 }
             });
@@ -306,6 +239,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             Formatting the date into dd.MM, standard was MM/dd
              */
             mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
+                @NotNull
                 @Override
                 public String interpretDate(Calendar date) {
                     try {
@@ -317,6 +251,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                     }
                 }
 
+                @NotNull
                 @Override
                 public String interpretTime(int hour) {
                     Calendar calendar = Calendar.getInstance();
@@ -341,7 +276,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      * @param event the event to be displayed
      */
     private void createEventDialog(WeekViewEvent event) {
-        String[] eventData = event.getName().split(" - ", 2);
+        String[] eventData = event.getTitle().split(" - ", 2);
 
 
         final AlertDialog dialog = new AlertDialog.Builder(this, theme.getDialogThemeFromCampusCode(this, selectedUniversity.getCampusCode()))
@@ -545,27 +480,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     }
 
-    private void setGoToMazeMap() {
-
-        goToMazeMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String mazeUrl = room.getMazeMapUrl();
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mazeUrl));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setPackage("com.android.chrome");
-                try {
-                    startActivity(intent);
-                } catch (ActivityNotFoundException ex) {
-                    // Chrome browser presumably not installed so allow user to choose instead
-                    intent.setPackage(null);
-                    startActivity(intent);
-                }
-
-            }
-        });
-    }
-
     /**
      * Empties the event list completely
      */
@@ -728,11 +642,12 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         List<CalActivity> calendarActivityList = calendarActivityListEvent.getListOfCalendarActivities();
         for (int i = 0; i < calendarActivityList.size(); i++) {
 
-            WeekViewEvent event = new WeekViewEvent(i, calendarActivityList.get(i).getCourseID() + " " + calendarActivityList.get(i).getTeachingMethodName() + " - " + calendarActivityList.get(i).getSummary(), calendarActivityList.get(i).getBeginTime(), calendarActivityList.get(i).getEndTime());
+
+            WeekViewEvent event = new WeekViewEvent(i, calendarActivityList.get(i).getCourseID() + " " + calendarActivityList.get(i).getTeachingMethodName() + " - " + calendarActivityList.get(i).getSummary(), calendarActivityList.get(i).getBeginTime(), calendarActivityList.get(i).getEndTime(), "location", Color.GREEN, false, calendarActivityList.get(i));
 
             event.setColor(rnd.getRandomColorFilter());
             events.add(event);
-            mWeekView.notifyDatasetChanged();
+            mWeekView.notifyDataSetChanged();
         }
     }
 
@@ -772,5 +687,18 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    @NotNull
+    @Override
+    public List<WeekViewDisplayable> onMonthChange(@NotNull Calendar calendar, @NotNull Calendar calendar1) {
+        ArrayList<WeekViewEvent> eventsInMonth = new ArrayList<>();
+        for (WeekViewEvent event : events) {
+            if (event.getStartTime().after(calendar) && event.getEndTime().before(calendar1)) {
+                eventsInMonth.add(event);
+            }
+
+        }
+        return new ArrayList<WeekViewDisplayable>(eventsInMonth);
     }
 }

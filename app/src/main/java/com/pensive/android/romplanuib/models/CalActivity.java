@@ -1,6 +1,12 @@
 package com.pensive.android.romplanuib.models;
 
+import android.graphics.Color;
+
+import com.alamkanak.weekview.WeekViewDisplayable;
+import com.alamkanak.weekview.WeekViewEvent;
 import com.google.gson.annotations.SerializedName;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -11,7 +17,7 @@ import java.util.Locale;
  * @author Edvard Bjørgen & Fredrik Heimsæter
  * @version 2.0
  */
-public class CalActivity implements CalActivityInterface {
+public class CalActivity implements CalActivityInterface, WeekViewDisplayable<CalActivity> {
     @SerializedName("semesterid")
     private String semesterID;
     @SerializedName("courseid")
@@ -135,5 +141,9 @@ public class CalActivity implements CalActivityInterface {
     }
 
 
-
+    @NotNull
+    @Override
+    public WeekViewEvent<CalActivity> toWeekViewEvent() {
+        return new WeekViewEvent<>(1,courseID + " " + teachingMethodName + " - " + summary, parseCalendarDate(beginTime), parseCalendarDate(endTime), "location", Color.GREEN, false, this);
+    }
 }
