@@ -20,7 +20,6 @@ public class Room extends Unit implements Serializable{
     private int roomSize;
     @SerializedName("building")
     private String buildingID;
-    private String mazeMapUrl;
 
     public Room(String universityID, String areaID, String name) {
         super(universityID, areaID, name);
@@ -55,11 +54,6 @@ public class Room extends Unit implements Serializable{
         return buildingID;
     }
 
-    public String getMazeMapUrl() {
-        return mazeMapUrl;
-    }
-
-
     @Override
     public String toString() {
         return "Room{" +
@@ -71,7 +65,6 @@ public class Room extends Unit implements Serializable{
                 ", name='" + this.getName() + '\'' +
                 ", roomSize=" + roomSize +
                 ", buildingID='" + buildingID + '\'' +
-                ", mazeMapUrl='" + mazeMapUrl + '\'' +
                 '}';
     }
 

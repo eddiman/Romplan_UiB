@@ -41,8 +41,6 @@
 
     <string name="unicampus_chosen_area">has been chosen</string>
     <string name="unicampus_choose_area">Choose an area in</string>
-    <string name="mazemap">Indoor map</string>
-    <string name="mazemap_goto_url">Show in browser</string>
 
     <string name="pref_about_us">About the developers</string>
 

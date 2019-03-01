@@ -21,8 +21,6 @@
     <string name="pref_version">Versjon</string>
     <string name="building">Bygning</string>
     <string name="something_wrong">Noko gjekk gale, prøv å laste inn rommet på nytt.</string>
-    <string name="mazemap">Innandørskart</string>
-    <string name="mazemap_goto_url">Vis i nettlesar</string>
 
 
     <string name="remove_elem_from_fav">\u0020er fjerna frå favorittar</string>

@@ -96,7 +96,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthChan
     int currentWeekNumber;
     DateFormatter df;
     String loadDataString;
-    private Button goToMazeMap;
     Boolean isRoomfav;
 
     EventQueries eventQueries;
@@ -113,7 +112,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthChan
     ThemeSelector theme = new ThemeSelector();
     String uniCampusCode;
     University selectedUniversity;
-    private WebView mazeMapWebView;
 
 
     @Override
@@ -163,8 +161,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthChan
         roomImage = (ImageView) findViewById(R.id.backdrop_room);
         mWeekView = (WeekView) findViewById(R.id.weekView);
         weekNumber = (TextView) findViewById(R.id.week_text);
-        goToMazeMap = (Button) findViewById(R.id.goto_mazemap);
-        mazeMapWebView = (WebView) findViewById(R.id.mazemap_webview);
 
         mWeekView.goToDate(weekDayChanged);
         mWeekView.goToHour(7);

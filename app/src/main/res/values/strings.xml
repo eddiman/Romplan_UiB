@@ -38,8 +38,6 @@
     <string name="week">Uke</string>
     <string name="building">Bygning</string>
     <string name="something_wrong">Noe gikk galt, prøv å laste inn rommet på nytt.</string>
-    <string name="mazemap">Innendørskart</string>
-    <string name="mazemap_goto_url">Vis i nettleser</string>
 
     <!--SettingsActivity -->
     <string name="pref_title">Innstillinger</string>

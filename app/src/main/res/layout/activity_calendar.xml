@@ -86,109 +86,6 @@
                 android:paddingEnd="16dp"
                 >
 
-                <com.ramotion.foldingcell.FoldingCell
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/folding_cell"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
-
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/cell_content_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:cardBackgroundColor="@color/primary_blue"
-                        android:visibility="gone"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-                        >
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            >
-                        <WebView
-                            android:layout_width="match_parent"
-                            android:layout_height="390dp"
-                            android:id="@+id/mazemap_webview"
-                            android:layout_marginBottom="48dp"
-
-                            />
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="48dp"
-                                android:layout_alignParentBottom="true"
-                                android:padding="4dp">
-                                <Button
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="42dp"
-                                    android:background="?android:attr/selectableItemBackground"
-                                    android:text="@string/mazemap_goto_url"
-                                    android:layout_alignParentBottom="true"
-                                    android:layout_alignParentStart="true"
-                                    android:id="@+id/goto_mazemap"
-                                    android:textColor="@color/accent_blue"
-                                    android:paddingLeft="4dp"
-                                    android:paddingRight="4dp"
-                                    />
-
-                                <ImageView
-                                    android:layout_width="56dp"
-                                    android:layout_height="42dp"
-                                    android:foreground="?android:attr/selectableItemBackground"
-                                    android:src="@drawable/ic_expand_less"
-                                    android:background="#00ffffff"
-                                    android:layout_gravity="end"
-                                    android:layout_alignParentBottom="true"
-                                    android:layout_alignParentEnd="true"
-
-                                    />
-                            </RelativeLayout>
-
-                        </RelativeLayout>
-
-                    </android.support.v7.widget.CardView>
-
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/cell_title_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardBackgroundColor="@color/primary_blue"
-                        android:clipChildren="false"
-                        android:clipToPadding="false"
-
-                        >
-                        <RelativeLayout
-                            android:visibility="gone"
-                            android:layout_width="match_parent"
-                            android:layout_height="72dp"
-                            android:padding="8dp">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="100dp"
-                                android:text="@string/mazemap"
-                                android:textSize="22sp"
-                                android:fontFamily="@string/font_family_light"
-                                android:gravity="center_vertical"
-                                />
-
-                            <ImageView
-                                android:layout_width="56dp"
-                                android:layout_height="48dp"
-                                android:foreground="?android:attr/selectableItemBackground"
-                                android:layout_alignParentEnd="true"
-                                android:src="@drawable/ic_expand_more"
-                                android:background="#00ffffff"
-
-                                />
-                        </RelativeLayout>
-
-
-                    </android.support.v7.widget.CardView>
-
-                </com.ramotion.foldingcell.FoldingCell>
-
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -198,7 +95,6 @@
                     app:cardUseCompatPadding="true"
                     android:layout_marginBottom="4dp"
                     app:cardBackgroundColor="?attr/lightColor"
-                    android:layout_below="@id/folding_cell"
                     android:layout_marginTop="36dp"
 
                     >
