@@ -643,7 +643,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthChan
         for (int i = 0; i < calendarActivityList.size(); i++) {
 
 
-            WeekViewEvent event = new WeekViewEvent(i, calendarActivityList.get(i).getCourseID() + " " + calendarActivityList.get(i).getTeachingMethodName() + " - " + calendarActivityList.get(i).getSummary(), calendarActivityList.get(i).getBeginTime(), calendarActivityList.get(i).getEndTime(), "location", Color.GREEN, false, calendarActivityList.get(i));
+            WeekViewEvent event = new WeekViewEvent(i, calendarActivityList.get(i).getCourseID() + " " + calendarActivityList.get(i).getTeachingMethodName() + " - " + calendarActivityList.get(i).getSummary(), calendarActivityList.get(i).getBeginTime(), calendarActivityList.get(i).getEndTime(), "", Color.GREEN, false, calendarActivityList.get(i));
 
             event.setColor(rnd.getRandomColorFilter());
             events.add(event);
