@@ -16,7 +16,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pensive.android.romplanuib.LoadActivity;
 import com.pensive.android.romplanuib.R;
 import com.pensive.android.romplanuib.models.University;
-import com.pensive.android.romplanuib.queries.UniversityQueries;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.FontController;
 import com.squareup.picasso.Picasso;
@@ -42,7 +41,6 @@ public class UniversityAdapter extends ArrayAdapter<University> {
     private List<University> campuses;
     private FontController fc = new FontController();
     private Typeface bebasFont;
-    private UniversityQueries universityQueries;
     private DataManager dataManager;
 
     public UniversityAdapter(Context context, int textViewResourceId, List<University> campuses) {
