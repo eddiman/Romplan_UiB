@@ -58,6 +58,8 @@
     <string name="oslomet">OsloMet – Oslo Metropolitan University</string>
     <string name="ntnu">Norwegian University of Science and Technology</string>
     <string name="uni_tromso">UiT The Arctic University of Norway</string>
+    <string name="pref_privacy_policy">Privacy Policy</string>
+    <string name="pref_privacy_policy_text">Romplan does not save personal data. Anonymized usage statisics are used to improve this service.</string>
 
 
 </resources>

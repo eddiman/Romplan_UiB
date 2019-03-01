@@ -29,7 +29,9 @@
     <Preference
         android:title="@string/pref_about_us"
         android:key="about"/>
-
+    <Preference
+        android:title="@string/pref_privacy_policy"
+        android:key="privacy"/>
     <Preference
         android:title="@string/pref_version"
         android:summary="0.0.1"

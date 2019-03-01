@@ -150,7 +150,7 @@ limitations under the License.
     <string name="favorites">Favoritter</string>
     <string name="error_timeout">Tilkoblingen tok for lang tid, prøv igjen</string>
     <string name="android_week_view" translatable="false">Android Week View</string>
-    <string name="android_week_view_url" translatable="false">github.com/alamkanak/Android-Week-View</string>
+    <string name="android_week_view_url" translatable="false">https://github.com/thellmund/Android-Week-View</string>
     <string name="google_gson" translatable="false">Google GSON</string>
     <string name="google_gson_url" translatable="false">github.com/google/gson</string>
     <string name="picasso" translatable="false">Picasso</string>
@@ -165,6 +165,8 @@ limitations under the License.
     <string name="romsjekkerenuib_url" translatable="false">github.com/gauteremen/romsjekkerenUiB</string>
     <string name="tp_url" translatable="false">tp.uio.no</string>
     <string name="github_repo_url" translatable="false">github.com/eddiman/Romplan_UiB</string>
+    <string name="pref_privacy_policy">Personvernerklæring</string>
+    <string name="pref_privacy_policy_text">Romplan lagrer ikke persondata. Anonymisert bruksstatistikk blir brukt for å forbedre tjenesten.</string>
 
 
 </resources>

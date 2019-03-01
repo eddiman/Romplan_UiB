@@ -90,6 +90,16 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+            Preference privacyPreference = findPreference("privacy");
+            privacyPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    createPrivacyDialog();
+                    return false;
+                }
+            });
+
             Preference backPref = findPreference("key_back");
             backPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -120,6 +130,17 @@ public class SettingsActivity extends AppCompatActivity {
             dialog.show();
 
         }
+
+        private void createPrivacyDialog() {
+
+            final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.DialogBlueTheme)
+                    .setView(R.layout.dialog_privacy)
+                    .create();
+            dialog.setCancelable(true);
+            dialog.show();
+
+        }
+
         private void createChangeUniDialog() {
 
             final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.DialogBlueTheme)

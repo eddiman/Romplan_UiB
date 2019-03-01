@@ -58,5 +58,7 @@
     <string name="ntnu">Norges teknisk-naturvitenskapelige universitet</string>
     <string name="oslomet">OsloMet – storbyuniversitetet</string>
     <string name="pref_about_us_text_2">ved universitetet i Bergen</string>
+    <string name="pref_privacy_policy">Personvernerklæring</string>
+    <string name="pref_privacy_policy_text">Romplan lagrar ikkje persondata. Anonymisert bruksstatistikk blir brukt for å forbetre tenesta.</string>
 
 </resources>
