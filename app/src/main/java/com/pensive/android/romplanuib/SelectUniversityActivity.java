@@ -52,11 +52,11 @@ public class SelectUniversityActivity extends AppCompatActivity {
                 "@drawable/splash_uib_card", "UiB" );
         University uio = new University(getResources().getString(R.string.uni_oslo), "uio","@drawable/uio_logo_2",
                 "@drawable/splash_uio_card", "UiO" );
-        University uit = new University(getResources().getString(R.string.uni_tromso), "uit","@drawable/uit_logo",
+        University uit = new University(getResources().getString(R.string.uni_tromso), "uit","@drawable/uit_logo_2",
                 "@drawable/splash_uio_card", "UiT" );
-        University oslomet = new University(getResources().getString(R.string.oslomet), "oslomet","@drawable/oslomet_logo",
-                "@drawable/splash_uio_card", "OsloMet" );
-        University ntnu = new University(getResources().getString(R.string.ntnu), "ntnu","@drawable/ntnu_logo",
+        University oslomet = new University(getResources().getString(R.string.oslomet), "oslomet","@drawable/oslomet_logo_2",
+                "@drawable/splash_uib_card", "OsloMet" );
+        University ntnu = new University(getResources().getString(R.string.ntnu), "ntnu","@drawable/ntnu_logo_2",
                 "@drawable/splash_uio_card", "NTNU" );
         universityArray.add(uib);
         universityArray.add(uio);

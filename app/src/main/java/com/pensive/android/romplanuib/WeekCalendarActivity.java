@@ -1,6 +1,5 @@
 package com.pensive.android.romplanuib;
 
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,14 +20,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -56,7 +51,6 @@ import com.pensive.android.romplanuib.util.FavoriteHandler;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.Randomized;
 import com.pensive.android.romplanuib.util.ThemeSelector;
-import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -65,7 +59,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -159,7 +152,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthChan
 
     private void initGUI() {
         roomImage = (ImageView) findViewById(R.id.backdrop_room);
-        mWeekView = (WeekView) findViewById(R.id.weekView);
+        mWeekView = findViewById(R.id.weekView);
         weekNumber = (TextView) findViewById(R.id.week_text);
 
         mWeekView.goToDate(weekDayChanged);
@@ -271,7 +264,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthChan
      *
      * @param event the event to be displayed
      */
-    private void createEventDialog(WeekViewEvent event) {
+    private void createEventDialog(WeekViewEvent<CalActivity> event) {
         String[] eventData = event.getTitle().split(" - ", 2);
 
 
@@ -315,7 +308,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthChan
      * Initializes the floating action button. For adding event to personal user's calendar
      */
 
-    private void floatingActionButtonCalendarListener(final Context context, WeekViewEvent event, final String[] eventData, AlertDialog dialog) {
+    private void floatingActionButtonCalendarListener(final Context context, WeekViewEvent<CalActivity> event, final String[] eventData, AlertDialog dialog) {
         final String eventTitleCal = eventData[0];
         final long eventStartInMillis = event.getStartTime().getTimeInMillis();
         final long eventEndInMillis = event.getEndTime().getTimeInMillis();
