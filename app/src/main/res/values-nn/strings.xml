@@ -4,8 +4,6 @@
     <string name="action_settings">Innstillingar</string>
     <string name="add_elem_to_fav">\u0020er lagt til i favorittar</string>
     <string name="app_title">Romplan</string>
-    <string name="app_title_uib">Romplan for UiB</string>
-    <string name="app_title_uib_beta">Romplan for UiB (Beta)</string>
     <string name="event_added">Hendinga vert lagt til i kalendaren din.</string>
     <string name="event_cancel">Tilbake</string>
     <string name="event_no_descript">Inga beskriving</string>
@@ -23,13 +21,11 @@
     <string name="pref_version">Versjon</string>
     <string name="building">Bygning</string>
     <string name="something_wrong">Noko gjekk gale, prøv å laste inn rommet på nytt.</string>
-    <string name="mazemap">Innandørskart</string>
-    <string name="mazemap_goto_url">Vis i nettlesar</string>
 
 
     <string name="remove_elem_from_fav">\u0020er fjerna frå favorittar</string>
     <string name="search_buildings">Søk etter bygningar…</string>
-    <string name="splash_title">Romplan for </string>
+    <string name="splash_title">"Romplan for "</string>
     <string name="tab_buildings">BYGNINGAR</string>
     <string name="tab_favorites">FAVORITTAR</string>
     <string name="title_activity_settings">Innstillingar</string>
@@ -41,12 +37,11 @@
     <string name="pref_change_uni_3">Tilbake</string>
 
     <string name="pref_about_us">Om utviklarane</string>
-    <string name="pref_about_us_text_1">på UiB som har utvikla denne appen på fritida.</string>
+    <string name="pref_about_us_text_1">"Appen er utvikla av to tidlegare studentar i "</string>
     <string name="pref_about_us_text_info_science_url"><a href="http://www.uib.no/studieprogram/BASV-INFO" target="_top">Informasjonsvitskap</a></string>
 
-    <string name="pref_about_us_text_2">på UiB som har utvikla denne appen på fritiden.</string>
     <string name="pref_about_us_text_3">Utviklarane</string>
-    <string name="pref_about_us_text_6">Denne appen er ikkje utvikla eller offisielt frå UiB.</string>
+    <string name="pref_about_us_text_6">Denne appen er ikkje utvikla eller offisielt frå nokon av dei omtala universiteta.</string>
 
 
     <string name="uni_bergen">Universitetet i Bergen</string>
@@ -57,5 +52,11 @@
     <string name="all_buildings">Alle bygningar</string>
     <string name="favorites">Favorittar</string>
     <string name="error_timeout">Tilkoplinga tok for lang tid, prøv igjen</string>
+    <string name="uni_tromso">UiT Noregs arktiske universitet</string>
+    <string name="ntnu">Norges teknisk-naturvitenskapelige universitet</string>
+    <string name="oslomet">OsloMet – storbyuniversitetet</string>
+    <string name="pref_about_us_text_2">ved universitetet i Bergen</string>
+    <string name="pref_privacy_policy">Personvernerklæring</string>
+    <string name="pref_privacy_policy_text">Romplan lagrar ikkje persondata. Anonymisert bruksstatistikk blir brukt for å forbetre tenesta.</string>
 
 </resources>

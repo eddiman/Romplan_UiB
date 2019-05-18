@@ -1,4 +1,4 @@
-package com.pensive.android.romplanuib.ArrayAdapters;
+package com.pensive.android.romplanuib.arrayAdapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,12 +26,12 @@ import java.util.List;
 public class FavoriteAdapter extends ArrayAdapter<Unit> {
 
 
-    LayoutInflater inflater;
-    Context context;
-    int textViewResourceId;
-    List<Unit> units;
-    FontController fc = new FontController();
-    Typeface bebasFont;
+    private LayoutInflater inflater;
+    private Context context;
+    private int textViewResourceId;
+    private List<Unit> units;
+    private FontController fc = new FontController();
+    private Typeface bebasFont;
 
 
     public FavoriteAdapter(Context context, int textViewResourceId, List<Unit> units) {
@@ -65,7 +65,6 @@ public class FavoriteAdapter extends ArrayAdapter<Unit> {
             row = inflater.inflate(textViewResourceId, parent, false);
 
 
-            holder.buildCode = (TextView) row.findViewById(R.id.favorite_building_code);
             holder.unitName = (TextView) row.findViewById(R.id.favorite_name);
             row.setTag(holder);
         } else {
@@ -73,10 +72,8 @@ public class FavoriteAdapter extends ArrayAdapter<Unit> {
         }
 
         Unit uibUnit = units.get(position);
-        holder.buildCode.setTypeface(bebasFont);
         String name = uibUnit.getName();
         holder.unitName.setText(name);
-        holder.buildCode.setText(uibUnit.getBuildingAcronym());
 
 
 
@@ -105,7 +102,6 @@ public class FavoriteAdapter extends ArrayAdapter<Unit> {
     private class UnitHolder
     {
         TextView unitName;
-        TextView buildCode;
     }
     /**
      * Gets the current week number, to send to next activity with the room.

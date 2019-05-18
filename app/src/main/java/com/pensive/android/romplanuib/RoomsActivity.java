@@ -2,7 +2,6 @@ package com.pensive.android.romplanuib;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
@@ -21,11 +20,14 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.pensive.android.romplanuib.ArrayAdapters.RoomAdapter;
-import com.pensive.android.romplanuib.io.util.URLEncoding;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.gson.reflect.TypeToken;
+import com.pensive.android.romplanuib.arrayAdapters.RoomAdapter;
+import com.pensive.android.romplanuib.util.FavoriteHandler;
+import com.pensive.android.romplanuib.util.io.URLEncoding;
 import com.pensive.android.romplanuib.models.Building;
 import com.pensive.android.romplanuib.models.Room;
-import com.pensive.android.romplanuib.models.UniCampus;
+import com.pensive.android.romplanuib.models.University;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.ThemeSelector;
@@ -40,43 +42,52 @@ import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 
 /**
  * @author Edvard Bjørgen & Fredrik Heimsæter
- * @version 1.0
+ * @version 2.0
  */
 public class RoomsActivity extends AppCompatActivity {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     Building building;
     List<Room> errorList = new ArrayList<>();
     FontController fc = new FontController();
     String buildingName;
-    String buildingCode;
     ListView roomList;
     DataManager dataManager;
     AppBarLayout appBar;
 
     String uniCampusCode;
 
-    UniCampus selectedCampus;
+    University selectedUniversity;
 
 
     private CollapsingToolbarLayout collapsingToolbar;
-    private FloatingActionButton fab;
+    private FloatingActionButton btnFavoriteBuilding;
     private boolean isBuildingFav;
     ThemeSelector theme = new ThemeSelector();
+
+    private FavoriteHandler favoriteHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        DataManager dataManager = new DataManager(this);
-        selectedCampus = dataManager.loadCurrentUniCampusSharedPref();
+        dataManager = new DataManager();
+        favoriteHandler = new FavoriteHandler();
+        selectedUniversity = dataManager.getSavedObjectFromSharedPref(this, "university", new TypeToken<University>(){}.getType());
 
-        uniCampusCode = selectedCampus.getCampusCode();
+        uniCampusCode = selectedUniversity.getCampusCode();
 
         building = getBuildingFromLastActivity();
-        buildingCode = building.getBuildingAcronym();
         buildingName = building.getName();
-        updateDataManager();
+        isBuildingFav = favoriteHandler.isBuildingInFavorites(this, building);
+        Bundle params = new Bundle();
+        params.putString("university_code", building.getUniversityID());
+        params.putString("area_code", building.getAreaID());
+        params.putString("building_code", building.getBuildingID());
+        params.putString("building_name", building.getName());
+        mFirebaseAnalytics.logEvent("open_building", params);
 
         initGUI();
 
@@ -111,21 +122,12 @@ public class RoomsActivity extends AppCompatActivity {
         RoomAdapter adapter  = new RoomAdapter(RoomsActivity.this, R.layout.list_room_layout, building.getListOfRooms());
         roomList.setAdapter(adapter);
         roomList.setFastScrollEnabled(true);
-        checkIfBuildIsFav();
-        setAppBarLayoutHeightOfScreenDivide(2);
-
-    }
-
-    private void checkIfBuildIsFav() {
-
-        if(dataManager.getFavoriteBuildings().contains(building)) {
-            fab.setImageResource(R.drawable.ic_star_full);
-            isBuildingFav = true;
+        if(isBuildingFav){
+            btnFavoriteBuilding.setImageResource(R.drawable.ic_star_full);
         }else{
-            fab.setImageResource(R.drawable.ic_star_empty);
-            isBuildingFav = false;
-
+            btnFavoriteBuilding.setImageResource(R.drawable.ic_star_empty);
         }
+        setAppBarLayoutHeightOfScreenDivide(2);
 
     }
 
@@ -141,7 +143,7 @@ public class RoomsActivity extends AppCompatActivity {
         if( extra != null){
             extraBuilding = (Building)getIntent().getSerializableExtra("building");
         } else {
-            extraBuilding = new Building("Error building", "Error building","Error building",  errorList);
+            extraBuilding = new Building("Error building", "Error building","Error building");
         }
         return extraBuilding;
     }
@@ -167,13 +169,13 @@ public class RoomsActivity extends AppCompatActivity {
         }
 
         int color = theme.getAttributeColor(this, R.attr.transpImgColor);
-        int imageResource = getResources().getIdentifier(selectedCampus.getLogoUrl(), null, getPackageName());
+        int imageResource = getResources().getIdentifier(selectedUniversity.getLogoUrl(), null, getPackageName());
 
         List<Transformation> transformations = new ArrayList<>();
         transformations.add(new GrayscaleTransformation());
         transformations.add(new ColorFilterTransformation(color));
 
-        Picasso.with(getApplicationContext())
+        Picasso.get()
                 .load(URLEncoding.encode(url))
                 .centerCrop()
                 .fit()
@@ -185,32 +187,34 @@ public class RoomsActivity extends AppCompatActivity {
 
     /**
      * Initializes the floating action button.
-     * TODO: Use it for adding and removing favorites.
-     * TODO: Use it for adding and removing favorites.
      */
     private void floatingActionButtonFavoriteListener(final Context context) {
-        fab = (FloatingActionButton) findViewById(R.id.fabRoom);
-        if(fab != null)
-            fab.setOnClickListener(new View.OnClickListener() {
+        btnFavoriteBuilding = (FloatingActionButton) findViewById(R.id.btnFavoriteBuilding);
+        if(btnFavoriteBuilding != null)
+            btnFavoriteBuilding.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    updateDataManager();
                     Snackbar snack;
+                    Bundle params = new Bundle();
+                    params.putString("university_code", building.getUniversityID());
+                    params.putString("area_code", building.getAreaID());
+                    params.putString("building_code", building.getBuildingID());
+                    params.putString("building_name", building.getName());
                     if(!isBuildingFav) {
-                        dataManager.addFavoriteBuilding(building, findViewById(R.id.room_listView).getContext());
+                        favoriteHandler.addBuildingToFavorites(getApplicationContext(), building);
                         snack = Snackbar.make(view, building.getName() + getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
-                        fab.setImageResource(R.drawable.ic_star_full);
+                        btnFavoriteBuilding.setImageResource(R.drawable.ic_star_full);
                         isBuildingFav = true;
+                        mFirebaseAnalytics.logEvent("add_building_to_favorites", params);
                     }else{
-                        dataManager.removeFavoriteBuilding(building,findViewById(R.id.room_listView).getContext());
+                        favoriteHandler.removeBuildingFromFavorites(getApplicationContext(), building);
                         snack = Snackbar.make(view, building.getName() + getString(R.string.remove_elem_from_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
-                        fab.setImageResource(R.drawable.ic_star_empty);
+                        btnFavoriteBuilding.setImageResource(R.drawable.ic_star_empty);
                         isBuildingFav = false;
-
+                        mFirebaseAnalytics.logEvent("remove_building_from_favorites", params);
                     }
-                    updateDataManager();
                     View sbView = snack.getView();
 
                     TextView tv = (TextView) (sbView).findViewById(android.support.design.R.id.snackbar_text);
@@ -227,11 +231,6 @@ public class RoomsActivity extends AppCompatActivity {
             });
     }
 
-
-    public void updateDataManager(){
-        this.dataManager = new DataManager(findViewById(R.id.room_listView).getContext());
-        dataManager.checkIfDataHasBeenLoadedBefore(uniCampusCode);
-    }
 
     /**
      * @param divide Set AppBar height to screen height divided by 2->5

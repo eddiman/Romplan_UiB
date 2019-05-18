@@ -1,7 +1,5 @@
 package com.pensive.android.romplanuib;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.Preference;
@@ -16,16 +14,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.pensive.android.romplanuib.util.DataManager;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pensive.android.romplanuib.util.FontController;
 
-import java.util.ResourceBundle;
-
-import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-
+/**
+ * @author Edvard Bjørgen
+ * @version 1.0
+ */
 public class SettingsActivity extends AppCompatActivity {
+    private FirebaseAnalytics mFirebaseAnalytics;
     FontController fc = new FontController();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +32,13 @@ public class SettingsActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
         Toolbar toolbar = (Toolbar) findViewById(R.id.settings_toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-
-
-
     }
 
     ///////////////////////////////////////////INNER FRAGMENT/////////////////////////////////////////////////////////////////
@@ -95,6 +90,16 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+            Preference privacyPreference = findPreference("privacy");
+            privacyPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    createPrivacyDialog();
+                    return false;
+                }
+            });
+
             Preference backPref = findPreference("key_back");
             backPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -125,6 +130,17 @@ public class SettingsActivity extends AppCompatActivity {
             dialog.show();
 
         }
+
+        private void createPrivacyDialog() {
+
+            final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.DialogBlueTheme)
+                    .setView(R.layout.dialog_privacy)
+                    .create();
+            dialog.setCancelable(true);
+            dialog.show();
+
+        }
+
         private void createChangeUniDialog() {
 
             final AlertDialog dialog = new AlertDialog.Builder(getActivity(), R.style.DialogBlueTheme)
@@ -166,12 +182,10 @@ public class SettingsActivity extends AppCompatActivity {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext());
             sharedPreferences.edit().clear().apply();
 
-            Intent intent = new Intent(getActivity().getBaseContext(), SelectUniCampusActivity.class);
+            Intent intent = new Intent(getActivity().getBaseContext(), SelectUniversityActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             getActivity().getBaseContext().startActivity(intent);
 
         }
     }
-
-
 }

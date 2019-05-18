@@ -1,14 +1,12 @@
 package com.pensive.android.romplanuib;
 
-import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.CalendarContract;
@@ -19,45 +17,48 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
-import com.alamkanak.weekview.MonthLoader;
+import com.alamkanak.weekview.EventClickListener;
+import com.alamkanak.weekview.MonthChangeListener;
 import com.alamkanak.weekview.WeekView;
+import com.alamkanak.weekview.WeekViewDisplayable;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.pensive.android.romplanuib.io.util.URLEncoding;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.gson.reflect.TypeToken;
 import com.pensive.android.romplanuib.models.CalActivity;
 import com.pensive.android.romplanuib.models.Room;
-import com.pensive.android.romplanuib.models.UniCampus;
+import com.pensive.android.romplanuib.models.University;
+import com.pensive.android.romplanuib.models.messages.CalendarActivityListEvent;
+import com.pensive.android.romplanuib.queries.EventQueries;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.DateFormatter;
+import com.pensive.android.romplanuib.util.FavoriteHandler;
 import com.pensive.android.romplanuib.util.FontController;
 import com.pensive.android.romplanuib.util.Randomized;
 import com.pensive.android.romplanuib.util.ThemeSelector;
-import com.ramotion.foldingcell.FoldingCell;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
-import java.io.InputStream;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.jetbrains.annotations.NotNull;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,17 +67,18 @@ import java.util.Locale;
 
 import jp.wasabeef.picasso.transformations.ColorFilterTransformation;
 import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
+
 /**
  * Activity containing calendar week view
  *
- * @author Edvard Bjørgen
- * @version 1.0
+ * @author Edvard Bjørgen & Fredrik Heimsæter
+ * @version 2.0
  */
-public class WeekCalendarActivity extends AppCompatActivity implements MonthLoader.MonthChangeListener {
+public class WeekCalendarActivity extends AppCompatActivity implements MonthChangeListener {
 
 
+    private FirebaseAnalytics mFirebaseAnalytics;
     WeekView mWeekView;
-    JsoupTask jsoupTask;
     private Room room;
     List<WeekViewEvent> events = new ArrayList<>();
     TextView weekNumber;
@@ -85,19 +87,12 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     private CollapsingToolbarLayout collapsingToolbar;
     AppBarLayout appBar;
     int currentWeekNumber;
-    String currentSemester;
-    String semesterStart;
-    String semesterEnd;
-    int nextYear = 0;
     DateFormatter df;
     String loadDataString;
-    private TextView buildingNameText;
-    private Button goToMazeMap;
     Boolean isRoomfav;
-    List<Room> favRooms;
 
-    String uniCampus;
-
+    EventQueries eventQueries;
+    FavoriteHandler favoriteHandler;
     DataManager dataManager;
     Calendar weekDayChanged;
     /**
@@ -105,68 +100,60 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private FloatingActionButton fab;
+    private FloatingActionButton btnFavoriteRoom;
 
     ThemeSelector theme = new ThemeSelector();
     String uniCampusCode;
-    UniCampus selectedCampus;
-    private WebView mazeMapWebView;
+    University selectedUniversity;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         room = getDataFromLastActivity();
+        System.out.println(room.toString());
         weekDayChanged = getFirstDayOfWeek();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         appBar = (AppBarLayout) findViewById(R.id.cal_appbar);
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         loadDataString = getResources().getString(R.string.load_data_string);
-        DataManager dataManager = new DataManager(this);
-        selectedCampus = dataManager.loadCurrentUniCampusSharedPref();
+        dataManager = new DataManager();
+        eventQueries = new EventQueries();
+        selectedUniversity = dataManager.getSavedObjectFromSharedPref(this, "university", new TypeToken<University>() {}.getType());
+        uniCampusCode = selectedUniversity.getCampusCode();
 
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int weekNumber = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
-        if(weekDayChanged.get(Calendar.MONTH)<Calendar.JULY){
-            semesterStart = year + "-01-01";
-            semesterEnd = year + "-06-30";
-            currentSemester = "S";
-        }else{
-            semesterStart = year + "-07-01";
-            semesterEnd = year + "-12-31";
-            currentSemester = "F";
-        }
-        updateDataManager();
-        if (selectedCampus.getCampusCode().equals("uib")) {
-            System.out.println("Oh yes");
-            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
-        }else{
-            System.out.println("Fuck");
-            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, weekNumber, year);
-        }
-        jsoupTask.execute();
+        eventQueries.getEvents(this, room, weekNumber, year);
+        favoriteHandler = new FavoriteHandler();
+        isRoomfav = favoriteHandler.isRoomInFavorites(this, room);
+        Bundle params = new Bundle();
+        params.putString("university_code", room.getUniversityID());
+        params.putString("area_code", room.getAreaID());
+        params.putString("building_code", room.getBuildingID());
+        params.putString("room_code", room.getRoomID());
+        params.putString("room_name", room.getName());
+        mFirebaseAnalytics.logEvent("open_room", params);
 
         initGUI();
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build(); //TODO: What is this?
     }
 
     private void initGUI() {
         roomImage = (ImageView) findViewById(R.id.backdrop_room);
-        mWeekView = (WeekView) findViewById(R.id.weekView);
+        mWeekView = findViewById(R.id.weekView);
         weekNumber = (TextView) findViewById(R.id.week_text);
-        buildingNameText = (TextView) findViewById(R.id.building_name_text);
-        goToMazeMap = (Button) findViewById(R.id.goto_mazemap);
-        mazeMapWebView = (WebView) findViewById(R.id.mazemap_webview);
 
         mWeekView.goToDate(weekDayChanged);
         mWeekView.goToHour(7);
@@ -179,103 +166,20 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         floatingActionButtonFavoriteListener(this);
         getWindow().setStatusBarColor(ContextCompat.getColor(WeekCalendarActivity.this, R.color.transpBlack));
 
-        checkIfRoomIsFav();
-
-
-        initIndoorMap();
+        if (isRoomfav) {
+            btnFavoriteRoom.setImageResource(R.drawable.ic_star_full);
+        } else {
+            btnFavoriteRoom.setImageResource(R.drawable.ic_star_empty);
+        }
 
 
         setRoomImage();
         setCollapsingTitles();
-        setBuildingTextView();
         setWeekButtons();
-        setGoToMazeMap();
-
         updateWeekTextView();
 
 
-
     }
-
-    private void initIndoorMap() {
-
-        switch (uniCampusCode){
-            case "uib":
-                initFoldingCellMazeMap();
-                initMazeMap();
-                break;
-
-            default:
-                break;
-
-        }
-    }
-
-    private void initFoldingCellMazeMap() {
-        final FoldingCell fc = (FoldingCell) findViewById(R.id.folding_cell);
-
-        // attach click listener to folding cell
-        fc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fc.toggle(false);
-            }
-        });
-    }
-
-    private void initMazeMap() {
-
-        mazeMapWebView.getSettings().setJavaScriptEnabled(true);
-
-        // Add a WebViewClient
-        mazeMapWebView.setWebViewClient(new WebViewClient() {
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-
-                // Inject CSS when page is done loading
-                injectCSS();
-                super.onPageFinished(view, url);
-            }
-        });
-        mazeMapWebView.loadUrl(room.getMazeMapUrl() + "&zoom=17");
-    }
-
-
-    private void injectCSS() {
-        try {
-            InputStream inputStream = getAssets().open("mazemap.css");
-            byte[] buffer = new byte[inputStream.available()];
-            inputStream.read(buffer);
-            inputStream.close();
-            String encoded = Base64.encodeToString(buffer, Base64.NO_WRAP);
-            mazeMapWebView.loadUrl("javascript:(function() {" +
-                    "var parent = document.getElementsByTagName('head').item(0);" +
-                    "var style = document.createElement('style');" +
-                    "style.type = 'text/css';" +
-                    // Tell the browser to BASE64-decode the string into your script !!!
-                    "style.innerHTML = window.atob('" + encoded + "');" +
-                    "parent.appendChild(style)" +
-                    "})()");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private void checkIfRoomIsFav() {
-
-        if(favRooms.contains(room)) {
-            fab.setImageResource(R.drawable.ic_star_full);
-            isRoomfav = true;
-        }else{
-            fab.setImageResource(R.drawable.ic_star_empty);
-            isRoomfav = false;
-
-        }
-
-    }
-
 
     /**
      * @param divide Set AppBar height to screen height divided by 2->5
@@ -291,8 +195,9 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         setAppBarLayoutHeightOfScreenWeight(percent / 100F);
     }
 
-
-    /**1w
+    /**
+     * 1w
+     *
      * @param weight Set AppBar height to 0.2->0.5 weight of screen height
      */
     protected void setAppBarLayoutHeightOfScreenWeight(@FloatRange(from = 0.2F, to = 0.5F) float weight) {
@@ -308,12 +213,13 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      */
     private void initCal() {
 
-        if(mWeekView != null) {
+        if (mWeekView != null) {
             mWeekView.setMonthChangeListener(this);
-            mWeekView.setOnEventClickListener(new WeekView.EventClickListener() {
+            mWeekView.setOnEventClickListener(new EventClickListener<CalActivity>() {
+
                 @Override
-                public void onEventClick(WeekViewEvent event, RectF eventRect) {
-                    createEventDialog(event);
+                public void onEventClick(CalActivity event, RectF eventRect) {
+                    createEventDialog(event.toWeekViewEvent());
 
                 }
             });
@@ -322,6 +228,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             Formatting the date into dd.MM, standard was MM/dd
              */
             mWeekView.setDateTimeInterpreter(new DateTimeInterpreter() {
+                @NotNull
                 @Override
                 public String interpretDate(Calendar date) {
                     try {
@@ -333,6 +240,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                     }
                 }
 
+                @NotNull
                 @Override
                 public String interpretTime(int hour) {
                     Calendar calendar = Calendar.getInstance();
@@ -356,11 +264,11 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      *
      * @param event the event to be displayed
      */
-    private void createEventDialog(WeekViewEvent event) {
-        String[] eventData = event.getName().split(" - ", 2);
+    private void createEventDialog(WeekViewEvent<CalActivity> event) {
+        String[] eventData = event.getTitle().split(" - ", 2);
 
 
-        final AlertDialog dialog = new AlertDialog.Builder(this, theme.getDialogThemeFromCampusCode(this, selectedCampus.getCampusCode()))
+        final AlertDialog dialog = new AlertDialog.Builder(this, theme.getDialogThemeFromCampusCode(this, selectedUniversity.getCampusCode()))
                 .setView(R.layout.dialog_event)
                 .create();
         dialog.setCancelable(true);
@@ -376,7 +284,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             eventTitle.setText(eventData[0]);
 
             //If the eventData contains 2 or more, set the description to be the second element in eventData
-            if(eventData.length >= 2) {
+            if (eventData.length >= 2) {
                 eventDescription.setText(eventData[1]);
             }
 
@@ -398,19 +306,18 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     /**
      * Initializes the floating action button. For adding event to personal user's calendar
-     *
      */
 
-    private void floatingActionButtonCalendarListener(final Context context, WeekViewEvent event, final String[] eventData, AlertDialog dialog) {
+    private void floatingActionButtonCalendarListener(final Context context, WeekViewEvent<CalActivity> event, final String[] eventData, AlertDialog dialog) {
         final String eventTitleCal = eventData[0];
         final long eventStartInMillis = event.getStartTime().getTimeInMillis();
         final long eventEndInMillis = event.getEndTime().getTimeInMillis();
-        final String location = room.getBuildingAcronym();//TODO should be buildingname, not acronym
+        final String location = room.getName();
 
 
         //Checks whether eventData contains description, then sets the FINAL string to the temporary description.
         String tempDescription;
-        if(eventData.length >= 2) {
+        if (eventData.length >= 2) {
             tempDescription = eventData[1];
         } else {
             tempDescription = getString(R.string.event_no_descript);
@@ -420,7 +327,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
 
         FloatingActionButton fab = (FloatingActionButton) dialog.findViewById(R.id.fabCal);
-        if(fab != null)
+        if (fab != null)
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -451,6 +358,17 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
                         public void onFinish() {
 
+                            Bundle params = new Bundle();
+                            params.putString("university_code", room.getUniversityID());
+                            params.putString("area_code", room.getAreaID());
+                            params.putString("building_code", room.getBuildingID());
+                            params.putString("room_code", room.getRoomID());
+                            params.putLong("event_begin_time", eventStartInMillis);
+                            params.putLong("event_end_time", eventEndInMillis);
+                            params.putString("event_title", eventTitleCal);
+                            params.putString("event_description", eventDesc);
+                            params.putString("event_location", location);
+                            mFirebaseAnalytics.logEvent("add_event_to_calendar", params);
 
                             Intent intent = new Intent(Intent.ACTION_INSERT)
                                     .setData(CalendarContract.Events.CONTENT_URI)
@@ -458,9 +376,10 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                                     .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, eventEndInMillis)
                                     .putExtra(CalendarContract.Events.TITLE, eventTitleCal)
                                     .putExtra(CalendarContract.Events.DESCRIPTION, eventDesc)
-                                    .putExtra(CalendarContract.Events.EVENT_LOCATION, location + ", Bergen")
+                                    .putExtra(CalendarContract.Events.EVENT_LOCATION, location)
                                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
-                            startActivity(intent);}
+                            startActivity(intent);
+                        }
                     }.start();
                 }
             });
@@ -471,29 +390,35 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
      */
     private void floatingActionButtonFavoriteListener(final Context context) {
 
-        fab = (FloatingActionButton) findViewById(R.id.fabWeekCal);
-        if(fab != null)
-            fab.setOnClickListener(new View.OnClickListener() {
+        btnFavoriteRoom = (FloatingActionButton) findViewById(R.id.btnFavoriteRoom);
+        if (btnFavoriteRoom != null)
+            btnFavoriteRoom.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    updateDataManager();
                     Snackbar snack;
-                    if(!isRoomfav) {
-                        fab.setImageResource(R.drawable.ic_star_full);
-                        dataManager.addFavoriteRoom(room, findViewById(R.id.weekView).getContext());
+                    Bundle params = new Bundle();
+                    params.putString("university_code", room.getUniversityID());
+                    params.putString("area_code", room.getAreaID());
+                    params.putString("building_code", room.getBuildingID());
+                    params.putString("room_code", room.getRoomID());
+                    params.putString("room_name", room.getName());
+                    if (!isRoomfav) {
+                        btnFavoriteRoom.setImageResource(R.drawable.ic_star_full);
+                        favoriteHandler.addRoomToFavorites(getApplicationContext(), room);
                         snack = Snackbar.make(view, room.getName() + getString(R.string.add_elem_to_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
                         isRoomfav = true;
+                        mFirebaseAnalytics.logEvent("add_room_to_favorites", params);
 
-                    }else{
-                        fab.setImageResource(R.drawable.ic_star_empty);
-                        dataManager.removeFavoriteRoom(room,findViewById(R.id.weekView).getContext());
+                    } else {
+                        btnFavoriteRoom.setImageResource(R.drawable.ic_star_empty);
+                        favoriteHandler.removeRoomFromFavorites(getApplicationContext(), room);
                         snack = Snackbar.make(view, room.getName() + getString(R.string.remove_elem_from_fav), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null);
                         isRoomfav = false;
+                        mFirebaseAnalytics.logEvent("remove_room_from_favorites", params);
                     }
-                    updateDataManager();
                     View sbView = snack.getView();
 
                     TextView tv = (TextView) (sbView).findViewById(android.support.design.R.id.snackbar_text);
@@ -507,12 +432,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                 }
             });
     }
-    public void updateDataManager(){
-        this.dataManager = new DataManager(findViewById(R.id.weekView).getContext());
-        uniCampusCode = dataManager.loadCurrentUniCampusSharedPref().getCampusCode();
-        dataManager.checkIfDataHasBeenLoadedBefore(selectedCampus.getCampusCode());
-        favRooms = dataManager.getFavoriteRoom();
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -523,13 +442,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         }
         return super.onOptionsItemSelected(item);
     }
-
-    private void setBuildingTextView() {
-        String currBuildingName = room.getBuildingAcronym();//TODO buildingname?
-        buildingNameText.setText(getString(R.string.building) + ": " + currBuildingName);
-
-    }
-
 
     /**
      * Sets the listener of the next- and last week buttons
@@ -546,7 +458,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         });
 
 
-
         lastWeekButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -558,27 +469,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     }
 
-    private void setGoToMazeMap() {
-
-        goToMazeMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String mazeUrl = room.getMazeMapUrl();
-                Intent intent=new Intent(Intent.ACTION_VIEW,Uri.parse(mazeUrl));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setPackage("com.android.chrome");
-                try {
-                    startActivity(intent);
-                } catch (ActivityNotFoundException ex) {
-                    // Chrome browser presumably not installed so allow user to choose instead
-                    intent.setPackage(null);
-                    startActivity(intent);
-                }
-
-            }
-        });
-    }
-
     /**
      * Empties the event list completely
      */
@@ -587,7 +477,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     }
 
     /**
-     Updates the week text view
+     * Updates the week text view
      */
     private void updateWeekTextView() {
         weekNumber.setText(getString(R.string.week) + " " + currentWeekNumber);
@@ -600,25 +490,8 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         //increments a week number and corrects week numbers if it exceeds 52, and sets it to be next year
         weekDayChanged.add(Calendar.DAY_OF_YEAR, 7);
         currentWeekNumber = weekDayChanged.get(Calendar.WEEK_OF_YEAR);
-        if(selectedCampus.getCampusCode().equals("uib")) {
-            String goToSemester;
-            if (weekDayChanged.get(Calendar.MONTH) < Calendar.JULY) {
-                goToSemester = "S";
-            } else {
-                goToSemester = "F";
-            }
-            if (goToSemester != currentSemester) {
-                updateSemester();
-                currentSemester = goToSemester;
-                emptyEventList();
-                jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
-                jsoupTask.execute();
-            }
-        }else {
-            emptyEventList();
-            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, currentWeekNumber, weekDayChanged.get(Calendar.YEAR));
-            jsoupTask.execute();
-        }
+        emptyEventList();
+        eventQueries.getEvents(this, room, currentWeekNumber, weekDayChanged.get(Calendar.YEAR));
 
         //Adds -7 days to weekDayChanged, goes to last week
         mWeekView.goToDate(weekDayChanged);
@@ -634,41 +507,14 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         weekDayChanged.add(Calendar.DAY_OF_YEAR, -7);
         currentWeekNumber = weekDayChanged.get(Calendar.WEEK_OF_YEAR);
-        if(selectedCampus.getCampusCode().equals("uib")) {
-            String goToSemester;
-            if (weekDayChanged.get(Calendar.MONTH) < Calendar.JULY) {
-                goToSemester = "S";
-            } else {
-                goToSemester = "F";
-            }
-            if (goToSemester != currentSemester) {
-                updateSemester();
-                currentSemester = goToSemester;
-                emptyEventList();
-                jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, semesterStart, semesterEnd);
-                jsoupTask.execute();
-            }
-        }else {
-            emptyEventList();
-            jsoupTask = new JsoupTask(WeekCalendarActivity.this, room, currentWeekNumber, weekDayChanged.get(Calendar.YEAR));
-            jsoupTask.execute();
-        }
+        eventQueries.getEvents(this, room, currentWeekNumber, weekDayChanged.get(Calendar.YEAR));
+        emptyEventList();
 
 
         //Adds -7 days to weekDayChanged, goes to last week
         mWeekView.goToDate(weekDayChanged);
         updateWeekTextView();
 
-    }
-
-    private void updateSemester(){
-        int year = weekDayChanged.get(Calendar.YEAR);
-        semesterStart = year + "-01-01";
-        semesterEnd = year + "-06-30";
-        if(weekDayChanged.get(Calendar.MONTH)>Calendar.JUNE){
-            semesterStart = year + "-07-01";
-            semesterEnd = year + "-12-31";
-        }
     }
 
     private void setCollapsingTitles() {
@@ -684,16 +530,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (collapsingToolbar.getHeight() + verticalOffset < 2 * ViewCompat.getMinimumHeight(collapsingToolbar)) {
-                    //Collapsed, after scrolling down
-                    collapsingToolbar.setTitle(room.getName() + " - " + room.getBuildingAcronym());//TODO should be buildingname, not acronym
-                } else {
-                    //Expanded, normal state
-                    collapsingToolbar.setTitle(room.getName());
-
-                    //weekNumber.setText("Uke: " + currentWeekNumber);
-
-                }
+                collapsingToolbar.setTitle(room.getName());
             }
         };
 
@@ -710,10 +547,10 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         List<Transformation> transformations = new ArrayList<>();
         transformations.add(new GrayscaleTransformation());
         transformations.add(new ColorFilterTransformation(color));
-        int imageResource = getResources().getIdentifier(selectedCampus.getLogoUrl(), null, getPackageName());
+        int imageResource = getResources().getIdentifier(selectedUniversity.getLogoUrl(), null, getPackageName());
 
 
-        Picasso.with(WeekCalendarActivity.this)
+        Picasso.get()
                 .load(url)
                 .transform(transformations)
                 .centerCrop()
@@ -721,7 +558,6 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
                 .placeholder(imageResource)
                 .into(roomImage);
     }
-
 
 
     /**
@@ -739,6 +575,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     /**
      * Puts together the EXTRA data that was sent with the last activity
+     *
      * @return a Room with the room in question
      */
     private Room getDataFromLastActivity() {
@@ -754,7 +591,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
             currentWeekNumber = Integer.parseInt(weekNumberString);
 
         } else {
-            extraBuilding = new Room("Error:Room", "Error building", "Error", "Error", "Error", 0, "Error", "Error");
+            extraBuilding = new Room("Error:Room", "Error building", "Error");
         }
         return extraBuilding;
     }
@@ -762,7 +599,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     /**
      * Adds a list of events to the calender
      *
-     * @param newYear year the calendar will show
+     * @param newYear  year the calendar will show
      * @param newMonth the month the calendar wil show
      * @return the events that matches with the parameters
      */
@@ -777,6 +614,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
         return matchedEvents;
     }
+
     private boolean eventMatches(WeekViewEvent event, int year, int month) {
         return (event.getStartTime().get(Calendar.YEAR) == year && event.getStartTime().get(Calendar.MONTH) == month - 1) ||
                 (event.getEndTime().get(Calendar.YEAR) == year && event.getEndTime().get(Calendar.MONTH) == month - 1);
@@ -785,6 +623,21 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
     public void onBackPressed() {
         super.onBackPressed();
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void OnCalendarActivityListEvent(CalendarActivityListEvent calendarActivityListEvent) {
+        Randomized rnd = new Randomized();
+        List<CalActivity> calendarActivityList = calendarActivityListEvent.getListOfCalendarActivities();
+        for (int i = 0; i < calendarActivityList.size(); i++) {
+
+
+            WeekViewEvent event = new WeekViewEvent(i, calendarActivityList.get(i).getCourseID() + " " + calendarActivityList.get(i).getTeachingMethodName() + " - " + calendarActivityList.get(i).getSummary(), calendarActivityList.get(i).getBeginTime(), calendarActivityList.get(i).getEndTime(), "", Color.GREEN, false, calendarActivityList.get(i));
+
+            event.setColor(rnd.getRandomColorFilter());
+            events.add(event);
+            mWeekView.notifyDataSetChanged();
+        }
     }
 
     /**
@@ -805,6 +658,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     @Override
     public void onStart() {
+        EventBus.getDefault().register(this);
         super.onStart();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -815,6 +669,7 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
 
     @Override
     public void onStop() {
+        EventBus.getDefault().unregister(this);
         super.onStop();
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -823,102 +678,16 @@ public class WeekCalendarActivity extends AppCompatActivity implements MonthLoad
         client.disconnect();
     }
 
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * AsyncTask for downloading the eventdata
-     */
-    class JsoupTask extends AsyncTask<Void, Void, List<WeekViewEvent>> {
-        ProgressDialog asyncDialog;
-        Room room;
-        Randomized rnd = new Randomized();
-        Context context;
-        boolean timeoutError;
-        String semesterStart;
-        String semesterEnd;
-        int weekNumber;
-        int year;
-
-
-
-        JsoupTask(Context context, Room room, String semesterStart, String semesterEnd) {
-            super();
-            this.context = context;
-            this.room = room;
-            this.semesterStart = semesterStart;
-            this.semesterEnd = semesterEnd;
-
-            asyncDialog = new ProgressDialog(context, R.style.DialogBlueTheme);
-
-        }
-        JsoupTask(Context context, Room room, int weekNumber, int year) {
-            super();
-            this.context = context;
-            this.room = room;
-            this.weekNumber = weekNumber;
-            this.year = year;
-
-            asyncDialog = new ProgressDialog(context, R.style.DialogGreenTheme);
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-
-            asyncDialog.setTitle("");
-            asyncDialog.setCancelable(false);
-            asyncDialog.show();
-            System.out.println("JSOUPCalendarPREEXCUTE");
-            super.onPreExecute();
-        }
-
-        @Override
-        protected List<WeekViewEvent> doInBackground(Void... param) {
-            updateDataManager();
-
-            try {
-
-                List<CalActivity> listOfCal = new ArrayList<>();
-                if (selectedCampus.getCampusCode().equals("uib")) {
-                    listOfCal = dataManager.fetchCalendarActivities(room.getRoomID(), semesterStart, semesterEnd);
-                }else{
-                    listOfCal = dataManager.fetchCalendarActivities(selectedCampus.getCampusCode(), room.getAreaID(), room.getBuildingID(), room.getRoomID(), weekNumber, year);
-                }
-                for (int i = 0; i < listOfCal.size(); i++) {
-
-                    WeekViewEvent event = new WeekViewEvent(i, listOfCal.get(i).getCourseID() + " " + listOfCal.get(i).getTeachingMethodName() + " - " + listOfCal.get(i).getSummary(), listOfCal.get(i).getBeginTime(), listOfCal.get(i).getEndTime());
-
-                    event.setColor(rnd.getRandomColorFilter());
-                    events.add(event);
-                }
-
-                System.out.println("There are: " + events.size());
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                timeoutError = true;
-
-            }
-            return events;
-
-        }
-
-        protected void onPostExecute(List<WeekViewEvent> activitiesOfRoom) {
-            if(timeoutError){
-                Toast.makeText(context, R.string.error_timeout, Toast.LENGTH_SHORT).show();
+    @NotNull
+    @Override
+    public List<WeekViewDisplayable> onMonthChange(@NotNull Calendar calendar, @NotNull Calendar calendar1) {
+        ArrayList<WeekViewEvent> eventsInMonth = new ArrayList<>();
+        for (WeekViewEvent event : events) {
+            if (event.getStartTime().after(calendar) && event.getEndTime().before(calendar1)) {
+                eventsInMonth.add(event);
             }
 
-            mWeekView.notifyDatasetChanged();
-
-            asyncDialog.dismiss();
-
         }
-
-
+        return new ArrayList<WeekViewDisplayable>(eventsInMonth);
     }
-
-
-
 }

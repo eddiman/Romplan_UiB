@@ -1,38 +1,34 @@
 package com.pensive.android.romplanuib.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
  * Class for making a room object
  *
  * @author Gaute Gjerløw Remen, Fredrik Heimsæter
- * @version 2.0
+ * @version 3.0
  *
  */
 public class Room extends Unit implements Serializable{
+    @SerializedName("id")
     private String roomID;
+    @SerializedName("typeid")
     private String roomType;
+    @SerializedName("size")
     private int roomSize;
-    private String fsRoomId;
-    private String mazeMapUrl;
+    @SerializedName("building")
+    private String buildingID;
 
-
-    public Room(String areaID, String buildingID, String roomID, String name, String roomType, int roomSize, String fsRoomId, String mazeMapUrl) {
-
-        super(areaID, buildingID, name);
-        this.roomID = roomID;
-        this.roomType = roomType;
-        this.roomSize = roomSize;
-        this.fsRoomId = fsRoomId;
-        this.mazeMapUrl = mazeMapUrl;
+    public Room(String universityID, String areaID, String name) {
+        super(universityID, areaID, name);
     }
-
 
 
     public String getRoomID() {
         return roomID;
     }
-
 
     public void setRoomID(String roomID) {
         this.roomID = roomID;
@@ -54,25 +50,21 @@ public class Room extends Unit implements Serializable{
         this.roomSize = roomSize;
     }
 
-    public String getFsRoomId() {
-        return fsRoomId;
-    }
-
-    public String getMazeMapUrl() {
-        return mazeMapUrl;
+    public String getBuildingID() {
+        return buildingID;
     }
 
     @Override
     public String toString() {
         return "Room{" +
-                "areaID='" + this.getAreaID() + '\'' +
-                ", buildingID='" + this.getBuildingID() + '\'' +
-                ", name='" + this.getName() + '\'' +
-                "roomID='" + roomID + '\'' +
+                "universityID='" + this.getUniversityID() + '\'' +
+                ", areaID='" + this.getAreaID() + '\'' +
+                ", buildingID='" + buildingID + '\'' +
+                ", roomID='" + roomID + '\'' +
                 ", roomType='" + roomType + '\'' +
-                ", roomSize=" + roomSize + '\'' +
-                ", buildingAcronym=" + this.getBuildingAcronym() + '\'' +
-                ", imageURL=" + this.getImageURL() +
+                ", name='" + this.getName() + '\'' +
+                ", roomSize=" + roomSize +
+                ", buildingID='" + buildingID + '\'' +
                 '}';
     }
 

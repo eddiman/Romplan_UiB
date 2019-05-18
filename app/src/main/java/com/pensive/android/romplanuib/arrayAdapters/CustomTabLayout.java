@@ -1,4 +1,4 @@
-package com.pensive.android.romplanuib.ArrayAdapters;
+package com.pensive.android.romplanuib.arrayAdapters;
 
 import android.content.Context;
 import android.graphics.Typeface;

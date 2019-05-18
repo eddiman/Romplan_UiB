@@ -1,6 +1,6 @@
 package com.pensive.android.romplanuib.models;
 
-
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,16 +9,21 @@ import java.util.List;
  * Class for making a building object
  *
  * @author Gaute Gjerløw Remen & Fredrik Heimsæter
- * @version 2.0
+ * @version 3.0
  *
  */
 public class Building extends Unit implements Serializable{
+    @SerializedName("id")
+    private String buildingID;
+    @SerializedName("rooms")
     private List<Room> listOfRooms;
 
+    public Building(String universityID, String areaID, String name) {
+        super(universityID, areaID, name);
+    }
 
-    public Building(String areaID, String buildingID, String buildingName, List<Room> listOfRooms) {
-        super(areaID, buildingID, buildingName);
-        this.listOfRooms = listOfRooms;
+    public String getBuildingID() {
+        return buildingID;
     }
 
     public void setListOfRooms(List<Room> listOfRooms) {
@@ -33,7 +38,6 @@ public class Building extends Unit implements Serializable{
     public String toString() {
         return "Building{" +
                 "areaID='" + this.getAreaID() + '\'' +
-                ", buildingID='" + this.getBuildingID() + '\'' +
                 ", name='" + this.getName() + '\'' +
                 "listOfRooms=" + listOfRooms +
                 '}';

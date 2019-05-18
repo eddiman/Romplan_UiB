@@ -2,10 +2,8 @@
 
     <!--Generelt -->
     <string name="main_title">Romplan</string>
-    <string name="splash_title">Romplan for</string>
+    <string name="splash_title">"Romplan for "</string>
     <string name="app_title">Romplan</string>
-    <string name="app_title_uib">Romplan for UiB</string>
-    <string name="app_title_uib_beta">Romplan for UiB (Beta)</string>
     <string name="load_data_string">Henter data…</string>
     <string name="load_data_string_multiple_mins">Henter data, dette kan ta et par minutter…</string>
     <string name="add_elem_to_fav">\u0020er lagt til i favoritter</string>
@@ -13,6 +11,9 @@
 
     <string name="uni_bergen">Universitetet i Bergen</string>
     <string name="uni_oslo">Universitetet i Oslo</string>
+    <string name="uni_tromso">UiT Norges arktiske universitet</string>
+    <string name="ntnu">Norges teknisk-naturvitenskapelige universitet</string>
+    <string name="oslomet">OsloMet – storbyuniversitetet</string>
 
 
     <!--UniCampusActivity -->
@@ -37,8 +38,6 @@
     <string name="week">Uke</string>
     <string name="building">Bygning</string>
     <string name="something_wrong">Noe gikk galt, prøv å laste inn rommet på nytt.</string>
-    <string name="mazemap">Innendørskart</string>
-    <string name="mazemap_goto_url">Vis i nettleser</string>
 
     <!--SettingsActivity -->
     <string name="pref_title">Innstillinger</string>
@@ -57,14 +56,14 @@
     <string name="pref_change_uni_3">Tilbake</string>
 
     <string name="pref_about_us">Om utviklerene</string>
-    <string name="pref_about_us_text_1">Vi er to studenter som studerer </string>
+    <string name="pref_about_us_text_1">"Appen er utviklet av to tidligere studenter i "</string>
     <string name="pref_about_us_text_info_science_url"><a href="http://www.uib.no/studieprogram/BASV-INFO" target="_top">Informasjonsvitenskap</a></string>
 
-    <string name="pref_about_us_text_2">på UiB som har utviklet denne appen på fritiden.</string>
+    <string name="pref_about_us_text_2">ved Universitetet i Bergen.</string>
     <string name="pref_about_us_text_3">Utviklerene</string>
     <string name="pref_about_us_text_4" translatable="false">Edvard Pires Bjørgen</string>
-    <string name="pref_about_us_text_5" translatable="false">Fredrik V. Heimsæter</string>
-    <string name="pref_about_us_text_6">Denne appen er ikke utviklet eller offisielt fra UiB.</string>
+    <string name="pref_about_us_text_5" translatable="false">Fredrik Vonheim Heimsæter</string>
+    <string name="pref_about_us_text_6">Denne appen er ikke utviklet eller offisielt fra noen av de omtalte universitetene.</string>
 
 
     <!-- Licenses -->
@@ -148,6 +147,24 @@ limitations under the License.
     <string name="all_buildings">Alle bygninger</string>
     <string name="favorites">Favoritter</string>
     <string name="error_timeout">Tilkoblingen tok for lang tid, prøv igjen</string>
+    <string name="android_week_view" translatable="false">Android Week View</string>
+    <string name="android_week_view_url" translatable="false">https://github.com/thellmund/Android-Week-View</string>
+    <string name="google_gson" translatable="false">Google GSON</string>
+    <string name="google_gson_url" translatable="false">github.com/google/gson</string>
+    <string name="picasso" translatable="false">Picasso</string>
+    <string name="picasso_url" translatable="false">square.github.io/picasso/</string>
+    <string name="picasso_tranformation" translatable="false">Picasso Tranformation</string>
+    <string name="picasso_tranformation_url" translatable="false">github.com/wasabeef/picasso-transformations</string>
+    <string name="roundedimageview" translatable="false">RoundedImageView</string>
+    <string name="roundedimageview_url" translatable="false">github.com/vinc3m1/RoundedImageView</string>
+    <string name="searchview" translatable="false">SearchView</string>
+    <string name="searchview_url" translatable="false">github.com/lapism/SearchView</string>
+    <string name="romsjekkeren_uib" translatable="false">Romsjekkeren UiB</string>
+    <string name="romsjekkerenuib_url" translatable="false">github.com/gauteremen/romsjekkerenUiB</string>
+    <string name="tp_url" translatable="false">tp.uio.no</string>
+    <string name="github_repo_url" translatable="false">github.com/eddiman/Romplan_UiB</string>
+    <string name="pref_privacy_policy">Personvernerklæring</string>
+    <string name="pref_privacy_policy_text">Romplan lagrer ikke persondata. Anonymisert bruksstatistikk blir brukt for å forbedre tjenesten.</string>
 
 
 </resources>

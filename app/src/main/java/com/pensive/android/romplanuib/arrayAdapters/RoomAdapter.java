@@ -1,4 +1,4 @@
-package com.pensive.android.romplanuib.ArrayAdapters;
+package com.pensive.android.romplanuib.arrayAdapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +9,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.reflect.TypeToken;
 import com.pensive.android.romplanuib.WeekCalendarActivity;
 import com.pensive.android.romplanuib.R;
-import com.pensive.android.romplanuib.io.util.URLEncoding;
+import com.pensive.android.romplanuib.util.io.URLEncoding;
 import com.pensive.android.romplanuib.models.Room;
-import com.pensive.android.romplanuib.models.UniCampus;
+import com.pensive.android.romplanuib.models.University;
 import com.pensive.android.romplanuib.util.DataManager;
 import com.pensive.android.romplanuib.util.Randomized;
 import com.squareup.picasso.Picasso;
@@ -30,13 +31,13 @@ import jp.wasabeef.picasso.transformations.GrayscaleTransformation;
 public class RoomAdapter extends ArrayAdapter<Room> {
 
 
-    LayoutInflater inflater;
-    Context context;
-    int textViewResourceId;
-    List<Room> rooms;
-    String buildingCode;
-    Randomized randomized = new Randomized();
-    UniCampus selectedCampus;
+    private LayoutInflater inflater;
+    private Context context;
+    private int textViewResourceId;
+    private List<Room> rooms;
+    private String buildingCode;
+    private Randomized randomized = new Randomized();
+    private University selectedUniversity;
 
     public RoomAdapter(Context context, int textViewResourceId, List<Room> buildings) {
         super(context, textViewResourceId, buildings);
@@ -63,9 +64,8 @@ public class RoomAdapter extends ArrayAdapter<Room> {
     public View getView(final int position, View convertView, ViewGroup parent){
         View row = convertView;
         RoomHolder holder = null;
-        buildingCode = rooms.get(position).getBuildingAcronym();
-        DataManager dataManager = new DataManager(context);
-        selectedCampus = dataManager.loadCurrentUniCampusSharedPref();
+        DataManager dataManager = new DataManager();
+        selectedUniversity = dataManager.getSavedObjectFromSharedPref(context, "university", new TypeToken<University>(){}.getType());
 
         if (row == null) {
             holder = new RoomHolder();
@@ -85,11 +85,11 @@ public class RoomAdapter extends ArrayAdapter<Room> {
 
 
         //http://rom_img.app.uib.no/byggogrombilder/GR_/GR_110/GR_110I.jpg
-        int imageResource = context.getResources().getIdentifier(selectedCampus.getLogoUrl(), null, context.getPackageName());
+        int imageResource = context.getResources().getIdentifier(selectedUniversity.getLogoUrl(), null, context.getPackageName());
         Room room = rooms.get(position);
 
-        String url = room.getImageURL();
-        Picasso.with(context)
+        String url = "google.com";//room.getImageURL();
+        Picasso.get()
                 .load(URLEncoding.encode(url))
                 .centerCrop()
                 .fit()
@@ -135,7 +135,7 @@ public class RoomAdapter extends ArrayAdapter<Room> {
         Calendar c = Calendar.getInstance();
         //Normalizing the weeks, Java calculates the range of week going from 1 to 53, week definitions changes depending on local/region set on phone
         c.setFirstDayOfWeek(Calendar.MONDAY);
-        c.setMinimalDaysInFirstWeek(7);
+        //c.setMinimalDaysInFirstWeek(7);
         int week = c.get(Calendar.WEEK_OF_YEAR);
 
 

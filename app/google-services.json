@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1044762776348",
+    "firebase_url": "https://romplan-uib.firebaseio.com",
+    "project_id": "romplan-uib",
+    "storage_bucket": "romplan-uib.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1044762776348:android:648c52922731c26b",
+        "android_client_info": {
+          "package_name": "com.pensive.android.romplanuib"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1044762776348-lbe749gveceqilgt6tf72qrkrsasnpr6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pensive.android.romplanuib",
+            "certificate_hash": "b22b68b2d5d7438b3740e6c59eda27370eb5abf5"
+          }
+        },
+        {
+          "client_id": "1044762776348-q81vs36v4fdiqhn57d1ui2atn0ftl4s9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhcK2GzJde_CQOjK5_ZHXXkE_DOnWFM-s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1044762776348-q81vs36v4fdiqhn57d1ui2atn0ftl4s9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
